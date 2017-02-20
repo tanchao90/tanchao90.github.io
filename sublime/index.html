@@ -1,0 +1,138 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Sublime Text 使用小结 · TanChao的博客</title><meta name="description" content="The longest journey begins with the first step."><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/logo.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://tanchao90.com/atom.xml" title="TanChao的博客"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/logo.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">主页</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">所有文章</a></li><li class="nav-list-item"><a href="http://weibo.com/tanchao90" target="_blank" class="nav-list-link">微博</a></li><li class="nav-list-item"><a href="https://github.com/tanchao90" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Sublime Text 使用小结</h1><div class="post-info">Apr 18, 2016</div><div class="post-content"><p><strong>Sublime Text</strong> 是我工作以来使用最多的编辑器，总得来说很好用，简单、简洁、速度快，很适合写Python等脚本语言；<br>本文对我用到的东西做了简单总结，主要包括下面几个方面，通过这些不仅可以提高编程效率，而且可以让编程变得轻松有趣：</p>
+<ul>
+<li><a href="#插件">插件</a></li>
+<li><a href="#个性化配置">个性化配置</a></li>
+<li><a href="#快捷键">快捷键</a></li>
+</ul>
+<a id="more"></a>
+<h2 id="Sublime-Text"><a href="#Sublime-Text" class="headerlink" title="Sublime Text"></a>Sublime Text</h2><h4 id="Sublime-Text-1"><a href="#Sublime-Text-1" class="headerlink" title="Sublime Text"></a><a href="http://www.sublimetext.com/" target="_blank" rel="external">Sublime Text</a></h4><blockquote>
+<p>Sublime Text is a sophisticated text editor for code, markup and prose.<br>You’ll love the slick user interface, extraordinary features and amazing performance.</p>
+</blockquote>
+<h4 id="我的配置文件"><a href="#我的配置文件" class="headerlink" title="我的配置文件"></a>我的配置文件</h4><p>由于 Sublime 的配置文件是纯文本，所以可以很方便的备份，并且做版本管理，我的配置文件保存在<a href="https://github.com/tanchao90/sublime-config" target="_blank" rel="external">个人GitHub</a>上，欢迎查看、fork，使用非常简单，直接clone到本地对应目录，Sublime会自动安装需要的插件，总之一句话：妈妈再也不用担心我配置Sublime了。</p>
+<h4 id="推荐阅读"><a href="#推荐阅读" class="headerlink" title="推荐阅读"></a>推荐阅读</h4><ul>
+<li><a href="https://github.com/jikeytang/sublime-text" target="_blank" rel="external">sublime-text</a> 总结详细、全面、排版漂亮</li>
+<li><a href="http://www.imooc.com/learn/333" target="_blank" rel="external">快乐的sublime编辑器</a> 系列视频，比较全面的了解Sublime</li>
+</ul>
+<h2 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h2><h4 id="Package-Control"><a href="#Package-Control" class="headerlink" title="Package Control"></a><a href="https://packagecontrol.io/" target="_blank" rel="external">Package Control</a></h4><p>这是为 Sublime Text 安装插件的基础，基本上所有插件都可以通过这种方式安装<br>安装方法见：<a href="https://packagecontrol.io/installation" target="_blank" rel="external">Package Control Installation</a></p>
+<h4 id="SublimeCodeIntel"><a href="#SublimeCodeIntel" class="headerlink" title="SublimeCodeIntel"></a><a href="https://github.com/SublimeCodeIntel/SublimeCodeIntel" target="_blank" rel="external">SublimeCodeIntel</a></h4><blockquote>
+<p>A full-featured code intelligence and smart autocomplete engine for Sublime Text.</p>
+</blockquote>
+<p>通过 SublimeCodeIntel 可以实现代码自动补全、函数和参数提示等功能，大大提高开发效率<br><strong>注：</strong>安装时可能会出现安装不成功的情况，卸载重新安装即可<br>具体配置和说明文档可参考 GitHub 上面的 ReadMe 文件，下面是我Python27的配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&quot;codeintel_language_settings&quot;: &#123;</div><div class="line">     &quot;Python&quot;: &#123; // For Windows Python 2.7</div><div class="line">         &quot;python&quot;: &quot;C:/Python27/python.exe&quot;,</div><div class="line">         &quot;pythonExtraPaths&quot;:</div><div class="line">             [</div><div class="line">                 &quot;C:/Python27/Lib&quot;,</div><div class="line">                 &quot;C:/Python27/Lib/site-packages&quot;</div><div class="line">             ],</div><div class="line">     &#125;,</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
+<h4 id="Python-Flake8-Lint"><a href="#Python-Flake8-Lint" class="headerlink" title="Python Flake8 Lint"></a><a href="https://github.com/dreadatour/Flake8Lint" target="_blank" rel="external">Python Flake8 Lint</a></h4><blockquote>
+<p>Python Flake8 Lint is a Sublime Text 2/3 plugin for check Python files against some of the style conventions in <strong>PEP8, pydocstyle, PyFlakes, mccabe, pep8-naming, flake8-debugger and flake8-import-order</strong>.</p>
+</blockquote>
+<p>用于检查 Python 代码，检查范围包括语法、命名规范、文档规范等等，可以通过配置文件决定是否开启对应的检查功能，非常好用；例如许多低级的语法错误都可以通过 Flake 提前发现，大大提高 code 和 debug 效率。</p>
+<h4 id="安装的其他插件"><a href="#安装的其他插件" class="headerlink" title="安装的其他插件"></a>安装的其他插件</h4><p>下面也是我目前安装的几个插件，在这里简单介绍一下：</p>
+<ul>
+<li><a href="https://github.com/skuroda/Sublime-AdvancedNewFile" target="_blank" rel="external">AdvancedNewFile</a> 改进Sublime中创建文件的过程，简单高效</li>
+<li><a href="https://github.com/wbond/sublime_alignment" target="_blank" rel="external">Alignment</a> 等号对齐，也可以增加<code>:</code>等符号，默认快捷键：<code>Ctrl+Alt+A</code></li>
+<li><a href="https://github.com/temochka/sublime-text-2-github-tools" target="_blank" rel="external">Github Tools</a> GitHub 插件</li>
+<li><a href="https://github.com/revolunet/sublimetext-markdown-preview" target="_blank" rel="external">Markdown Preview</a> Markdown文件预览，支持浏览器预览、导出HTML文件等方式</li>
+<li><a href="https://github.com/SublimeText-Markdown/MarkdownEditing" target="_blank" rel="external">MarkdownEditing</a> 支持用Sublime编辑Markdown文件，和专门的Markdown编辑器相比体验比较差</li>
+<li><a href="https://github.com/titoBouzout/SideBarEnhancements" target="_blank" rel="external">SideBarEnhancements</a> 左侧文件目录右键菜单增强插件</li>
+</ul>
+<h2 id="个性化配置"><a href="#个性化配置" class="headerlink" title="个性化配置"></a>个性化配置</h2><p>基础的个性化配置见GitHub配置文件，如使用Tab or 空格</p>
+<h4 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h4><p>这是一个看颜值的时代，编辑器也不例外，一个好的主题可以提升编码幸福感，下面是我比较喜欢的几个主题：</p>
+<ul>
+<li>Tomorrow-Night-Eighties</li>
+<li>Material-Theme</li>
+<li>Tomorrow-Night</li>
+<li>Flatland Monokai</li>
+<li>Flatland Dark</li>
+<li>base16-eighties.dark</li>
+<li>Monokai</li>
+</ul>
+<p>下面是对应的主题链接：</p>
+<ul>
+<li><a href="https://github.com/chriskempson/tomorrow-theme" target="_blank" rel="external">Tomorrow Theme</a></li>
+<li><a href="https://github.com/kkga/spacegray" target="_blank" rel="external">Theme - Spacegray</a></li>
+<li><a href="https://github.com/equinusocio/material-theme" target="_blank" rel="external">Material-Theme</a></li>
+<li><a href="https://github.com/thinkpixellab/flatland" target="_blank" rel="external">Theme - Flatland</a></li>
+<li><a href="http://colorsublime.com/" target="_blank" rel="external">ColorSublime主题网站</a></li>
+<li><a href="https://gist.github.com/renz45/1854721" target="_blank" rel="external">左侧Sidebar黑色UI配置</a></li>
+</ul>
+<h4 id="配置指定语言的编译环境"><a href="#配置指定语言的编译环境" class="headerlink" title="配置指定语言的编译环境"></a>配置指定语言的编译环境</h4><p>通过Tools -&gt; Build System -&gt; New Build System 可以很轻松地自定义新的Build方式，下面是 Python 和 Lua 的例子</p>
+<p><strong>Python</strong>: 如增加2.x版本的配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;cmd&quot;: [&quot;C:/Python27/python.exe&quot;, &quot;-u&quot;, &quot;$file&quot;],</div><div class="line">    &quot;file_regex&quot;: &quot;^[ ]*File \&quot;(...*?)\&quot;, line ([0-9]*)&quot;,</div><div class="line">    &quot;selector&quot;: &quot;source.python&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>Lua</strong>: Sublime Text 默认的Build系统中不包含Lua，需要自己添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;cmd&quot;: [&quot;lua&quot;, &quot;$file&quot;], </div><div class="line">    &quot;file_regex&quot;:&quot;^(?:lua:)?[\t](...*?):([0-9]*):?([0-9]*)&quot;, </div><div class="line">    &quot;selector&quot;:&quot;source.lua&quot; </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="给鼠标右键增加“文件夹打开”功能"><a href="#给鼠标右键增加“文件夹打开”功能" class="headerlink" title="给鼠标右键增加“文件夹打开”功能"></a>给鼠标右键增加“文件夹打开”功能</h4><p>功能：Windows文件夹右键即可选择<strong>“用Sublime Text 3”</strong>打开<br>配置方法：将下面的内容保存成<strong>bat</strong>文件（如add_right_click.bat）执行即可：<strong>注意</strong>修改其中的路径<br><figure class="highlight bat"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@<span class="built_in">echo</span> off</div><div class="line"><span class="built_in">SET</span> st2Path=C:\Program Files (x86)\Sublime Text <span class="number">3</span>\sublime_text.exe</div><div class="line"><span class="comment">rem add it for folders</span></div><div class="line">@reg add "HKEY_CLASSES_ROOT\Folder\shell\Open with Sublime Text <span class="number">3</span>"         /t REG_SZ /v "" /d "Open with Sublime Text <span class="number">3</span>"   /f</div><div class="line">@reg add "HKEY_CLASSES_ROOT\Folder\shell\Open with Sublime Text <span class="number">3</span>"         /t REG_EXPAND_SZ /v "Icon" /d "<span class="variable">%st2Path%</span>,<span class="number">0</span>" /f</div><div class="line">@reg add "HKEY_CLASSES_ROOT\Folder\shell\Open with Sublime Text <span class="number">3</span>\command" /t REG_SZ /v "" /d "<span class="variable">%st2Path%</span> \"<span class="variable">%%1</span>\"" /f</div><div class="line"><span class="built_in">pause</span></div></pre></td></tr></table></figure></p>
+<h2 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h2><p>根据 2-8 原则，个人认为记住几个常用的快捷键即可，其他需要的时候Google^-^下面是我用到的一些快捷键，尤其是前面几项</p>
+<h4 id="Ctrl-Shift-P"><a href="#Ctrl-Shift-P" class="headerlink" title="Ctrl+Shift+P"></a>Ctrl+Shift+P</h4><p>在弹出的搜索框中输入下面的命令即可完成对应的功能：</p>
+<ul>
+<li><code>Install Package</code> 搜索并安装需要的插件</li>
+<li><code>List Packages</code> 显示所有已安装的插件</li>
+<li><code>Remove Packages</code> 移除一个指定的插件</li>
+<li><code>Upgrade Package</code> 更新一个指定的插件</li>
+<li><code>Upgrade/Overwrite All Packages</code> 更新所有已安装的插件</li>
+</ul>
+<h4 id="Ctrl-P"><a href="#Ctrl-P" class="headerlink" title="Ctrl+P"></a>Ctrl+P</h4><p>Goto Anything功能，实现快速查找文件<br>文件名后面还可以跟随下面的参数，从而跳转到该文件中指定位置</p>
+<ul>
+<li><code>:+行号</code> == <code>Ctrl+G</code> 快速跳转到指定行</li>
+<li><code>@+函数名</code> == <code>Ctrl+R</code> 快速找到函数</li>
+<li><code>#+文本</code> 快速进行文件内文本匹配，跳转到第一个匹配的地方</li>
+</ul>
+<h4 id="查找-and-替换"><a href="#查找-and-替换" class="headerlink" title="查找 and 替换"></a>查找 and 替换</h4><ul>
+<li><code>Ctrl+F</code> 文件内查找</li>
+<li><code>Ctrl+H</code> 文件内查找并替换</li>
+<li><code>Ctrl+Shift+F</code> 全局查找</li>
+<li><code>Ctrl+Shift+H</code> 全局查找并替换</li>
+</ul>
+<h4 id="文件Tab管理"><a href="#文件Tab管理" class="headerlink" title="文件Tab管理"></a>文件Tab管理</h4><p>下面部分命令同样可以在 Chrome 浏览器中使用</p>
+<ul>
+<li><code>Ctrl+N</code> or <code>双击Tab栏空白区域</code> 创建新的Tab页面</li>
+<li><code>Ctrl+W</code> 关闭当前Tab页面</li>
+<li><code>Ctrl+Shift+T</code> 依次打开关闭的Tab页面，屡试不爽</li>
+<li><code>Ctrl+Tab</code> 在打开的Tab页面之间切换</li>
+</ul>
+<h4 id="视图管理"><a href="#视图管理" class="headerlink" title="视图管理"></a>视图管理</h4><ul>
+<li><code>Esc</code> 关闭唤出的窗口，如各种搜索框</li>
+<li><code>Ctrl+K, Ctrl+B</code> 显示/关闭左侧目录树</li>
+</ul>
+<h4 id="格式代码"><a href="#格式代码" class="headerlink" title="格式代码"></a>格式代码</h4><ul>
+<li><code>Ctrl+]</code> or <code>Tab</code> 增加缩进</li>
+<li><code>Ctrl+[</code> or <code>Shift+Tab</code> 减少缩进</li>
+<li><code>Ctrl+Shift+[</code> 折叠当前行所在函数</li>
+<li><code>Ctrl+Shift+]</code> 展开当前行所在函数</li>
+<li><code>Ctrl+K, Ctrl+1(2...)</code> 折叠所有函数，其中的数字表示函数层级</li>
+<li><code>Ctrl+K, Ctrl+J</code> 展开所有函数</li>
+</ul>
+<h4 id="文档编辑"><a href="#文档编辑" class="headerlink" title="文档编辑"></a>文档编辑</h4><ul>
+<li><code>Ctrl+/</code> 打开或关闭注释</li>
+<li><code>Ctrl+Shif +V</code> 粘贴，实现完整拷贝，保持原格式</li>
+<li><code>Ctrl+Shift+M</code>：选中括号（(), [], {}）里面的全部内容不包括括号</li>
+<li><code>Ctrl+Enter</code> 在当前行下新建一行</li>
+<li><code>Ctrl+Shift+Enter</code> 在当前行上面添加一行</li>
+<li><code>Ctrl+Shift+(←或→)</code> 快速选中一行中的某一部分，连续按<strong>扩大</strong>或<strong>缩小</strong>选择范围</li>
+<li><code>Ctrl+Shift+(↑或↓)</code> 交换当前行与上(下)一行</li>
+<li><code>Ctrl+Shift+D</code> 可快速复制光标所在的一整行</li>
+<li><code>Ctrl+Shift+K</code> 删除整行</li>
+<li><code>Ctrl+K, Ctrl+U</code> 将所选内容中的字母变成大写</li>
+<li><code>Ctrl+K, Ctrl+L</code> 将所选内容中的字母变成小写</li>
+</ul>
+<h4 id="列选择"><a href="#列选择" class="headerlink" title="列选择"></a>列选择</h4><ul>
+<li><code>Shift+鼠标右键</code></li>
+<li><code>鼠标中键</code></li>
+<li><code>Ctrl+鼠标中键</code> 增加选择</li>
+<li><code>Alt+鼠标中键</code> 减少选择</li>
+<li><code>Alt+F3</code> 全选所有符合条件的单词，产生多个光标</li>
+<li><code>Ctrl+D</code> 依次在满足条件的语句后面添加光标，遇到不需要添加光标的可按 <code>Ctrl+K</code> 跳过</li>
+<li><code>Ctrl+A, Ctrl+Shift+L</code> 在当前文件每行末尾都添加光标</li>
+</ul>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ul>
+<li><a href="http://stackoverflow.com/questions/23730866/set-up-python-3-build-system-with-sublime-text-3" target="_blank" rel="external">Set up Python 3 build system with Sublime Text 3</a></li>
+<li><a href="http://stackoverflow.com/questions/18943406/sublimecodeintel-how-to-set-path-to-python-3-installation" target="_blank" rel="external">SublimeCodeIntel - how to set path to Python 3 installation</a></li>
+<li><a href="http://my.oschina.net/shede333/blog/170536" target="_blank" rel="external">Sublime Text 编辑器 插件 之 “Sublime Alignment” 详解</a></li>
+<li><a href="http://blog.sina.com.cn/s/blog_932db1950101l5oe.html" target="_blank" rel="external">Windows下使用Sublime Text 2配置Lua开发环境</a></li>
+<li><a href="http://blog.csdn.net/abbuggy/article/details/7016185" target="_blank" rel="external">eclipse中格式化代码快捷键Ctrl+Shift+F失效的解决办法</a></li>
+<li><a href="http://www.qiansw.com/sublime-text3%E8%AE%BE%E5%AE%9Atab%E9%94%AE%E4%B8%BA4%E4%B8%AA%E7%A9%BA%E6%A0%BC.html" target="_blank" rel="external">SUBLIME TEXT3设定TAB键为4个空格</a></li>
+<li><a href="http://jingyan.baidu.com/article/7f766dafbc89f24101e1d085.html" target="_blank" rel="external">Sublime Text的列模式如何操作？</a></li>
+<li><a href="http://tutorial.jingwentian.com/Sublime-Text-3-Documentation/column_selection.html" target="_blank" rel="external">列选择</a></li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/g20-huangshan/" class="prev">PREV</a><a href="/hexo-github/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'tanchao90';
+var disqus_identifier = 'sublime/';
+var disqus_title = 'Sublime Text 使用小结';
+var disqus_url = 'http://tanchao90.com/sublime/';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//tanchao90.disqus.com/count.js" async></script><div class="copyright"><p>© 2015 - 2017 <a href="http://tanchao90.com">TanChao</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-80568471-1",'auto');ga('send','pageview');</script></body></html>

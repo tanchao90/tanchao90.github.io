@@ -1,0 +1,165 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> RabbitMQ--Message Queue（消息队列） · TanChao的博客</title><meta name="description" content="The longest journey begins with the first step."><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/logo.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://tanchao90.com/atom.xml" title="TanChao的博客"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/logo.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">主页</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">所有文章</a></li><li class="nav-list-item"><a href="http://weibo.com/tanchao90" target="_blank" class="nav-list-link">微博</a></li><li class="nav-list-item"><a href="https://github.com/tanchao90" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">RabbitMQ--Message Queue（消息队列）</h1><div class="post-info">Jan 2, 2016</div><div class="post-content"><p>自从搭建好博客基本没写过什么，这篇关于RabbitMQ的博客已经拖了很久了，刚好放假总结一下，希望能为16年开个好头。</p>
+<p>这是2015年参与一个合作项目时，在他们的项目中用到了RabbitMQ作为消息转发中间件，这也是我后续开发的新功能的基础，下面就将我对RabbitMQ的学习做个简单的总结。</p>
+<p>类似的消息队列还有很多，如<a href="https://kafka.apache.org/" target="_blank" rel="external">kalka</a>，<a href="http://zeromq.org/" target="_blank" rel="external">ZeroMQ</a>等，使用时可先结合自己的使用场景对比，选择最合适的。</p>
+<a id="more"></a>
+<h2 id="相关资料"><a href="#相关资料" class="headerlink" title="相关资料"></a>相关资料</h2><h4 id="Rabbitmq官方文档"><a href="#Rabbitmq官方文档" class="headerlink" title="Rabbitmq官方文档"></a><a href="https://www.rabbitmq.com/" target="_blank" rel="external">Rabbitmq官方文档</a></h4><ul>
+<li>非常非常好的学习文档，通过其中的六节教程可以完成RabbitMQ的学习，配图清晰明了，本文也借用了其中很多的图片。</li>
+</ul>
+<h4 id="pika官方文档"><a href="#pika官方文档" class="headerlink" title="pika官方文档"></a><a href="http://pika.readthedocs.org/en/latest/index.html" target="_blank" rel="external">pika官方文档</a></h4><ul>
+<li>官方推荐的Python库，用于在Python中访问RabbitMQ，具体的操作函数可在其中查看；</li>
+<li>关于Python连接RabbitMQ还有其他库，如<a href="https://github.com/celery/py-amqp" target="_blank" rel="external">py-amqp</a>，<a href="https://barryp.org/software/py-amqplib/" target="_blank" rel="external">py-amqplib</a>。</li>
+</ul>
+<h4 id="其他参考资料"><a href="#其他参考资料" class="headerlink" title="其他参考资料"></a>其他参考资料</h4><ul>
+<li><a href="https://my.oschina.net/hncscwc/blog/262246?fromerr=Qm5JsP1J" target="_blank" rel="external">rabbitmq用户管理</a>：用于管理用户，如添加用户、删除用户、设置权限等。</li>
+</ul>
+<h2 id="安装RabbitMQ"><a href="#安装RabbitMQ" class="headerlink" title="安装RabbitMQ"></a>安装RabbitMQ</h2><h4 id="安装Erlang"><a href="#安装Erlang" class="headerlink" title="安装Erlang"></a>安装Erlang</h4><ul>
+<li>RabbitMQ基于Erlang开发，因此需要安装Erlang。</li>
+</ul>
+<h4 id="Windows版本"><a href="#Windows版本" class="headerlink" title="Windows版本"></a>Windows版本</h4><ul>
+<li>下载安装包安装即可。</li>
+</ul>
+<h4 id="Linux："><a href="#Linux：" class="headerlink" title="Linux："></a>Linux：</h4><ul>
+<li>Ubuntu下执行命令：<code>sudo apt-get install rabbitmq-server</code></li>
+<li>在RabbitMQ下添加<code>test</code>账户，并赋值其权限为Administrator：<ul>
+<li><code>rabbitmqctl add_user test test</code></li>
+<li><code>rabbitmqctl set_user_tags test administrator</code></li>
+</ul>
+</li>
+<li>若有必要，则执行指令，为test用户分配<code>/</code>目录权限，具体可参考下面的图片说明：<code>rabbitmqctl set_permissions -p / test &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;</code><img src="/images/rabbitmq/1.png" title="为test用户分配/目录权限">
+</li>
+</ul>
+<h2 id="管理RabbitMQ"><a href="#管理RabbitMQ" class="headerlink" title="管理RabbitMQ"></a>管理RabbitMQ</h2><h4 id="命令行"><a href="#命令行" class="headerlink" title="命令行"></a>命令行</h4><p>笔者只会一些简单的常用命令查看RabbitMQ的信息，但已经满足了我的开发需求，具体如下：</p>
+<ul>
+<li>查看所有的exchange：<code>rabbitmqctl list_exchanges</code></li>
+<li>查看所有的queue：<code>rabbitmqctl list_queues</code></li>
+<li>查看所有的用户：<code>rabbitmqctl list_users</code></li>
+<li>查看所有的绑定（exchange和queue的绑定信息）：<code>rabbitmqctl list_bindings</code></li>
+<li>查看消息确认信息：<code>rabbitmqctl list_queues name messages_ready messages_unacknowledged</code></li>
+<li>查看RabbitMQ状态，包括版本号等信息：<code>rabbitmqctl status</code></li>
+</ul>
+<h4 id="Web管理插件"><a href="#Web管理插件" class="headerlink" title="Web管理插件"></a>Web管理插件</h4><p>该方式操作简单，功能强大且直观，前提是启动Web插件，然后即可通过浏览器查看。<br>启动Web管理插件的命令（<a href="https://www.rabbitmq.com/management.html" target="_blank" rel="external">官方资料</a>）: <code>rabbitmq-plugins enable rabbitmq_management</code><br>下图是RabbitMQ Web管理界面：<br><img src="/images/rabbitmq/2.png" title="RabbitMQ Web管理界面"></p>
+<h2 id="RabbitMQ原理及基本功能介绍"><a href="#RabbitMQ原理及基本功能介绍" class="headerlink" title="RabbitMQ原理及基本功能介绍"></a>RabbitMQ原理及基本功能介绍</h2><h4 id="基本通信模型"><a href="#基本通信模型" class="headerlink" title="基本通信模型"></a>基本通信模型</h4><ul>
+<li>A <strong>producer</strong> is a user application that sends messages.</li>
+<li>A <strong>queue</strong> is a buffer that stores messages.</li>
+<li>A <strong>consumer</strong> is a user application that receives messages.</li>
+</ul>
+<img src="/images/rabbitmq/3.png" title="RabbitMQ基本通信模型">
+<p>符号说明：</p>
+<ul>
+<li>P（Producer）：发送者，生产消息</li>
+<li>X（Exchange）：消息交换器，用于向Queue发布消息，类似于路由器</li>
+<li>amq.XX（Queue）：消息队列，用于存储消息</li>
+<li>C（Consumer）：消费者，接收并处理消息</li>
+</ul>
+<h4 id="RabbitMQ的部分实现机制"><a href="#RabbitMQ的部分实现机制" class="headerlink" title="RabbitMQ的部分实现机制"></a>RabbitMQ的部分实现机制</h4><ol>
+<li>Round-robin dispatching（循环分发）<ul>
+<li>即RabbitMQ会循环将消息分发给每一个消费者；</li>
+<li>若启用该机制，则假如有n个消费者，那么RabbitMQ收到n个消息时，会逐个给每个消费者发送一个消息；</li>
+</ul>
+</li>
+<li>Message acknowledgment（消息确认机制-ack）<ul>
+<li>当打开确认机制（默认打开，可通过参数<code>no_ack=True</code>关闭）时消费者在处理消息的过程中挂掉时，RabbitMQ会将该消息发送给其他消费者；</li>
+<li>开启确认模式时，消费者必须在处理完消息是发送确认消息，否则该消息会被重新发送给一个消费者（可以看作是随机发送），如此下去RabbitMQ将吃掉更多的内存；</li>
+</ul>
+</li>
+<li>Message durability（消息持久化）<ul>
+<li>若开启该功能，则在RabbitMQ Crash的情况下不丢失消息；</li>
+<li>但这不能完全保证所有消息不丢失，如在RabbitMQ收到消息到将其存储到disk的期间发生crash，将丢失这期间收到的所有消息；</li>
+</ul>
+</li>
+<li>Fair dispatch（公平的分发）<ul>
+<li>RabbitMQ默认收到消息时直接分发给对应消费者，而不考虑任务大小；</li>
+<li>为了能够公平的分发消息，也就是考虑任务大小，可以配置<code>channel.basic_qos(prefetch_count=1)</code>，保证接受者处理完消息，并且返回ack消息时才为其派发下一个消息；从而避免某些消费者很忙，某些很闲的情况；</li>
+<li><strong>注</strong>：需要保证消息不超过消息队列的大小：如处理每个消息需要1分钟，而每秒钟就会产生一个消息，那么这种情况下很快就会出现消息数量超过queue size的情况；</li>
+</ul>
+</li>
+</ol>
+<h4 id="Exchange和Queue的一些说明"><a href="#Exchange和Queue的一些说明" class="headerlink" title="Exchange和Queue的一些说明"></a>Exchange和Queue的一些说明</h4><ol>
+<li>默认Exchang<ul>
+<li>定义exchange时，若名字为空，则使用默认exchange；</li>
+</ul>
+</li>
+<li>临时Queue<ul>
+<li><code>result=channel.queue_declare()</code></li>
+<li><code>result=channel.queue_declare(exclusive=True)</code></li>
+<li>上面两句代码即可生成一个无名临时队列，当断开消费者时，该队列也会被删除；</li>
+</ul>
+</li>
+<li>绑定Queue和Exchange<ul>
+<li>队列绑定到exchange上才可以接收exchange分发的消息；</li>
+<li><code>channel.queue_bind(exchange=&#39;logs&#39;,queue=result.method.queue)</code>，这句话即可将前面的无名队列绑定到名为logs的exchange；</li>
+<li>绑定成功之后，exchange收到消息时就会广播给和其绑定的所有消费者；</li>
+</ul>
+</li>
+</ol>
+<h2 id="RabbitMQ的四种工作模式"><a href="#RabbitMQ的四种工作模式" class="headerlink" title="RabbitMQ的四种工作模式"></a>RabbitMQ的四种工作模式</h2><p>RabbitMQ并不是直接将消息发送到queue，而是将消息发送给exchange，然后exchange再将消息发送到对应的queue；<br>exchange共有四种模式：<code>fanout</code>, <code>direct</code>, <code>topic</code> and <code>headers</code>。</p>
+<h4 id="fanout"><a href="#fanout" class="headerlink" title="fanout"></a>fanout</h4><p>exchange将消息发送给和该exchange连接的所有queue；也就是所谓的广播模式；此模式下忽略routing_key；<br><img src="/images/rabbitmq/4.png" title="fanout模型"></p>
+<h4 id="direct"><a href="#direct" class="headerlink" title="direct"></a>direct</h4><p>路由模式，通过routing_key将消息发送给对应的queue;<br>如下面这句即可设置exchange为direct模式，只有routing_key为“black”时才将其发送到队列queue_name；<br><code>channel.queue_bind(exchange=exchange_name,queue=queue_name,routing_key=&#39;black&#39;)</code><br><img src="/images/rabbitmq/5.png" title="direct模型"></p>
+<p>在上图中，Q1和Q2可以绑定同一个key，如绑定routing_key=‘KeySame’，那么收到routing_key为KeySame的消息时将会同时发送给Q1和Q2，退化为广播模式；</p>
+<h4 id="topic"><a href="#topic" class="headerlink" title="topic"></a>topic</h4><p>topic模式类似于direct模式，只是其中的routing_key变成了一个有“.”分隔的字符串，“.”将字符串分割成几个单词，每个单词代表一个条件；<br><img src="/images/rabbitmq/6.png" title="topic模型"></p>
+<ul>
+<li>* (star) can substitute for exactly one word.</li>
+<li># (hash) can substitute for zero or more words.</li>
+</ul>
+<p>其中整个字符串是一条路由规则，通过*和#即可实现灵活的路由，上图的解释如下：</p>
+<ul>
+<li>Q1 is interested in all the orange animals.</li>
+<li>Q2 wants to hear everything about rabbits, and everything about lazy animals.</li>
+</ul>
+<p><strong>注：</strong></p>
+<ul>
+<li>一条消息可有同时满足多个规则，并分发给多个Queue，如：quick.orange.rabbit;</li>
+<li>通过修改路由规则，topic可以退化为fanout和direct模式；</li>
+</ul>
+<h4 id="headers"><a href="#headers" class="headerlink" title="headers"></a>headers</h4><p>headers类型的Exchange不依赖于routing key与binding key的匹配规则来路由消息，而是根据发送的消息内容中的headers属性进行匹配。</p>
+<ul>
+<li>在绑定Queue与Exchange时指定一组键值对；</li>
+<li>当消息发送到Exchange时，RabbitMQ会取到该消息的headers（也是一个键值对的形式），对比其中的键值对是否完全匹配Queue与Exchange绑定时指定的键值对；</li>
+<li>如果完全匹配则消息会路由到该Queue，否则不会路由到该Queue。</li>
+</ul>
+<h2 id="RabbitMQ的使用"><a href="#RabbitMQ的使用" class="headerlink" title="RabbitMQ的使用"></a>RabbitMQ的使用</h2><h4 id="一些使用场景"><a href="#一些使用场景" class="headerlink" title="一些使用场景"></a>一些使用场景</h4><ol>
+<li><p>日志记录</p>
+<ul>
+<li>各个程序可以向同一个Rabbitmq的exchange发送消息，exchange根据routing_key分发消息到不同的队列，然后再由不同的程序接受者处理；</li>
+<li>其中routing_key可以设置成log等级，这样子可以对log实现分级处理；比如下面的两个场景：<ul>
+<li>对于error的log可以报警；</li>
+<li>只有info级别以上的消息才记录到disk；</li>
+</ul>
+</li>
+<li>通过topic模式能实现更灵活的控制，具体看官方文档即可；</li>
+</ul>
+</li>
+<li><p>消息分发服务</p>
+<ul>
+<li>在RabbitMQ不是瓶颈的情况下是很好的选择。</li>
+</ul>
+</li>
+</ol>
+<h4 id="RabbitMQ在我们项目中的用法"><a href="#RabbitMQ在我们项目中的用法" class="headerlink" title="RabbitMQ在我们项目中的用法"></a>RabbitMQ在我们项目中的用法</h4><p>下图中展示了整个系统的架构以及RabbitMQ在其中的作用和相关配置:<br><img src="/images/rabbitmq/7.png" title="项目架构图"></p>
+<ul>
+<li>L1、L2、L3：分别是三个服务器程序，同一套代码的三个运行实例，下面简称 L服务器；</li>
+<li>Queue-1、Queue-2、Queue-3：同一套代码的三个运行实例，它们的作用是将RabbitMQ中发过来的Json数据转换成L服务器能够识别的数据，主要作用是数据格式转化和消息转发；</li>
+<li>Tool1、Tool2：两个不同应用程序，都需要和L服务器进行交互；</li>
+<li>图中分为上下两部分，上半部分是Tool1和Tool2向L服务器发送请求的流程，其中用到两个Exchange，一个模式时fanout，另一个是direct；</li>
+<li>图中的下半部分是Tool1和Tool2接收来自L服务器的数据，通过一个fanout类型的Exchange广播，具体过滤工作由Tool程序自己完成。</li>
+</ul>
+<h2 id="注意事项及解决方法"><a href="#注意事项及解决方法" class="headerlink" title="注意事项及解决方法"></a>注意事项及解决方法</h2><h4 id="Queue和Exchange不支持修改参数"><a href="#Queue和Exchange不支持修改参数" class="headerlink" title="Queue和Exchange不支持修改参数"></a>Queue和Exchange不支持修改参数</h4><p>RabbitMQ不允许重新定义同名但是参数不同的queue，也就是不支持修改已有queue的属性；笔者曾经因为这个错误浪费了很多时间；</p>
+<p><strong>例子</strong><br>在调用exchange_declare函数时，对于同一个exchange必须保证他们的参数完全相同，否则会出错；<br><code>No handlers could be found for logger &quot;pika.adapters.blocking_connection&quot; pika.exceptions.ChannelClosed: (None, None)</code></p>
+<h4 id="pika-exceptions-IncompatibleProtocolError"><a href="#pika-exceptions-IncompatibleProtocolError" class="headerlink" title="pika.exceptions.IncompatibleProtocolError"></a>pika.exceptions.IncompatibleProtocolError</h4><p><strong>原因：</strong>协议错误，RabbitMQ版本不匹配；<br><strong>解决方法：</strong>升级RabbitMQ，一般是升级到3.X即可；</p>
+<h4 id="pika-exceptions-ProbableAuthenticationError"><a href="#pika-exceptions-ProbableAuthenticationError" class="headerlink" title="pika.exceptions.ProbableAuthenticationError"></a>pika.exceptions.ProbableAuthenticationError</h4><p><strong>原因：</strong>权限验证错误<br><strong>解决办法：</strong></p>
+<ul>
+<li>检查连接的账户是否创建成功；</li>
+<li>检查账户权限是否合适；</li>
+<li>guest账户只能用于本地连接RabbitMQ，远程连接必须创建新账户；</li>
+</ul>
+<blockquote><p>This is because you are trying to authenticate using the username and password guest remotely. Starting with RabbitMQ 3.3 you need to create a new account to use remotely, and guest/guest can only be used locally.</p>
+<footer><strong>eandersson</strong><cite><a href="http://stackoverflow.com/questions/30223339/pika-exceptions-probableauthenticationerror-when-trying-to-send-message-to-remot" target="_blank" rel="external">stackoverflow</a></cite></footer></blockquote>
+</div></article></div></main><footer><div class="paginator"><a href="/hello-world/" class="prev">PREV</a><a href="/synergy/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'tanchao90';
+var disqus_identifier = 'rabbitmq/';
+var disqus_title = 'RabbitMQ--Message Queue（消息队列）';
+var disqus_url = 'http://tanchao90.com/rabbitmq/';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//tanchao90.disqus.com/count.js" async></script><div class="copyright"><p>© 2015 - 2017 <a href="http://tanchao90.com">TanChao</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-80568471-1",'auto');ga('send','pageview');</script></body></html>

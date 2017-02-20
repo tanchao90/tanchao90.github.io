@@ -1,0 +1,223 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 用Hexo和GitHub Pages搭建个人博客 · TanChao的博客</title><meta name="description" content="The longest journey begins with the first step."><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/logo.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://tanchao90.com/atom.xml" title="TanChao的博客"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/logo.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">主页</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">所有文章</a></li><li class="nav-list-item"><a href="http://weibo.com/tanchao90" target="_blank" class="nav-list-link">微博</a></li><li class="nav-list-item"><a href="https://github.com/tanchao90" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">用Hexo和GitHub Pages搭建个人博客</h1><div class="post-info">Apr 7, 2016</div><div class="post-content"><p>本文主要记录我用 <strong>Hexo</strong> 和 <strong>GitHub Pages</strong> 搭建个人博客的过程，主要包括三方面内容：</p>
+<ul>
+<li>对 Hexo 进行了比较详细的描述，方便自己后期查阅</li>
+<li>我搭建博客的基本流程</li>
+<li>遇到的问题</li>
+</ul>
+<a id="more"></a>
+<h2 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a>Hexo</h2><h4 id="什么是Hexo"><a href="#什么是Hexo" class="headerlink" title="什么是Hexo?"></a>什么是Hexo?</h4><ul>
+<li><a href="https://hexo.io/" target="_blank" rel="external">Hexo官网</a></li>
+<li><a href="https://hexo.io/zh-cn/" target="_blank" rel="external">Hexo官网(中文)</a></li>
+<li><a href="https://github.com/hexojs/hexo" target="_blank" rel="external">GitHub Hexo</a></li>
+</ul>
+<blockquote>
+<p>快速、简洁且高效的博客框架</p>
+<blockquote>
+<p>超快速度<br>支持 Markdown<br>一键部署<br>丰富的插件</p>
+</blockquote>
+</blockquote>
+<p>个人使用下来的感受是：安装、使用简单，部署方便，专注于写作，主要得益于下面几点：</p>
+<ul>
+<li>支持Markdown，专注于写作</li>
+<li>资源管理方便，如图片支持两种管理模式</li>
+<li>学习成本很低，常用的命令不超过5个</li>
+<li>灵活的插件，如发布到各个托管网站</li>
+<li>漂亮简洁的主题，有相关能力的还可以自己修改主题或者制作主题</li>
+</ul>
+<h4 id="Hexo目录结构说明"><a href="#Hexo目录结构说明" class="headerlink" title="Hexo目录结构说明"></a>Hexo目录结构说明</h4><blockquote>
+<p>├── <strong>_config.yml</strong>   网站的配置信息<br>├── <strong>package.json</strong>  应用程序的信息。EJS, Stylus和Markdown renderer已默认安装<br>├── <strong>scaffolds</strong>     模版文件夹。当您新建文章时，Hexo会根据<code>scaffold</code>来建立文件<br>├── <strong>source</strong>        资源文件夹是存放用户资源的地方<br>├──   ├── <strong>_drafts</strong> 草稿箱，可以将不想发布的文章放在该目录下面，比如我将自己的写作模板文件放在这里<br>├──   └── <strong>_posts</strong> 该目录下的文件会被生成和发布<br>├── <strong>themes</strong>        主题文件夹。Hexo 会根据主题来生成静态页面<br>└── <strong>public</strong>        执行<code>generate</code>命令后生成<code>public文</code>件夹，并解析Markdown和HTML文件到该目录</p>
+</blockquote>
+<h4 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h4><p>以下是操作Hexo书写、生成、部署博客常用的几个命令，后面会有详细介绍：</p>
+<ul>
+<li><code>hexo init [folder]</code></li>
+<li><code>hexo version</code></li>
+<li><code>hexo list &lt;type&gt;</code></li>
+<li><code>hexo new [layout] &lt;title&gt;</code></li>
+<li><code>hexo publish [layout] &lt;filename&gt;</code></li>
+<li><code>hexo generate</code></li>
+<li><code>hexo clean</code></li>
+<li><code>hexo server</code></li>
+<li><code>hexo deploy</code></li>
+</ul>
+<h4 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h4><p>创建草稿，写作，本地预览</p>
+<ul>
+<li><code>hexo --config custom.yml new draft my_blog</code></li>
+<li><code>hexo --config custom.yml server --draft</code></li>
+</ul>
+<p>写作完成之后，发布草稿，生成静态博客，并部署到 Github Pages</p>
+<ul>
+<li><code>hexo --config custom.yml publish draft my_blog</code></li>
+<li><code>hexo clean</code></li>
+<li><code>hexo --config custom.yml generate</code></li>
+<li><code>hexo --config custom.yml deploy</code></li>
+</ul>
+<h2 id="我的搭建步骤"><a href="#我的搭建步骤" class="headerlink" title="我的搭建步骤"></a>我的搭建步骤</h2><h4 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h4><p>按照Hexo官网的步骤依次安装即可</p>
+<ul>
+<li>Git</li>
+<li>Node.js</li>
+<li>Hexo</li>
+</ul>
+<h4 id="安装主题"><a href="#安装主题" class="headerlink" title="安装主题"></a>安装主题</h4><p>官网有很多的<a href="https://hexo.io/themes/" target="_blank" rel="external">主题</a>，每个都有说明文档，照着按照即可，这里推荐下面两个，本博客使用的是<strong>apollo</strong>；<br>下面是我浏览所有主题之后觉得比较好看的，后面的星表示大致的喜欢程度：</p>
+<ul>
+<li><a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank" rel="external">Apollo</a> ⭐️⭐️⭐️⭐️⭐️</li>
+<li><a href="https://github.com/hexojs/hexo-theme-landscape" target="_blank" rel="external">Landscape</a> ⭐️⭐️⭐️⭐️</li>
+<li><a href="https://github.com/litten/hexo-theme-yilia" target="_blank" rel="external">litten/hexo-theme-yilia</a> ⭐️⭐️⭐️⭐️</li>
+<li><a href="https://github.com/probberechts/cactus-dark" target="_blank" rel="external">Cactus Dark</a> ⭐️⭐️⭐️⭐️</li>
+<li><a href="https://github.com/tufu9441/maupassant-hexo" target="_blank" rel="external">Maupassant</a> ⭐️⭐️⭐️⭐️</li>
+<li><a href="https://github.com/lotabout/very-simple" target="_blank" rel="external">Very-Simple</a> ⭐️⭐️⭐️⭐️</li>
+<li><a href="https://github.com/Alex-fun/hexo-theme-jane/" target="_blank" rel="external">jane</a> ⭐️⭐️⭐️⭐️</li>
+<li><a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="external">NexT</a> ⭐️⭐️⭐️⭐️</li>
+<li><a href="https://github.com/ahonn/hexo-theme-even" target="_blank" rel="external">even</a> ⭐️⭐️⭐️⭐️</li>
+<li><a href="https://github.com/CodeDaraW/Hacker" target="_blank" rel="external">Hacker</a> ⭐️⭐️⭐️</li>
+<li><a href="https://dnxbf321.github.io" target="_blank" rel="external">Simplest</a> <a href="https://github.com/dnxbf321/hexo-theme-simplest" target="_blank" rel="external">github</a> ⭐️⭐️</li>
+</ul>
+<h4 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h4><p>我主要修改了下面的内容：</p>
+<ul>
+<li>博客基本信息：标题、作者等</li>
+<li>deploy信息：指定部署的网站</li>
+<li>主题：选择主题，并修改对应的主题配置文件，比如评论和谷歌分析；</li>
+</ul>
+<p>Hexo支持本地自定义配置文件，然后在执行Hexo命令时通过<code>--config</code>字段指定本地配置文件即可，如我本地的配置文件叫做<code>custom.yml</code>，用法如下：</p>
+<ul>
+<li><code>hexo --config custom.yml new [layout] &lt;title&gt;</code></li>
+<li><code>hexo --config custom.yml server -p 5000</code></li>
+<li><code>hexo --config custom.yml server -p 5000 --draft</code></li>
+</ul>
+<h4 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h4><p>可通过插件来扩展Hexo，提升Hexo的写作体检，插件基本有下面两个方面的来源：</p>
+<ul>
+<li>模板会内置一些插件</li>
+<li>自己安装插件<ul>
+<li><a href="https://github.com/hexojs/hexo-filter-auto-spacing" target="_blank" rel="external">hexo-filter-auto-spacing</a>，在中日韩文与英文之间插入空格，提升阅读体验</li>
+</ul>
+</li>
+</ul>
+<h4 id="Disqus评论"><a href="#Disqus评论" class="headerlink" title="Disqus评论"></a>Disqus评论</h4><p>我的评论系统选择的是Disqus，个人感觉比多说优势多太多，而且功能强大，唯一的不好就是需要翻墙。</p>
+<p>一些Tips：</p>
+<ul>
+<li>163邮箱默认收不到Disqus的邮件，需要设置白名单<ul>
+<li>在邮箱中依此点击：“设置”-&gt;“反垃圾/黑白名单”-&gt;在白名单中添加<code>disqus.com</code></li>
+</ul>
+</li>
+<li>Migration Tools很强大，很好用；本质是将旧的Url映射到新的Url，并且支持多个Url映射到同一个新的Url，可用于完成下面功能：<ul>
+<li>将旧Url的评论迁移到新Url</li>
+<li>将多组评论汇总到一个Url</li>
+<li>删除Url，通过将其映射到其他Url（一般映射为已存在的Url）即可删除该Url，参考自<a href="https://help.disqus.com/customer/portal/questions/6515747-how-can-i-delete-discussions-" target="_blank" rel="external">How can I delete Discussions?</a></li>
+</ul>
+</li>
+</ul>
+<h4 id="写作"><a href="#写作" class="headerlink" title="写作"></a>写作</h4><p>通过 <code>hexo new filename</code> 创建新的文章，用Markdown编辑器完成文章内容的编写</p>
+<h4 id="部署博客"><a href="#部署博客" class="headerlink" title="部署博客"></a>部署博客</h4><p>本博客选择部署在 GitHub Pages 上面，具体可参考<a href="https://hexo.io/zh-cn/docs/deployment.html#Git" target="_blank" rel="external">Hexo部署:Git</a></p>
+<p>关与GitHub Pages的介绍可参考官方文档：<a href="https://help.github.com/articles/what-is-github-pages/" target="_blank" rel="external">What is GitHub Pages?</a> 。</p>
+<h4 id="绑定域名"><a href="#绑定域名" class="headerlink" title="绑定域名"></a>绑定域名</h4><p>具体方法可Google或者参考文章后面的参考链接：</p>
+<ul>
+<li>在 <a href="https://godaddy.com/" target="_blank" rel="external">GoDaddy</a> 购买域名</li>
+<li>将域名绑定到 <code>http://username.github.io</code>,具体参考下面的链接：<ul>
+<li><a href="https://help.github.com/articles/setting-up-an-apex-domain/" target="_blank" rel="external">Setting up an apex domain</a></li>
+<li><a href="http://andrewsturges.com/blog/jekyll/tutorial/2014/11/06/github-and-godaddy.html" target="_blank" rel="external">Configuring a Godaddy domain name with github pages</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><h4 id="bash-hexo-command-not-found"><a href="#bash-hexo-command-not-found" class="headerlink" title="bash: hexo: command not found"></a>bash: hexo: command not found</h4><p>在 Windows下有两种提示，同一个意思</p>
+<ul>
+<li>cmd窗口： ‘hexo’ 不是内部或外部命令，也不是可运行的程序或批处理文件</li>
+<li>Git Bash窗口： bash: hexo: command not found</li>
+</ul>
+<p>我在安装的过程中遇到了该错误，最终是通过卸载Node.js和Git，并重新安装它们和Hexo解决的<br>为此还在Hexo项目下面发起了一个Issue：<a href="https://github.com/hexojs/hexo/issues/1871" target="_blank" rel="external">Windows 7: bash: hexo: command not found #1871</a></p>
+<h4 id="npm-WARN-optional-dep-failed-continuing-fsevents-1-0-11"><a href="#npm-WARN-optional-dep-failed-continuing-fsevents-1-0-11" class="headerlink" title="npm WARN optional dep failed, continuing fsevents@1.0.11"></a>npm WARN optional dep failed, continuing fsevents@1.0.11</h4><p>这是我安装Hexo时出现的警告，通过Google发现是</p>
+<blockquote>
+<p>fsevents is an API available only on OSX</p>
+</blockquote>
+<p><a href="http://stackoverflow.com/questions/31228862/npm-warn-optional-dep-failed-continuing-fsevents0-3-6" target="_blank" rel="external">npm WARN optional dep failed, continuing fsevents@0.3.6</a></p>
+<p>可以忽略该警告，至少我没遇到什么问题</p>
+<h2 id="命令详细说明"><a href="#命令详细说明" class="headerlink" title="命令详细说明"></a>命令详细说明</h2><p>这部分内容可以直接查看官网，那里的信息最新最准确。</p>
+<h4 id="init-新建一个网站"><a href="#init-新建一个网站" class="headerlink" title="init: 新建一个网站"></a>init: 新建一个网站</h4><blockquote>
+<p><strong>$ hexo init [folder]</strong></p>
+</blockquote>
+<h4 id="version-显示Hexo版本"><a href="#version-显示Hexo版本" class="headerlink" title="version: 显示Hexo版本"></a>version: 显示Hexo版本</h4><blockquote>
+<p><strong>$ hexo version</strong></p>
+</blockquote>
+<h4 id="new-新建一篇文章"><a href="#new-新建一篇文章" class="headerlink" title="new: 新建一篇文章"></a>new: 新建一篇文章</h4><blockquote>
+<p><strong>hexo new [layout] title</strong><br>layout指定文章的布局，默认为 post，可以通过修改<code>_config.yml</code>中的<code>default_layout</code>参数来指定默认布局<br>Hexo 有三种默认布局：<code>post、page 和 draft</code>，它们分别对应不同的路径，而您自定义的其他布局和 post 相同，都将储存到 source/_posts 文件夹</p>
+<blockquote>
+<p>post    source/_posts<br>page    source<br>draft    source/_drafts</p>
+</blockquote>
+</blockquote>
+<h4 id="generate-生成静态文件"><a href="#generate-生成静态文件" class="headerlink" title="generate: 生成静态文件"></a>generate: 生成静态文件</h4><blockquote>
+<p><strong>$ hexo generate</strong><br>-d, –deploy, 文件生成后立即部署网站<br>-w, –watch, 监视文件变动</p>
+</blockquote>
+<h4 id="clean-清除缓存文件-db-json-和已生成的静态文件-public"><a href="#clean-清除缓存文件-db-json-和已生成的静态文件-public" class="headerlink" title="clean: 清除缓存文件(db.json) 和已生成的静态文件 (public)"></a>clean: 清除缓存文件(db.json) 和已生成的静态文件 (public)</h4><blockquote>
+<p><strong>$ hexo clean</strong></p>
+</blockquote>
+<h4 id="list-列出网站资料"><a href="#list-列出网站资料" class="headerlink" title="list: 列出网站资料"></a>list: 列出网站资料</h4><blockquote>
+<p><strong>$ hexo list type</strong></p>
+</blockquote>
+<h4 id="publish-发布草稿，也就是将source-drafts中的草稿文件移动到source-posts文件夹"><a href="#publish-发布草稿，也就是将source-drafts中的草稿文件移动到source-posts文件夹" class="headerlink" title="publish: 发布草稿，也就是将source/_drafts中的草稿文件移动到source/_posts文件夹"></a>publish: 发布草稿，也就是将<code>source/_drafts</code>中的草稿文件移动到<code>source/_posts</code>文件夹</h4><blockquote>
+<p><strong>$ hexo publish [layout] filename</strong></p>
+</blockquote>
+<h4 id="server-启动服务器，默认访问网址为http-localhost-4000"><a href="#server-启动服务器，默认访问网址为http-localhost-4000" class="headerlink" title="server: 启动服务器，默认访问网址为http://localhost:4000/"></a>server: 启动服务器，默认访问网址为<a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000/</a></h4><blockquote>
+<p><strong>$ hexo server</strong><br>-i, –ip, 重设ip，覆盖默认的<code>0.0.0.0</code><br>-p, –port, 重设端口<br>-s, –static, 只使用静态文件，也就是不监听文件变化<br>-l, –log, 启动日记记录，使用覆盖记录格式</p>
+</blockquote>
+<h4 id="deploy-部署网站"><a href="#deploy-部署网站" class="headerlink" title="deploy: 部署网站"></a>deploy: 部署网站</h4><blockquote>
+<p><strong>$ hexo deploy</strong><br>-g, –generate, 部署之前预先生成静态文件</p>
+</blockquote>
+<p>若部署到Git（Github），需提前安装<strong>hexo-deployer-git</strong>：<code>npm install hexo-deployer-git --save</code></p>
+<h4 id="render-渲染文件"><a href="#render-渲染文件" class="headerlink" title="render: 渲染文件"></a>render: 渲染文件</h4><blockquote>
+<p><strong>$ hexo render file1 [file2] …</strong><br>-o, –output, 设置输出路径</p>
+</blockquote>
+<h4 id="选项-在执行上面的命令时还可以增加下面的选项，完成额外功能"><a href="#选项-在执行上面的命令时还可以增加下面的选项，完成额外功能" class="headerlink" title="选项: 在执行上面的命令时还可以增加下面的选项，完成额外功能"></a>选项: 在执行上面的命令时还可以增加下面的选项，完成额外功能</h4><blockquote>
+<p><strong>$ hexo –safe</strong>    安全模式，在安全模式下，不会载入插件和脚本<br><strong>$ hexo –debug</strong>   调试模式，在终端中显示调试信息并记录到 debug.log<br><strong>$ hexo –silent</strong>  简洁模式，隐藏终端信息<br><strong>$ hexo –config custom.yml</strong>  自定义配置文件的路径，执行后将不再使用 _config.yml</p>
+</blockquote>
+<h2 id="Hexo官方文档梳理"><a href="#Hexo官方文档梳理" class="headerlink" title="Hexo官方文档梳理"></a><a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="external">Hexo官方文档</a>梳理</h2><p>主要是帮助自己回忆每个模块的内容，读者可以直接查看官网</p>
+<h4 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h4><ul>
+<li>写作: 主要介绍一般的写作流程，从创建文章到发布</li>
+<li><strong>Front-matter</strong>: 可以方便的修改文章信息，如指定文章建立时间，对发布历史文章非常方便~(≧▽≦)/~</li>
+<li><strong>标签插件（Tag Plugins）</strong>: 支持多种标签格式，如引用文章内容、代码块、图片等，这一节功能强大，能极大的帮助丰富文章内容</li>
+<li><strong>资源文件夹</strong>: 主要讲了Hexo中图片等资源的管理，普通用户将资源放在<strong>source</strong>目录下即可</li>
+<li><strong>数据文件夹</strong>: 实现数据复用</li>
+<li>服务器: 详解<code>server</code>命令</li>
+<li>生成器: 详解<code>generate</code>命令</li>
+<li><strong>部署</strong>: 讲解<code>deploy</code>命令和相关配置，可以部署到GitHub、Heroku等，详细说明了每一种对应的配置</li>
+</ul>
+<h4 id="自定义"><a href="#自定义" class="headerlink" title="自定义"></a>自定义</h4><ul>
+<li>永久链接（Permalinks）：配置网页链接的格式</li>
+<li>主题：添加、配置主题，主题目录说明</li>
+<li>模板：模板的使用</li>
+<li>变量：Hexo支持的变量，可在模板中使用</li>
+<li>辅助函数：列举了Hexo内置的所有函数</li>
+<li>国际化（i18n）：国际化的配置，也就是支持多语种选择</li>
+<li>插件: 插件使用和开发</li>
+</ul>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ul>
+<li><a href="http://codepub.cn/2015/04/06/Github-Pages-personal-blog-from-Octopress-to-Hexo/" target="_blank" rel="external">Github Pages个人博客，从Octopress转向Hexo</a></li>
+<li><a href="http://blog.csdn.net/poem_of_sunshine/article/details/29369785/" target="_blank" rel="external">如何搭建一个独立博客——简明Github Pages与Hexo教程</a></li>
+<li><a href="https://github.com/limedroid/HexoLearning" target="_blank" rel="external">Hexo 博客搭建指南</a></li>
+<li><a href="http://wanderyt.github.io/2015/07/13/Apply-theme-and-other-features-in-Hexo/" target="_blank" rel="external">Hexo中添加主题等其他功能</a><ul>
+<li>Sitemap网站地图</li>
+<li>Swifttype，站内搜索框</li>
+</ul>
+</li>
+<li><a href="http://www.jianshu.com/p/e15121af5e22" target="_blank" rel="external">hexo干货系列：（七）hexo安装统计插件</a>，CNZZ</li>
+<li><a href="https://blog.yizhilee.com/post/blog-config/" target="_blank" rel="external">Hexo 主题基础配置</a><ul>
+<li>Sitemap</li>
+<li>流量分析</li>
+<li>侧栏</li>
+<li>RSS</li>
+<li>社交连接</li>
+</ul>
+</li>
+</ul>
+<h2 id="博客乱码问题"><a href="#博客乱码问题" class="headerlink" title="博客乱码问题"></a>博客乱码问题</h2><p>最近迁移旧博客到Hexo时遇到神奇的乱码问题，包括本文扩充之后也出现了，坑了我很久，还以为是特殊代码片段引起的解析问题，具体估计是下面的原因导致的：</p>
+<ul>
+<li><a href="https://github.com/hexojs/hexo-server/issues/23" target="_blank" rel="external">Garbled code will be generated if .md file contains too many Chinese characters #23</a></li>
+<li><a href="https://github.com/hexojs/hexo/issues/2285" target="_blank" rel="external">一篇文章总字符数过多会出现乱码是什么问题? #2285</a></li>
+</ul>
+<p><strong>实测表明：</strong>该问题只在本地Server调试时存在，上传到GitHub Pages之后正常显示；<br>个人猜测可能是本地每篇文章的缓存空间不足导致。</p>
+</div></article></div></main><footer><div class="paginator"><a href="/sublime/" class="prev">PREV</a><a href="/hello-world/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'tanchao90';
+var disqus_identifier = 'hexo-github/';
+var disqus_title = '用Hexo和GitHub Pages搭建个人博客';
+var disqus_url = 'http://tanchao90.com/hexo-github/';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//tanchao90.disqus.com/count.js" async></script><div class="copyright"><p>© 2015 - 2017 <a href="http://tanchao90.com">TanChao</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-80568471-1",'auto');ga('send','pageview');</script></body></html>

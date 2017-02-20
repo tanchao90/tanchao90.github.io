@@ -1,0 +1,62 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 使用WordPress搭建个人博客 · TanChao的博客</title><meta name="description" content="The longest journey begins with the first step."><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/logo.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://tanchao90.com/atom.xml" title="TanChao的博客"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/logo.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">主页</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">所有文章</a></li><li class="nav-list-item"><a href="http://weibo.com/tanchao90" target="_blank" class="nav-list-link">微博</a></li><li class="nav-list-item"><a href="https://github.com/tanchao90" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">使用WordPress搭建个人博客</h1><div class="post-info">Oct 22, 2015</div><div class="post-content"><p>本文记录本博客（指之前的WordPress博客）的搭建过程，希望对想使用WordPress搭建网站的人有所帮助。<br>整个搭建过程大概包括下面几步，后文将详细说明每一步的操作：</p>
+<ul>
+<li>购买域名</li>
+<li>购买空间</li>
+<li>解析域名</li>
+<li>部署和安装WordPress</li>
+<li>选择主题</li>
+<li>开始写博客</li>
+</ul>
+<a id="more"></a>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h4 id="下载WordPress："><a href="#下载WordPress：" class="headerlink" title="下载WordPress："></a>下载WordPress：</h4><ul>
+<li>在 <a href="https://cn.wordpress.org/" target="_blank" rel="external">WordPress</a> 官网下载最新版即可，我下载的版本是：wordpress-4.3.1-zh_CN.zip；</li>
+</ul>
+<h4 id="VPN："><a href="#VPN：" class="headerlink" title="VPN："></a>VPN：</h4><ul>
+<li>搭建的过程中部分网站的访问速度很慢，而且很不稳定，为了顺利完成搭建，可能需要借助于VPN；</li>
+<li>我使用了 <a href="https://www.getgreenjsq.me/" target="_blank" rel="external">GREEN加速器（GreenVPN加速器唯一官网）</a>，新用户有200M免费流量，足以完成整个搭建过程；</li>
+<li>GREEN加速器域名变化比较快，可以通过谷歌或者 <a href="https://www.getgreenjsq.me/getdomain.html" target="_blank" rel="external">获取本站最新地址（域名）的方法</a>（请发送任意邮件至<code>GreenDizhi@gmail.com</code>系统将自动回复最新地址到您的邮箱）获取最新域名；</li>
+<li>GREEN加速器首页截图如下：<img src="/images/build-blog-with-wordpress/0.png" title="GREEN加速器首页"></li>
+</ul>
+<h2 id="购买域名"><a href="#购买域名" class="headerlink" title="购买域名"></a>购买域名</h2><p>经同学介绍，我选择了在 <a href="https://sg.godaddy.com/zh/" target="_blank" rel="external">GoDaddy</a> 上面购买域名；<br>比较简短的域名都被注册了，所以我最终选了目前这个域名（<code>tanchaoblog</code>），不过还算好记，价钱也不贵，大约两年120元；<br><strong>注</strong>：可以在网上找一些优惠码，系统会在 <strong>默认优惠</strong> 和 <strong>优惠码</strong> 之间选一个优惠额度更大的，我使用的是默认优惠。</p>
+<h2 id="购买空间"><a href="#购买空间" class="headerlink" title="购买空间"></a>购买空间</h2><p>这个也是同学推荐的：<a href="http://vpsaa.com/" target="_blank" rel="external">VPSAA</a>，我选择的是 <a href="http://my.vpsaa.com/cart.php?gid=35" target="_blank" rel="external">虚拟主机/日本主机/日本主机JP200</a>，也就是日本主机中最便宜的一个；<br>原价65元一年，网上有新人优惠码（<strong>NEW</strong>），打九折，最终花费了58.5元；<br>完成购买之后会收到VPSAA的邮件，包含购买的空间信息和相关资料，其中最主要的是 <strong>服务器信息</strong> 和 <strong>DA面版信息</strong>，如下图所示：<br><img src="/images/build-blog-with-wordpress/1.png" title="空间数据"></p>
+<h2 id="解析域名"><a href="#解析域名" class="headerlink" title="解析域名"></a>解析域名</h2><p>这一步的目的是将购买的域名映射到刚才购买的空间地址，需要在GoDaddy上面操作，具体可参考 <a href="http://www.sohlg.com/seo/godaddy.html" target="_blank" rel="external">2015最新版godaddy域名解析方法教程</a>。<br><strong>注意事项</strong>：</p>
+<ul>
+<li>删除多余的规则；</li>
+<li>将 <strong>A(Host)</strong> 中默认 <strong>@记录</strong> 中的IP改为上面购买的的服务器IP；</li>
+</ul>
+<h2 id="部署和安装-WordPress"><a href="#部署和安装-WordPress" class="headerlink" title="部署和安装 WordPress"></a>部署和安装 WordPress</h2><p>这一步比较麻烦，也是比较耗时的一步，大致可分为两个阶段：</p>
+<ul>
+<li>在虚拟主机上部署WordPress，可参考文档 <a href="http://jingyan.baidu.com/article/86fae346d66d033c48121a75.html" target="_blank" rel="external">如何利用DirectAdmin面板快速安装wordpress程序</a>完成；</li>
+<li>进入WordPress界面，开始安装；注意记住输入的用户名和密码，后期管理WordPress站点需要；</li>
+</ul>
+<p><strong>注意事项</strong>：</p>
+<ul>
+<li>在上传WordPress压缩包时一定要重新压缩文件，否则在线操作需要多一次文件拷贝；</li>
+<li>文件压缩格式必须是<strong>.zip</strong>或者<strong>.tar.gz</strong>，否则无法在线解析；</li>
+<li>在虚拟主机上部署WordPress的过程中可能需要VPN的帮助；</li>
+<li>记住数据库相关参数、WordPress账号密码；</li>
+</ul>
+<h2 id="选择主题"><a href="#选择主题" class="headerlink" title="选择主题"></a>选择主题</h2><p>WordPress有一套默认的主题，但大家也可以选择自己喜欢的主题来自定义博客；<br>选择主题大致有两个方法：</p>
+<ul>
+<li><strong>WordPress/仪表盘/外观/主题</strong>中有很多主题，大家可以浏览、安装自己喜欢的；</li>
+<li>在网上下载主题文件，然后上传到WordPress，上传也很简单，依次进入<strong>WordPress/仪表盘/外观/主题/添加/上传主题</strong>即可完成主题上传；上传文件必须是压缩包，格式要求同前面；</li>
+</ul>
+<h2 id="开始写博客"><a href="#开始写博客" class="headerlink" title="开始写博客"></a>开始写博客</h2><p>搭建好博客之后就可以开写了，可以直接在仪表盘中发表文章；但要写一篇美观、漂亮的博客可不容易，通过看别人博客及自己了解的信息，主要是有下面几点内容：</p>
+<ul>
+<li>安装插件来丰富WordPress的功能，如防止垃圾评论插件、书写代码插件等，目前我还没有研究这方面的内容；</li>
+<li>好的排版，目前我准备使用<strong>Markdown</strong>来写博客，本文就是用Markdown写的，可以参考文章 <a href="http://sspai.com/25137" target="_blank" rel="external">认识与入门Markdown</a> 了解Markdown；</li>
+<li>合理组织文章内容，更好的去表达内容；这方面我特别欠缺，希望以后能有所提高；</li>
+</ul>
+<h2 id="其他："><a href="#其他：" class="headerlink" title="其他："></a>其他：</h2><ol>
+<li>关于WordPress我也是刚接触，欢迎大家交流讨论；</li>
+<li><a href="http://www.zrblog.net/" target="_blank" rel="external">赵荣部落</a>：上面有很多域名、主机相关的信息可参考。</li>
+</ol>
+</div></article></div></main><footer><div class="paginator"><a href="/synergy/" class="prev">PREV</a><a href="/my-first-blog/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'tanchao90';
+var disqus_identifier = 'build-blog-with-wordpress/';
+var disqus_title = '使用WordPress搭建个人博客';
+var disqus_url = 'http://tanchao90.com/build-blog-with-wordpress/';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//tanchao90.disqus.com/count.js" async></script><div class="copyright"><p>© 2015 - 2017 <a href="http://tanchao90.com">TanChao</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-80568471-1",'auto');ga('send','pageview');</script></body></html>

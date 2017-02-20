@@ -1,0 +1,174 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> VMware、VirtualBox使用总结 · TanChao的博客</title><meta name="description" content="The longest journey begins with the first step."><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/logo.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://tanchao90.com/atom.xml" title="TanChao的博客"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/logo.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">主页</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">所有文章</a></li><li class="nav-list-item"><a href="http://weibo.com/tanchao90" target="_blank" class="nav-list-link">微博</a></li><li class="nav-list-item"><a href="https://github.com/tanchao90" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">VMware、VirtualBox使用总结</h1><div class="post-info">Dec 25, 2016</div><div class="post-content"><p>说到虚拟机，我最开始使用的是 <strong>VMware Workstation</strong>（当然都是破解版），一用就是好多年；直到去年合作项目的需要，转而使用 <strong>VirtualBox</strong>，从此基本放弃了 <strong>VMware Workstation</strong>。</p>
+<a id="more"></a>
+<h2 id="虚拟机"><a href="#虚拟机" class="headerlink" title="虚拟机"></a>虚拟机</h2><h4 id="虚拟机介绍"><a href="#虚拟机介绍" class="headerlink" title="虚拟机介绍"></a>虚拟机介绍</h4><p>Wikipedia上<code>虚拟机</code>的定义是：“有效的、独立的真实机器的副本。”，结合到实际中就是用各种<code>虚拟机软件</code>创建不同的“虚拟机”；从使用层面来说，这些“虚拟机”和物理机没有什么区别，甚至比物理机更加灵活方便，可以随时修改硬件配置、网络参数等等。<br>下面几个文章是对虚拟机及其技术的简单介绍：</p>
+<ul>
+<li><a href="https://zh.wikipedia.org/wiki/%E8%99%9B%E6%93%AC%E6%A9%9F%E5%99%A8" target="_blank" rel="external">虚拟机-wikipedia</a></li>
+<li><a href="http://www.ibm.com/developerworks/cn/linux/l-linuxvirt/" target="_blank" rel="external">虚拟 Linux-虚拟化方法、架构和实现概述</a></li>
+<li><a href="https://www.zhihu.com/question/20848931" target="_blank" rel="external">虚拟机是怎么实现的？</a></li>
+</ul>
+<h4 id="虚拟机软件"><a href="#虚拟机软件" class="headerlink" title="虚拟机软件"></a>虚拟机软件</h4><p>我知道的虚拟机软件有下面三个（文章最后有它们的界面截图）：</p>
+<ul>
+<li><a href="http://www.vmware.com" target="_blank" rel="external">VMware</a>，支持<strong>Win</strong>、<strong>Mac</strong>、<strong>Linux</strong>，<strong>收费</strong><ul>
+<li><a href="http://www.vmware.com/cn/products/fusion.html" target="_blank" rel="external">Fusion for Mac</a>，<code>Fusion</code> VS <code>Fusion Pro</code></li>
+<li><a href="http://www.vmware.com/cn/products/workstation.html" target="_blank" rel="external">Workstation for Windows</a>，<code>Workstation Player</code> VS <code>Workstation Pro</code></li>
+<li><a href="http://www.vmware.com/cn/products/workstation-for-linux.html" target="_blank" rel="external">Workstation for Linux</a>，<code>Workstation Player</code> VS <code>Workstation Pro</code></li>
+</ul>
+</li>
+<li><a href="https://www.virtualbox.org/" target="_blank" rel="external">VirtualBox</a>，支持<strong>Win</strong>、<strong>Mac</strong>、<strong>Linux</strong>，<strong>免费</strong><ul>
+<li><a href="https://www.virtualbox.org/wiki/Downloads" target="_blank" rel="external">VirtualBox Downloads</a></li>
+</ul>
+</li>
+<li><a href="http://www.parallels.com/" target="_blank" rel="external">Parallels Desktop</a>，只支持<code>Mac</code>版本，收费</li>
+</ul>
+<p>它们各有特点，关于它们的对比和区别，可参考下面的文章：</p>
+<ul>
+<li><a href="http://www.orsoon.com/news/152449.html" target="_blank" rel="external">哪款虚拟机最好 ParallelsDesktop 10和VMware Fusion 7和VirtualBox 4对比分析</a>，基于Mac系统对比</li>
+<li><a href="http://www.crifan.com/virtual_machine_soft_choice_vmware_or_virtualbox_definitely_recommend_virtualbox/" target="_blank" rel="external">【整理】虚拟机的选择，VMWare还是VirtualBox – 绝对推荐VirtualBox</a></li>
+</ul>
+<h4 id="我的使用体验"><a href="#我的使用体验" class="headerlink" title="我的使用体验"></a>我的使用体验</h4><p>由于我只使用过其中的VMware和VirtualBox，所以只能说一下这两个软件的使用体验：</p>
+<ul>
+<li>VMware Workstation<ul>
+<li>功能强大、软件复杂</li>
+<li>收费（找破解版麻烦），虽然Play版本免费，但是功能缩水，而且所谓的“不能用于商业用途”</li>
+<li>非常耗资源</li>
+</ul>
+</li>
+<li>VirtualBox<ul>
+<li>简单易用</li>
+<li>完全免费</li>
+<li>节省资源，一台普通电脑开好几个Ubuntu虚拟机无压力</li>
+</ul>
+</li>
+</ul>
+<p>从长期的个人使用来看，对于一般的功能需求，两个都能满足，在没有特殊需求的情况下建议使用VirtualBox，免费又好用。</p>
+<h4 id="学习资料"><a href="#学习资料" class="headerlink" title="学习资料"></a>学习资料</h4><p>基本都是谷歌解决问题，查资料的过程中发现下面两个资料，看评价还不错，貌似值得一看：</p>
+<ul>
+<li><a href="http://edu.51cto.com/course/course_id-1059.html" target="_blank" rel="external">精通VMware10虚拟机视频课程</a></li>
+<li><a href="http://edu.51cto.com/course/course_id-2223.html" target="_blank" rel="external">VMware Workstation 10—虚拟化入门神器完全讲解视频课程</a></li>
+</ul>
+<h2 id="VirtualBox"><a href="#VirtualBox" class="headerlink" title="VirtualBox"></a>VirtualBox</h2><h4 id="基本功能"><a href="#基本功能" class="headerlink" title="基本功能"></a>基本功能</h4><ul>
+<li>导入、导出：方便虚拟机文件备份、分享</li>
+<li>注册：注册一个新的虚拟机目录，支持多个虚拟机在不同的路径，比如A虚拟机在D盘，B虚拟机在F盘，磁盘空间受限时非常有用处；</li>
+<li>修改虚拟机配置<ul>
+<li>内存</li>
+<li>CPU</li>
+<li>网络：NAT、桥接等</li>
+<li>修改存储：一个虚拟机可以切换不同的存储文件（.vmdk、.vdi），个人理解类似于一个物理机，可以插不同的启动盘启动</li>
+</ul>
+</li>
+</ul>
+<h4 id="一些参考文档"><a href="#一些参考文档" class="headerlink" title="一些参考文档"></a>一些参考文档</h4><ul>
+<li><a href="http://superuser.com/questions/360517/what-disk-image-should-i-use-with-virtualbox-vdi-vmdk-vhd-or-hdd" target="_blank" rel="external">What disk image should I use with VirtualBox, VDI, VMDK, VHD or HDD? </a> </li>
+<li><a href="https://nfolamp.wordpress.com/2010/06/10/converting-vmdk-files-to-vdi-using-vboxmanage/" target="_blank" rel="external">Converting vmdk files to vdi using VBoxManage</a></li>
+<li><a href="http://stackoverflow.com/questions/11659005/how-to-resize-a-virtualbox-vmdk-file" target="_blank" rel="external">How to resize a VirtualBox vmdk file</a></li>
+<li><a href="http://superuser.com/questions/811088/mkfs-the-device-apparently-does-not-exist-did-you-specify-it-correctly" target="_blank" rel="external">mkfs - The device apparently does not exist; did you specify it correctly?</a></li>
+</ul>
+<h4 id="虚拟机磁盘扩容"><a href="#虚拟机磁盘扩容" class="headerlink" title="虚拟机磁盘扩容"></a>虚拟机磁盘扩容</h4><p>虚拟机使用久了，或者开始创建的时候空间设置小了，在后期都可能遇到磁盘空间不足的问题，一般有下面三种方式处理该问题：</p>
+<ol>
+<li>重新创建一个大容量的虚拟机，环境都得从头搭起</li>
+<li>添加新的分区：根目录依旧还是那么大，基于根目录的操作依旧面临空间不足的限制<ul>
+<li><a href="http://blog.csdn.net/ouyang_peng/article/details/53261599" target="_blank" rel="external">VirtualBox如何扩展虚拟机Ubuntu的硬盘容量？</a>，添加新分区</li>
+<li>我的实践总结：<a href="https://gist.github.com/tanchao90/f85b5ffd140795fc11d1c8ec04b4100c" target="_blank" rel="external">github gist</a> </li>
+</ul>
+</li>
+<li>直接增加根目录分区的大小：<strong>完美扩容</strong><ul>
+<li><a href="http://imcczy.com/how-to-expand-the-root-filesystem-in-vmware.html" target="_blank" rel="external">VMware下扩展ubuntu虚拟机根目录分区</a>，扩展根目录分区 ☆☆☆☆</li>
+<li><a href="https://hexeract.wordpress.com/2012/04/30/how-to-expand-the-root-filesystem-of-a-11-10-ubuntu-running-inside-vmware-player/" target="_blank" rel="external">HOW TO EXPAND THE ROOT FILESYSTEM OF A 12.04 UBUNTU RUNNING INSIDE VMWARE PLAYER</a> 对应的英文原文</li>
+</ul>
+</li>
+</ol>
+<p>在下面的环境亲测上述2方案、3方案均ok：</p>
+<ul>
+<li>Windows 10</li>
+<li>VirtualBox 5.1.6 r110634 (Qt5.5.1)</li>
+<li>Ubuntu 16.04 LTS</li>
+</ul>
+<h2 id="创建Ubuntu虚拟机"><a href="#创建Ubuntu虚拟机" class="headerlink" title="创建Ubuntu虚拟机"></a>创建Ubuntu虚拟机</h2><p>这里我想写一下我基于VirtualBox创建和使用Ubuntu的方法，充分发挥虚拟机的优势，重复利用已有的虚拟机；</p>
+<h4 id="创建全新的虚拟机"><a href="#创建全新的虚拟机" class="headerlink" title="创建全新的虚拟机"></a>创建全新的虚拟机</h4><p>具体可参考网上的教程创建，非常简单，没遇到过什么问题；<br>建议：磁盘空间尽量设置大一点，避免后期扩容的痛苦；<br>该版本简称<code>V1</code>；</p>
+<h4 id="将虚拟机导出备份"><a href="#将虚拟机导出备份" class="headerlink" title="将虚拟机导出备份"></a>将虚拟机导出备份</h4><ul>
+<li>“管理”-&gt;“导出虚拟电脑”</li>
+<li>选择要导出的虚拟机</li>
+<li>选择导出目录</li>
+<li>其他默认即可</li>
+<li>即可导出<code>.ova</code>格式的虚拟机文件，用导入功能即可导入该虚拟机文件；</li>
+</ul>
+<h4 id="在V1的基础上安装软件，生成新的虚拟机版本"><a href="#在V1的基础上安装软件，生成新的虚拟机版本" class="headerlink" title="在V1的基础上安装软件，生成新的虚拟机版本"></a>在V1的基础上安装软件，生成新的虚拟机版本</h4><ul>
+<li>v2<ul>
+<li>vim</li>
+<li>ssh</li>
+<li>zsh</li>
+<li>wget</li>
+<li>curl</li>
+<li>git</li>
+<li>autojump</li>
+<li>Nodejs</li>
+<li>TDLR</li>
+</ul>
+</li>
+<li>v3<ul>
+<li>dos2unix</li>
+<li>pyenv</li>
+<li>pyenv-virtualenv</li>
+</ul>
+</li>
+</ul>
+<p>对于上述每一个版本的虚拟机都可以导出备份，后期可以从任何一个版本开始搭建新的开发环境，省去了搭建基础环境的过程，而且可以快速的分享给Team里面其他人，避免多次搭建环境的麻烦；<br>也可以用Docker完成类似的工作，但是个人感觉开发更使用虚拟机。</p>
+<h2 id="创建OS-X（现在的macOS）虚拟机"><a href="#创建OS-X（现在的macOS）虚拟机" class="headerlink" title="创建OS X（现在的macOS）虚拟机"></a>创建OS X（现在的macOS）虚拟机</h2><p><strong>注：</strong>以下实验都是在Windows上完成的；</p>
+<h4 id="我的物理机参数"><a href="#我的物理机参数" class="headerlink" title="我的物理机参数"></a>我的物理机参数</h4><p>以下是鲁大师检测的参数，外加一个1T的普通硬盘：</p>
+<ul>
+<li>电脑型号 <code>技嘉 B85-HD3 台式电脑</code></li>
+<li>操作系统 <code>Windows 10 Enterprise 64位 ( DirectX 12 )</code></li>
+<li>处理器 <code>英特尔 第四代酷睿 i5-4590 @ 3.30GHz 四核</code></li>
+<li>主板 <code>技嘉 B85-HD3 ( 英特尔 Haswell - Lynx Point )</code></li>
+<li>内存 <code>16 GB ( 金士顿 DDR3 1600MHz )</code></li>
+<li>主硬盘 <code>三星 SSD 850 EVO 250GB ( 250 GB / 固态硬盘 )</code></li>
+<li>显卡 <code>Nvidia GeForce GTX 750 ( 2 GB / Nvidia )</code></li>
+<li>显示器 <code>戴尔 DEL4091 DELL E2414H ( 24 英寸  )</code></li>
+<li>声卡 <code>瑞昱 ALC892 @ 英特尔 Lynx Point  高保真音频</code></li>
+<li>网卡 <code>瑞昱 RTL8168/8111/8112 Gigabit Ethernet Controller / 技嘉</code></li>
+</ul>
+<h4 id="我的建议"><a href="#我的建议" class="headerlink" title="我的建议"></a>我的建议</h4><p>在上述硬件环境下，使用VMware Workstation和VirtualBox我均搭建过OS X虚拟机，实际的体检都很差，特别卡，所以我建议：</p>
+<ul>
+<li>直接购买Mac系列产品；</li>
+<li>直接裸机装苹果系统，俗称<strong>黑苹果</strong>；</li>
+</ul>
+<h4 id="使用VMware-Workstation"><a href="#使用VMware-Workstation" class="headerlink" title="使用VMware Workstation"></a>使用VMware Workstation</h4><ul>
+<li><a href="http://bbs.feng.com/read-htm-tid-10389424.html" target="_blank" rel="external">OS X 10.11.4 15E65 原版安装U盘镜像（百度云分享）</a><ul>
+<li><a href="http://pan.baidu.com/s/1i4PbPGx" target="_blank" rel="external">OS X Yosemite</a>，密码：<code>eqjm</code>，内含<code>unlocker203.zip</code>、<code>darwin6.0.3.zip</code>；</li>
+<li><a href="http://pan.baidu.com/s/1cafzJo" target="_blank" rel="external">OS X El Capitan</a>，密码：<code>tjpi</code>；</li>
+</ul>
+</li>
+<li><a href="http://jingyan.baidu.com/article/ff411625b9011212e48237b4.html" target="_blank" rel="external">VMware 11安装Mac OS X 10.10</a></li>
+</ul>
+<p>遇到的问题：</p>
+<ul>
+<li>不能验证这个“安装 OS X El Capitan”应用程序副本。它在下载过程中可能已遭破坏或篡改。<ul>
+<li>解决办法是修改系统时间到15年：<code>sudo date 122501112015.20</code></li>
+<li><a href="https://discussionschinese.apple.com/thread/77105" target="_blank" rel="external">问:不能验证这个“安装 OS X El Capitan”应用程序副本。它在下载过程中可能已遭破坏</a></li>
+<li><a href="http://tieba.baidu.com/p/4186921833" target="_blank" rel="external">求助大神 不能验证 安装OS X Ei Capitan</a></li>
+</ul>
+</li>
+</ul>
+<h4 id="使用VirtualBox"><a href="#使用VirtualBox" class="headerlink" title="使用VirtualBox"></a>使用VirtualBox</h4><ul>
+<li><a href="http://bbs.feng.com/read-htm-tid-9908410.html" target="_blank" rel="external">[APP开发] 在 Win 7或8 下使用 VirtualBOX 虚拟机安装 OS X 10.11 El Capitan 及 Xcode 7.0 </a></li>
+<li><a href="http://ibiji.org/post/26.html" target="_blank" rel="external">VirtualBox安装OS X El Capitan笔记</a></li>
+</ul>
+<p>安装方式更简单，源文件获取方式同“使用VMware Workstation”。</p>
+<p>遇到的问题：<br>(1) 虚拟机分辨率太小，不足以全屏</p>
+<pre><code>- [How To Change Display Resolution On OS X (VirtualBox)](https://www.youtube.com/watch?v=0ws3gHc0k70) 
+</code></pre><p>具体的操作过程如下：<br><figure class="highlight cmd"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"># 进入VirtualBox的安装目录，我的是（C:\Program Files\Oracle\VirtualBox）</div><div class="line">&gt; <span class="built_in">cd</span> "C:\Program Files\Oracle\VirtualBox"</div><div class="line"></div><div class="line"># 以管理员权限运行<span class="built_in">CMD</span>，然后运行下面的命令</div><div class="line"># 参数说明</div><div class="line"># OSXElCapitan：虚拟机名称</div><div class="line"># N：Where N can be one of <span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span> referring to the <span class="number">640</span>*<span class="number">480</span>, <span class="number">800</span>*<span class="number">600</span>, <span class="number">1024</span>*<span class="number">768</span>, <span class="number">1280</span>*<span class="number">1024</span>, <span class="number">1440</span>*<span class="number">900</span>, <span class="number">1900</span>*<span class="number">1200</span></div><div class="line">&gt; VBoxManage setextradata "OSXElCapitan"  VBoxInternal2/EfiGopMode <span class="number">5</span></div><div class="line"></div><div class="line"># 完成设置时重启VirtualBox</div></pre></td></tr></table></figure></p>
+<h2 id="几款虚拟机软件截图对比"><a href="#几款虚拟机软件截图对比" class="headerlink" title="几款虚拟机软件截图对比"></a>几款虚拟机软件截图对比</h2><h4 id="VMware-Workstation"><a href="#VMware-Workstation" class="headerlink" title="VMware Workstation"></a>VMware Workstation</h4><p>VMware Workstation Play<br><img src="/images/virtual-machine-use-experience/1.png" title="VMware Workstation Play"></p>
+<p>VMware Workstation Pro<br><img src="/images/virtual-machine-use-experience/2.png" title="VMware Workstation Pro"></p>
+<h4 id="VirtualBox-1"><a href="#VirtualBox-1" class="headerlink" title="VirtualBox"></a>VirtualBox</h4><img src="/images/virtual-machine-use-experience/3.png" title="VirtualBox">
+<p>OS X<br><img src="/images/virtual-machine-use-experience/5.png" title="VirtualBox OS X"></p>
+<p>Ubuntu V3<br><img src="/images/virtual-machine-use-experience/6.png" title="VirtualBox Ubuntu V3"></p>
+<h4 id="Parallels-Desktop"><a href="#Parallels-Desktop" class="headerlink" title="Parallels Desktop"></a>Parallels Desktop</h4><img src="/images/virtual-machine-use-experience/4.png" title="Parallels Desktop">
+</div></article></div></main><footer><div class="paginator"><a href="/this-war-of-mine/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'tanchao90';
+var disqus_identifier = 'virtual-machine-use-experience/';
+var disqus_title = 'VMware、VirtualBox使用总结';
+var disqus_url = 'http://tanchao90.com/virtual-machine-use-experience/';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//tanchao90.disqus.com/count.js" async></script><div class="copyright"><p>© 2015 - 2017 <a href="http://tanchao90.com">TanChao</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-80568471-1",'auto');ga('send','pageview');</script></body></html>

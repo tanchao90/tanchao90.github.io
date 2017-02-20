@@ -1,0 +1,1333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>TanChao的博客</title>
+  <subtitle>一个程序猿的进化之路</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://tanchao90.com/"/>
+  <updated>2016-12-25T09:25:26.000Z</updated>
+  <id>http://tanchao90.com/</id>
+  
+  <author>
+    <name>TanChao</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>VMware、VirtualBox使用总结</title>
+    <link href="http://tanchao90.com/virtual-machine-use-experience/"/>
+    <id>http://tanchao90.com/virtual-machine-use-experience/</id>
+    <published>2016-12-25T09:25:26.000Z</published>
+    <updated>2016-12-25T09:25:26.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>说到虚拟机，我最开始使用的是 <strong>VMware Workstation</strong>（当然都是破解版），一用就是好多年；直到去年合作项目的需要，转而使用 <strong>VirtualBox</strong>，从此基本放弃了 <strong>VMware Workstation</strong>。</p>
+<a id="more"></a>
+<h2 id="虚拟机"><a href="#虚拟机" class="headerlink" title="虚拟机"></a>虚拟机</h2><h4 id="虚拟机介绍"><a href="#虚拟机介绍" class="headerlink" title="虚拟机介绍"></a>虚拟机介绍</h4><p>Wikipedia上<code>虚拟机</code>的定义是：“有效的、独立的真实机器的副本。”，结合到实际中就是用各种<code>虚拟机软件</code>创建不同的“虚拟机”；从使用层面来说，这些“虚拟机”和物理机没有什么区别，甚至比物理机更加灵活方便，可以随时修改硬件配置、网络参数等等。<br>下面几个文章是对虚拟机及其技术的简单介绍：</p>
+<ul>
+<li><a href="https://zh.wikipedia.org/wiki/%E8%99%9B%E6%93%AC%E6%A9%9F%E5%99%A8" target="_blank" rel="external">虚拟机-wikipedia</a></li>
+<li><a href="http://www.ibm.com/developerworks/cn/linux/l-linuxvirt/" target="_blank" rel="external">虚拟 Linux-虚拟化方法、架构和实现概述</a></li>
+<li><a href="https://www.zhihu.com/question/20848931" target="_blank" rel="external">虚拟机是怎么实现的？</a></li>
+</ul>
+<h4 id="虚拟机软件"><a href="#虚拟机软件" class="headerlink" title="虚拟机软件"></a>虚拟机软件</h4><p>我知道的虚拟机软件有下面三个（文章最后有它们的界面截图）：</p>
+<ul>
+<li><a href="http://www.vmware.com" target="_blank" rel="external">VMware</a>，支持<strong>Win</strong>、<strong>Mac</strong>、<strong>Linux</strong>，<strong>收费</strong><ul>
+<li><a href="http://www.vmware.com/cn/products/fusion.html" target="_blank" rel="external">Fusion for Mac</a>，<code>Fusion</code> VS <code>Fusion Pro</code></li>
+<li><a href="http://www.vmware.com/cn/products/workstation.html" target="_blank" rel="external">Workstation for Windows</a>，<code>Workstation Player</code> VS <code>Workstation Pro</code></li>
+<li><a href="http://www.vmware.com/cn/products/workstation-for-linux.html" target="_blank" rel="external">Workstation for Linux</a>，<code>Workstation Player</code> VS <code>Workstation Pro</code></li>
+</ul>
+</li>
+<li><a href="https://www.virtualbox.org/" target="_blank" rel="external">VirtualBox</a>，支持<strong>Win</strong>、<strong>Mac</strong>、<strong>Linux</strong>，<strong>免费</strong><ul>
+<li><a href="https://www.virtualbox.org/wiki/Downloads" target="_blank" rel="external">VirtualBox Downloads</a></li>
+</ul>
+</li>
+<li><a href="http://www.parallels.com/" target="_blank" rel="external">Parallels Desktop</a>，只支持<code>Mac</code>版本，收费</li>
+</ul>
+<p>它们各有特点，关于它们的对比和区别，可参考下面的文章：</p>
+<ul>
+<li><a href="http://www.orsoon.com/news/152449.html" target="_blank" rel="external">哪款虚拟机最好 ParallelsDesktop 10和VMware Fusion 7和VirtualBox 4对比分析</a>，基于Mac系统对比</li>
+<li><a href="http://www.crifan.com/virtual_machine_soft_choice_vmware_or_virtualbox_definitely_recommend_virtualbox/" target="_blank" rel="external">【整理】虚拟机的选择，VMWare还是VirtualBox – 绝对推荐VirtualBox</a></li>
+</ul>
+<h4 id="我的使用体验"><a href="#我的使用体验" class="headerlink" title="我的使用体验"></a>我的使用体验</h4><p>由于我只使用过其中的VMware和VirtualBox，所以只能说一下这两个软件的使用体验：</p>
+<ul>
+<li>VMware Workstation<ul>
+<li>功能强大、软件复杂</li>
+<li>收费（找破解版麻烦），虽然Play版本免费，但是功能缩水，而且所谓的“不能用于商业用途”</li>
+<li>非常耗资源</li>
+</ul>
+</li>
+<li>VirtualBox<ul>
+<li>简单易用</li>
+<li>完全免费</li>
+<li>节省资源，一台普通电脑开好几个Ubuntu虚拟机无压力</li>
+</ul>
+</li>
+</ul>
+<p>从长期的个人使用来看，对于一般的功能需求，两个都能满足，在没有特殊需求的情况下建议使用VirtualBox，免费又好用。</p>
+<h4 id="学习资料"><a href="#学习资料" class="headerlink" title="学习资料"></a>学习资料</h4><p>基本都是谷歌解决问题，查资料的过程中发现下面两个资料，看评价还不错，貌似值得一看：</p>
+<ul>
+<li><a href="http://edu.51cto.com/course/course_id-1059.html" target="_blank" rel="external">精通VMware10虚拟机视频课程</a></li>
+<li><a href="http://edu.51cto.com/course/course_id-2223.html" target="_blank" rel="external">VMware Workstation 10—虚拟化入门神器完全讲解视频课程</a></li>
+</ul>
+<h2 id="VirtualBox"><a href="#VirtualBox" class="headerlink" title="VirtualBox"></a>VirtualBox</h2><h4 id="基本功能"><a href="#基本功能" class="headerlink" title="基本功能"></a>基本功能</h4><ul>
+<li>导入、导出：方便虚拟机文件备份、分享</li>
+<li>注册：注册一个新的虚拟机目录，支持多个虚拟机在不同的路径，比如A虚拟机在D盘，B虚拟机在F盘，磁盘空间受限时非常有用处；</li>
+<li>修改虚拟机配置<ul>
+<li>内存</li>
+<li>CPU</li>
+<li>网络：NAT、桥接等</li>
+<li>修改存储：一个虚拟机可以切换不同的存储文件（.vmdk、.vdi），个人理解类似于一个物理机，可以插不同的启动盘启动</li>
+</ul>
+</li>
+</ul>
+<h4 id="一些参考文档"><a href="#一些参考文档" class="headerlink" title="一些参考文档"></a>一些参考文档</h4><ul>
+<li><a href="http://superuser.com/questions/360517/what-disk-image-should-i-use-with-virtualbox-vdi-vmdk-vhd-or-hdd" target="_blank" rel="external">What disk image should I use with VirtualBox, VDI, VMDK, VHD or HDD? </a> </li>
+<li><a href="https://nfolamp.wordpress.com/2010/06/10/converting-vmdk-files-to-vdi-using-vboxmanage/" target="_blank" rel="external">Converting vmdk files to vdi using VBoxManage</a></li>
+<li><a href="http://stackoverflow.com/questions/11659005/how-to-resize-a-virtualbox-vmdk-file" target="_blank" rel="external">How to resize a VirtualBox vmdk file</a></li>
+<li><a href="http://superuser.com/questions/811088/mkfs-the-device-apparently-does-not-exist-did-you-specify-it-correctly" target="_blank" rel="external">mkfs - The device apparently does not exist; did you specify it correctly?</a></li>
+</ul>
+<h4 id="虚拟机磁盘扩容"><a href="#虚拟机磁盘扩容" class="headerlink" title="虚拟机磁盘扩容"></a>虚拟机磁盘扩容</h4><p>虚拟机使用久了，或者开始创建的时候空间设置小了，在后期都可能遇到磁盘空间不足的问题，一般有下面三种方式处理该问题：</p>
+<ol>
+<li>重新创建一个大容量的虚拟机，环境都得从头搭起</li>
+<li>添加新的分区：根目录依旧还是那么大，基于根目录的操作依旧面临空间不足的限制<ul>
+<li><a href="http://blog.csdn.net/ouyang_peng/article/details/53261599" target="_blank" rel="external">VirtualBox如何扩展虚拟机Ubuntu的硬盘容量？</a>，添加新分区</li>
+<li>我的实践总结：<a href="https://gist.github.com/tanchao90/f85b5ffd140795fc11d1c8ec04b4100c" target="_blank" rel="external">github gist</a> </li>
+</ul>
+</li>
+<li>直接增加根目录分区的大小：<strong>完美扩容</strong><ul>
+<li><a href="http://imcczy.com/how-to-expand-the-root-filesystem-in-vmware.html" target="_blank" rel="external">VMware下扩展ubuntu虚拟机根目录分区</a>，扩展根目录分区 ☆☆☆☆</li>
+<li><a href="https://hexeract.wordpress.com/2012/04/30/how-to-expand-the-root-filesystem-of-a-11-10-ubuntu-running-inside-vmware-player/" target="_blank" rel="external">HOW TO EXPAND THE ROOT FILESYSTEM OF A 12.04 UBUNTU RUNNING INSIDE VMWARE PLAYER</a> 对应的英文原文</li>
+</ul>
+</li>
+</ol>
+<p>在下面的环境亲测上述2方案、3方案均ok：</p>
+<ul>
+<li>Windows 10</li>
+<li>VirtualBox 5.1.6 r110634 (Qt5.5.1)</li>
+<li>Ubuntu 16.04 LTS</li>
+</ul>
+<h2 id="创建Ubuntu虚拟机"><a href="#创建Ubuntu虚拟机" class="headerlink" title="创建Ubuntu虚拟机"></a>创建Ubuntu虚拟机</h2><p>这里我想写一下我基于VirtualBox创建和使用Ubuntu的方法，充分发挥虚拟机的优势，重复利用已有的虚拟机；</p>
+<h4 id="创建全新的虚拟机"><a href="#创建全新的虚拟机" class="headerlink" title="创建全新的虚拟机"></a>创建全新的虚拟机</h4><p>具体可参考网上的教程创建，非常简单，没遇到过什么问题；<br>建议：磁盘空间尽量设置大一点，避免后期扩容的痛苦；<br>该版本简称<code>V1</code>；</p>
+<h4 id="将虚拟机导出备份"><a href="#将虚拟机导出备份" class="headerlink" title="将虚拟机导出备份"></a>将虚拟机导出备份</h4><ul>
+<li>“管理”-&gt;“导出虚拟电脑”</li>
+<li>选择要导出的虚拟机</li>
+<li>选择导出目录</li>
+<li>其他默认即可</li>
+<li>即可导出<code>.ova</code>格式的虚拟机文件，用导入功能即可导入该虚拟机文件；</li>
+</ul>
+<h4 id="在V1的基础上安装软件，生成新的虚拟机版本"><a href="#在V1的基础上安装软件，生成新的虚拟机版本" class="headerlink" title="在V1的基础上安装软件，生成新的虚拟机版本"></a>在V1的基础上安装软件，生成新的虚拟机版本</h4><ul>
+<li>v2<ul>
+<li>vim</li>
+<li>ssh</li>
+<li>zsh</li>
+<li>wget</li>
+<li>curl</li>
+<li>git</li>
+<li>autojump</li>
+<li>Nodejs</li>
+<li>TDLR</li>
+</ul>
+</li>
+<li>v3<ul>
+<li>dos2unix</li>
+<li>pyenv</li>
+<li>pyenv-virtualenv</li>
+</ul>
+</li>
+</ul>
+<p>对于上述每一个版本的虚拟机都可以导出备份，后期可以从任何一个版本开始搭建新的开发环境，省去了搭建基础环境的过程，而且可以快速的分享给Team里面其他人，避免多次搭建环境的麻烦；<br>也可以用Docker完成类似的工作，但是个人感觉开发更使用虚拟机。</p>
+<h2 id="创建OS-X（现在的macOS）虚拟机"><a href="#创建OS-X（现在的macOS）虚拟机" class="headerlink" title="创建OS X（现在的macOS）虚拟机"></a>创建OS X（现在的macOS）虚拟机</h2><p><strong>注：</strong>以下实验都是在Windows上完成的；</p>
+<h4 id="我的物理机参数"><a href="#我的物理机参数" class="headerlink" title="我的物理机参数"></a>我的物理机参数</h4><p>以下是鲁大师检测的参数，外加一个1T的普通硬盘：</p>
+<ul>
+<li>电脑型号 <code>技嘉 B85-HD3 台式电脑</code></li>
+<li>操作系统 <code>Windows 10 Enterprise 64位 ( DirectX 12 )</code></li>
+<li>处理器 <code>英特尔 第四代酷睿 i5-4590 @ 3.30GHz 四核</code></li>
+<li>主板 <code>技嘉 B85-HD3 ( 英特尔 Haswell - Lynx Point )</code></li>
+<li>内存 <code>16 GB ( 金士顿 DDR3 1600MHz )</code></li>
+<li>主硬盘 <code>三星 SSD 850 EVO 250GB ( 250 GB / 固态硬盘 )</code></li>
+<li>显卡 <code>Nvidia GeForce GTX 750 ( 2 GB / Nvidia )</code></li>
+<li>显示器 <code>戴尔 DEL4091 DELL E2414H ( 24 英寸  )</code></li>
+<li>声卡 <code>瑞昱 ALC892 @ 英特尔 Lynx Point  高保真音频</code></li>
+<li>网卡 <code>瑞昱 RTL8168/8111/8112 Gigabit Ethernet Controller / 技嘉</code></li>
+</ul>
+<h4 id="我的建议"><a href="#我的建议" class="headerlink" title="我的建议"></a>我的建议</h4><p>在上述硬件环境下，使用VMware Workstation和VirtualBox我均搭建过OS X虚拟机，实际的体检都很差，特别卡，所以我建议：</p>
+<ul>
+<li>直接购买Mac系列产品；</li>
+<li>直接裸机装苹果系统，俗称<strong>黑苹果</strong>；</li>
+</ul>
+<h4 id="使用VMware-Workstation"><a href="#使用VMware-Workstation" class="headerlink" title="使用VMware Workstation"></a>使用VMware Workstation</h4><ul>
+<li><a href="http://bbs.feng.com/read-htm-tid-10389424.html" target="_blank" rel="external">OS X 10.11.4 15E65 原版安装U盘镜像（百度云分享）</a><ul>
+<li><a href="http://pan.baidu.com/s/1i4PbPGx" target="_blank" rel="external">OS X Yosemite</a>，密码：<code>eqjm</code>，内含<code>unlocker203.zip</code>、<code>darwin6.0.3.zip</code>；</li>
+<li><a href="http://pan.baidu.com/s/1cafzJo" target="_blank" rel="external">OS X El Capitan</a>，密码：<code>tjpi</code>；</li>
+</ul>
+</li>
+<li><a href="http://jingyan.baidu.com/article/ff411625b9011212e48237b4.html" target="_blank" rel="external">VMware 11安装Mac OS X 10.10</a></li>
+</ul>
+<p>遇到的问题：</p>
+<ul>
+<li>不能验证这个“安装 OS X El Capitan”应用程序副本。它在下载过程中可能已遭破坏或篡改。<ul>
+<li>解决办法是修改系统时间到15年：<code>sudo date 122501112015.20</code></li>
+<li><a href="https://discussionschinese.apple.com/thread/77105" target="_blank" rel="external">问:不能验证这个“安装 OS X El Capitan”应用程序副本。它在下载过程中可能已遭破坏</a></li>
+<li><a href="http://tieba.baidu.com/p/4186921833" target="_blank" rel="external">求助大神 不能验证 安装OS X Ei Capitan</a></li>
+</ul>
+</li>
+</ul>
+<h4 id="使用VirtualBox"><a href="#使用VirtualBox" class="headerlink" title="使用VirtualBox"></a>使用VirtualBox</h4><ul>
+<li><a href="http://bbs.feng.com/read-htm-tid-9908410.html" target="_blank" rel="external">[APP开发] 在 Win 7或8 下使用 VirtualBOX 虚拟机安装 OS X 10.11 El Capitan 及 Xcode 7.0 </a></li>
+<li><a href="http://ibiji.org/post/26.html" target="_blank" rel="external">VirtualBox安装OS X El Capitan笔记</a></li>
+</ul>
+<p>安装方式更简单，源文件获取方式同“使用VMware Workstation”。</p>
+<p>遇到的问题：<br>(1) 虚拟机分辨率太小，不足以全屏</p>
+<pre><code>- [How To Change Display Resolution On OS X (VirtualBox)](https://www.youtube.com/watch?v=0ws3gHc0k70) 
+</code></pre><p>具体的操作过程如下：<br><figure class="highlight cmd"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"># 进入VirtualBox的安装目录，我的是（C:\Program Files\Oracle\VirtualBox）</div><div class="line">&gt; <span class="built_in">cd</span> "C:\Program Files\Oracle\VirtualBox"</div><div class="line"></div><div class="line"># 以管理员权限运行<span class="built_in">CMD</span>，然后运行下面的命令</div><div class="line"># 参数说明</div><div class="line"># OSXElCapitan：虚拟机名称</div><div class="line"># N：Where N can be one of <span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span> referring to the <span class="number">640</span>*<span class="number">480</span>, <span class="number">800</span>*<span class="number">600</span>, <span class="number">1024</span>*<span class="number">768</span>, <span class="number">1280</span>*<span class="number">1024</span>, <span class="number">1440</span>*<span class="number">900</span>, <span class="number">1900</span>*<span class="number">1200</span></div><div class="line">&gt; VBoxManage setextradata "OSXElCapitan"  VBoxInternal2/EfiGopMode <span class="number">5</span></div><div class="line"></div><div class="line"># 完成设置时重启VirtualBox</div></pre></td></tr></table></figure></p>
+<h2 id="几款虚拟机软件截图对比"><a href="#几款虚拟机软件截图对比" class="headerlink" title="几款虚拟机软件截图对比"></a>几款虚拟机软件截图对比</h2><h4 id="VMware-Workstation"><a href="#VMware-Workstation" class="headerlink" title="VMware Workstation"></a>VMware Workstation</h4><p>VMware Workstation Play<br><img src="/images/virtual-machine-use-experience/1.png" title="VMware Workstation Play"></p>
+<p>VMware Workstation Pro<br><img src="/images/virtual-machine-use-experience/2.png" title="VMware Workstation Pro"></p>
+<h4 id="VirtualBox-1"><a href="#VirtualBox-1" class="headerlink" title="VirtualBox"></a>VirtualBox</h4><img src="/images/virtual-machine-use-experience/3.png" title="VirtualBox">
+<p>OS X<br><img src="/images/virtual-machine-use-experience/5.png" title="VirtualBox OS X"></p>
+<p>Ubuntu V3<br><img src="/images/virtual-machine-use-experience/6.png" title="VirtualBox Ubuntu V3"></p>
+<h4 id="Parallels-Desktop"><a href="#Parallels-Desktop" class="headerlink" title="Parallels Desktop"></a>Parallels Desktop</h4><img src="/images/virtual-machine-use-experience/4.png" title="Parallels Desktop">
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;说到虚拟机，我最开始使用的是 &lt;strong&gt;VMware Workstation&lt;/strong&gt;（当然都是破解版），一用就是好多年；直到去年合作项目的需要，转而使用 &lt;strong&gt;VirtualBox&lt;/strong&gt;，从此基本放弃了 &lt;strong&gt;VMware Workstation&lt;/strong&gt;。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Tools" scheme="http://tanchao90.com/categories/Tools/"/>
+    
+    
+      <category term="Tools" scheme="http://tanchao90.com/tags/Tools/"/>
+    
+      <category term="VMware Workstation" scheme="http://tanchao90.com/tags/VMware-Workstation/"/>
+    
+      <category term="VirtualBox" scheme="http://tanchao90.com/tags/VirtualBox/"/>
+    
+      <category term="OS X" scheme="http://tanchao90.com/tags/OS-X/"/>
+    
+      <category term="macOS" scheme="http://tanchao90.com/tags/macOS/"/>
+    
+      <category term="Ubuntu" scheme="http://tanchao90.com/tags/Ubuntu/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>《THIS WAR OF MINE》（这是我的战争）</title>
+    <link href="http://tanchao90.com/this-war-of-mine/"/>
+    <id>http://tanchao90.com/this-war-of-mine/</id>
+    <published>2016-12-19T12:39:14.000Z</published>
+    <updated>2016-12-25T07:33:22.000Z</updated>
+    
+    <content type="html"><![CDATA[<img src="/images/this-war-of-mine/0.jpg" title="游戏开始画面">
+<a id="more"></a>
+<img src="/images/this-war-of-mine/00.jpg" title="游戏开始画面">
+<p>上面两张图是游戏开始画面，由于手机拍不全，所以左右两边各半张；画面中间不断的冒着浓烟，右边是一个大人带着小孩的背影，旁边写着 “Fuck the War！”，有强烈的氛围感！</p>
+<h2 id="为什么玩这个游戏？"><a href="#为什么玩这个游戏？" class="headerlink" title="为什么玩这个游戏？"></a>为什么玩这个游戏？</h2><p>11月20几号的某一天，在“TGP腾讯游戏平台”中看到了《THIS WAR OF MINE》，当时优惠价14元（原价68），禁不住诱惑，并且感觉画风挺不错，就了解了一下，结果发现知乎（<a href="https://www.zhihu.com/question/26834036" target="_blank" rel="external">如何评价 This War of Mine （这是我的战争）这款游戏？</a>）、<a href="http://store.steampowered.com/app/282070/" target="_blank" rel="external">Steam</a> 上都是超高评价，果断剁手一个，走上一条战争年代的求生路！</p>
+<p>游戏介绍视频配音很赞，背景音乐是 <a href="http://music.163.com/#/m/song?id=26587845&amp;userid=33671420" target="_blank" rel="external">Zegarmistrz Swiatla</a>。</p>
+<h2 id="我的生存经历"><a href="#我的生存经历" class="headerlink" title="我的生存经历"></a>我的生存经历</h2><p>旁边同事刚好是这个游戏的老司机，在他的指导下断断续续玩了一周多，基本熟悉了游戏，其中有一次坚持到了40天，只剩下一个女的活着，当时广播说战争快要结束了，而且我的物资很充沛，完全可以每天待在家里过日子，然后我还是勇（作）敢（死）的去了危险的地方偷东西，结果不意外，被打死了（-^-），未能活下来！</p>
+<p>12月4号（星期日）来公司想着争取用一个完整的时间通关一次，最终还是坚持到战争结束了。从下午两点多玩到晚上十一点多，牺牲了两三把，终于在最后一把坚持到战争结束了，而且物资充沛、人物状态也比较好，45天之后战争结束！</p>
+<p>PS:中间除过上厕所就没动过，晚饭就吃了一包零食，根本感觉不到饿(中毒不浅)，十一点多结束之后，去公司食堂吃了一个夜宵，开心的回家了！</p>
+<h2 id="关于游戏"><a href="#关于游戏" class="headerlink" title="关于游戏"></a>关于游戏</h2><ul>
+<li>真心的好游戏，虽然游戏内容不多，但是好多细节和氛围都到位了，很有代入感，几个小时一下子就过去了；</li>
+<li>厨师不会弹吉他，还不如士兵；</li>
+<li>当被交谈的人躺在床上时，别人走过去和他交谈时，有个翻转的动作很逗，感觉是bug；</li>
+</ul>
+<h2 id="一些Tips"><a href="#一些Tips" class="headerlink" title="一些Tips"></a>一些Tips</h2><ul>
+<li>及时安慰、聊天，否则失落、悲伤很容易发展成奔溃，后果很严重；在我通关的这次，大量的时间用于互相安慰、聊天了；</li>
+<li>尽量不要去攻击、杀害npc，否则自己和小伙伴又该失落、悲伤，甚至奔溃了；而且容易被打伤，既要吃药、包扎伤口，还得休息，总之伤身又伤心！</li>
+<li>尽量不要明着去偷东西，很大概率会被打残或者打死，而且对最后的结局也有影响；</li>
+<li>npc的提示得注意，尤其“从这里滚开”、“出去”之类的话，一定得听，否则就是被揍，俗话说：“留得青山在不愁没柴烧”，下次再找机会喽；</li>
+<li>床、金属工作台、灶台、集水器、捕鼠器、火炉得尽量早的造出来，并升级到最高级，床和捕鼠器最好各两个，其他的一个足矣；酿酒器、草药工作台等物品看情况，有材料的时候可以造；</li>
+<li>食物、水得规划好，尽量“非常饥饿”的时候再吃东西，尽量吃做好的饭或者罐头，胡萝卜一次可做两碗饭，比较划算；</li>
+<li>武器很重要，可以防卫，也可以拿出去杀人；后期我拥有好几把枪、头盔、子弹、防弹衣等，晚上在家的人就可以自卫，基本没有被抢走东西过；</li>
+<li>药品得储备一些，受伤、生病的时候必须有；</li>
+<li>可以用一张纸辅助探索，记录每个场景有什么，需要带什么工具过去（比如开锁器、钢锯等），这样子伴随着探索的场景变多之后也不会乱，做到高效、有计划的探（苟）索（且）；</li>
+<li>战争年代活下来是最主要的！</li>
+</ul>
+<h2 id="剧情概要及结局"><a href="#剧情概要及结局" class="headerlink" title="剧情概要及结局"></a>剧情概要及结局</h2><p>游戏通关之后，会有一个故事回顾和人物结局，我的故事和结局如下：</p>
+<ul>
+<li>倒数第三张是 <code>人物结局</code>；</li>
+<li>倒数第二张是我 <code>通关手册</code>；</li>
+<li>最后一张是我的美味夜宵，面包+油泼面，色香味俱全^-^！</li>
+</ul>
+<img src="/images/this-war-of-mine/1.jpg" title="剧情概要">
+<img src="/images/this-war-of-mine/2.jpg" title="剧情概要">
+<img src="/images/this-war-of-mine/3.jpg" title="剧情概要">
+<img src="/images/this-war-of-mine/4.jpg" title="剧情概要">
+<img src="/images/this-war-of-mine/5.jpg" title="剧情概要">
+<img src="/images/this-war-of-mine/6.jpg" title="剧情概要">
+<img src="/images/this-war-of-mine/7.jpg" title="剧情概要">
+<img src="/images/this-war-of-mine/8.jpg" title="剧情概要">
+<img src="/images/this-war-of-mine/9.jpg" title="剧情概要">
+<img src="/images/this-war-of-mine/10.jpg" title="剧情概要">
+<img src="/images/this-war-of-mine/11.jpg" title="剧情概要">
+<img src="/images/this-war-of-mine/12.jpg" title="剧情概要">
+<img src="/images/this-war-of-mine/13.jpg" title="人物结局">
+<img src="/images/this-war-of-mine/14.jpg" title="我的通关手册">
+<img src="/images/this-war-of-mine/15.jpg" title="我的美味夜宵">
+<h2 id="Fuck-the-War！"><a href="#Fuck-the-War！" class="headerlink" title="Fuck the War！"></a>Fuck the War！</h2>]]></content>
+    
+    <summary type="html">
+    
+      &lt;img src=&quot;/images/this-war-of-mine/0.jpg&quot; title=&quot;游戏开始画面&quot;&gt;
+    
+    </summary>
+    
+      <category term="Game" scheme="http://tanchao90.com/categories/Game/"/>
+    
+    
+      <category term="Game" scheme="http://tanchao90.com/tags/Game/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2016 NBA中国赛——火箭VS鹈鹕 上海站</title>
+    <link href="http://tanchao90.com/2016-nba-china-game-shanghai/"/>
+    <id>http://tanchao90.com/2016-nba-china-game-shanghai/</id>
+    <published>2016-10-24T15:33:10.000Z</published>
+    <updated>2017-02-15T15:22:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>第一次去现场看 NBA，虽然是在中国，但还是挺值得怀念的，毕竟第一次！！！</p>
+<h2 id="比赛信息"><a href="#比赛信息" class="headerlink" title="比赛信息"></a>比赛信息</h2><p>赛事：2016 NBA中国赛——火箭VS鹈鹕 上海站</p>
+<ul>
+<li>时间：2016-10-9 19:00</li>
+<li>地址：上海梅赛德斯-奔驰文化中心</li>
+<li>座位：看台525、512区域各一张，进去之后找空位坐到了一个区域</li>
+<li>买票：在虎扑上找 jrs 买的，每张比原价贵了50</li>
+</ul>
+<a id="more"></a>
+<img src="/images/2016-nba-china-game-shanghai/0.jpg" title="门票">
+<h2 id="我的篮球故事"><a href="#我的篮球故事" class="headerlink" title="我的篮球故事"></a>我的篮球故事</h2><h4 id="初中"><a href="#初中" class="headerlink" title="初中"></a>初中</h4><p>初中那会，上体育课男生一般会打篮球、乒乓球，而我那时候身材太小，没人带着打篮球（-^-），所以只能看别人玩…</p>
+<p>然而某一天上课之后，我在场的一边呆着，一个胖子同学在场的另一边，当他将球扔过全场的时候，我积（冲）极（动）的跑过去接，连胳膊、手腕都不带弯的，结果可想而知：手腕扭伤了；回家还不敢告诉爸妈，但异常的肢体反应还是被他们发现了，就这样恢复了好几个月。后来接触篮球多了才明白，当时应该用手腕和胳膊弯曲做缓冲的，真是 Too young too naive！</p>
+<p>这就是我关于篮球最早的记忆。</p>
+<h4 id="高中"><a href="#高中" class="headerlink" title="高中"></a>高中</h4><p>上高中之后，体育课偶尔会跟着大家玩玩篮球，但是玩的不多，三年下来，水平连入门都谈不上，但对篮球有了比较大的兴趣；总的来说，关于篮球在高中没什么特别的记忆。</p>
+<p>PS：从高一到高三，尤其高二之后，我个子长了不少，直接突破了175，目前差不多179的样子；较多接触篮球基本是在个子长高之后#-#！</p>
+<h4 id="大学"><a href="#大学" class="headerlink" title="大学"></a>大学</h4><p>日子很慢，时间很快，8年前（2008）的夏末秋初，父亲送我来到东营这座城市，从此开始了上大学的生活。</p>
+<p>入学第一件事就是军训，那是一段艰苦又美好的日子，连长教我们唱<a href="http://music.163.com/#/m/song?id=29023808&amp;userid=33671420" target="_blank" rel="external">《当你的秀发拂过我的钢枪》</a>的画面就像在昨天；</p>
+<p>那年中秋（2008.9.14）刚好在军训期间，这一天学校安排我们进行 20KM 的徒步拉练；凌晨三点多我们从学校出发，路灯点缀着黑夜，我们穿梭在城市的街道，大约早晨八九点钟的时候再次回到学校，记忆中当时大家并没有喊累，反而有点激情高涨；</p>
+<p>军训的最后一天，例行大阅兵，经历了最难忘的一天；记忆中那天中午开始，天空就布满了乌云，下午当我们刚列好阵列，整备接下来的阅兵仪式时，天空下起了雨，雨越下越大，然后领导决定省掉一些环节，尽量压缩阅兵时间；队伍环操场步行一圈之后，依次列开，校长开始检阅；当我们的山红红校长（女）走下主席台，进入倾盆大雨的操场时，工作人员在身后为她撑起了一把伞，可就在撑起的一瞬间，山校长让他们离开了；此时，山校长和我们一起站在雨中，雨滴打在我们每一个人的脸上，焕发出了大家更大的热情，操场不断响起了：“同志们好”-“首长好”、“同志们辛苦了”-“为人民服务”，在这嘹亮的口号中，校长依次走过每一个阵列，检阅着每一个人，今天我们既是军人、又是学生；最后，在一声“解散”之后，大家开始奔向自己的宿舍，此时操场的积水已经可以淹没鞋底了，水花在奔跑的人群中四处飞舞，像是在给大家鼓掌；</p>
+<p>回到宿舍之后，宿舍6个人拍了一张照，至今还留在我的电脑里。<br><img src="/images/2016-nba-china-game-shanghai/1.jpg" title="211宿舍的6个少年"></p>
+<p>下面是雨中的山校长！<br><img src="/images/2016-nba-china-game-shanghai/2.jpg" title="雨中的山校长"></p>
+<p>这一天是难忘的、是激动的，当时从内心深处发出了强烈的感叹：“能来这里上学太对了，这是一个不一样的地方！”</p>
+<p>咳咳，感觉写成了小说的感觉，回归主题，通过军训的日子，宿舍、隔壁宿舍、班级同学都有了基本的认识和了解，这里面就包括以后的篮球兄弟，在他们的带领下我正真开始了打篮球的日子。</p>
+<h4 id="23、24、12-三人组"><a href="#23、24、12-三人组" class="headerlink" title="23、24、12 三人组"></a>23、24、12 三人组</h4><p>入学后的某一天，老姜、老潘、鑫哥和我四人去定制球衣，每个人选了一个号码，老姜23号（小皇帝）、老潘24号（科比）、鑫哥99号（不知道是谁），他们帮我选了12号（魔兽），从此我被成为了一个魔兽球迷！！！从 <strong>魔术-&gt;湖人-&gt;火箭-&gt;老鹰</strong> 一路看过来。</p>
+<p>记得有了球衣之后，鑫哥只打了几次，剩下的日子基本都是老姜、老潘带着我玩，一起玩的还有小弟、西毒、运政等；就这样从东营打到青岛，一直到本科毕业，然后各奔东西；曾经的场地、岁月永远留在了内心深处。<br><img src="/images/2016-nba-china-game-shanghai/3.jpg" title="XX"></p>
+<p>本科四年，我从不会打球到会打球，从一个人到一帮兄弟，从一张白纸到一个程序员，这是最值得怀念的四年，感谢遇到的每个人。</p>
+<h2 id="NBA-中国赛"><a href="#NBA-中国赛" class="headerlink" title="NBA 中国赛"></a>NBA 中国赛</h2><p>今年由于时间、地点都比较方便，就拉着小白一起去现场看了，也算是满足一下自己的小心愿。</p>
+<p><strong>PS：</strong>我十一回了一趟家里，比赛的前一晚还在西安，当时吃饭吃坏肚子了，上吐下泻，都快拉虚脱了，由于比赛、上班都没法请假了，所以硬扛着坐火车去了上海，在<code>口服补液盐</code>、<code>氧佛沙星胶囊</code>的帮助下总算恢复过来了，当时有点死里逃生的感觉。对于拉肚子如下雨的情况，强烈推荐<code>口服补液盐</code>，能很快的帮助身体恢复，补充水分和能量。</p>
+<p>现场最大的感受是气氛比较好；还有现场和电视里面看直播的感觉不一样，虽然买的座位比较远，但是场上的全局感会更强烈；此外，当时还建立了一个微信群，从火箭区拉了不少人，现在群里还有五六十人，平时大家在里面侃球、扯淡，也挺有意思。其他也没特别的感受，看看后面的照片吧。</p>
+<h4 id="球场外"><a href="#球场外" class="headerlink" title="球场外"></a>球场外</h4><p>我大概下午两点多到达<code>梅赛德斯-奔驰文化中心</code>，当时天气还不错，就在周边逛了一下，拍了下面的照片，其中场馆很漂亮！</p>
+<img src="/images/2016-nba-china-game-shanghai/6.jpg" title="场外Adidas的广告，帅">
+<img src="/images/2016-nba-china-game-shanghai/7.jpg" title="场馆下面的比赛海报">
+<img src="/images/2016-nba-china-game-shanghai/8.jpg" title="Adidas球衣">
+<img src="/images/2016-nba-china-game-shanghai/9.jpg" title="球衣模特">
+<img src="/images/2016-nba-china-game-shanghai/10.jpg" title="球衣模特">
+<img src="/images/2016-nba-china-game-shanghai/11.jpg" title="梅赛德斯-奔驰文化中心">
+<img src="/images/2016-nba-china-game-shanghai/12.jpg" title="黄浦江边的风景">
+<img src="/images/2016-nba-china-game-shanghai/13.jpg" title="球馆旁边的建筑">
+<img src="/images/2016-nba-china-game-shanghai/14.jpg" title="梅赛德斯-奔驰文化中心全景">
+<img src="/images/2016-nba-china-game-shanghai/15.jpg" title="登哥的球迷">
+<img src="/images/2016-nba-china-game-shanghai/16.jpg" title="梅赛德斯-奔驰文化中心夜景">
+<img src="/images/2016-nba-china-game-shanghai/17.jpg" title="梅赛德斯-奔驰文化中心夜景">
+<h4 id="球场内"><a href="#球场内" class="headerlink" title="球场内"></a>球场内</h4><p>六点多我和小白入场，进去之后我们直奔一个区域，本来是准备找人换座位的，结果发现有空位，意外的惊喜，然后就找空位坐在一起看了一晚。</p>
+<img src="/images/2016-nba-china-game-shanghai/18.jpg" title="赛前热身">
+<img src="/images/2016-nba-china-game-shanghai/19.jpg" title="赛前热身">
+<img src="/images/2016-nba-china-game-shanghai/20.jpg" title="球员介绍">
+<img src="/images/2016-nba-china-game-shanghai/21.jpg" title="跳球">
+<img src="/images/2016-nba-china-game-shanghai/22.jpg" title="火箭发边线球">
+<img src="/images/2016-nba-china-game-shanghai/23.jpg" title="暂停">
+<h4 id="赛后"><a href="#赛后" class="headerlink" title="赛后"></a>赛后</h4><p>由于我第二天要上班，所以买了连夜回去的火车票。比赛十点多结束后，我和小白各回各家，我也是运气好，坐上了最后一班去上海南站的地铁，在南站还碰到了一起回浙江方向的球迷。</p>
+<img src="/images/2016-nba-china-game-shanghai/24.jpg" title="上海南站遇到的登哥球迷">
+<img src="/images/2016-nba-china-game-shanghai/25.jpg" title="上海南站候车室">
+<h2 id="CBA"><a href="#CBA" class="headerlink" title="CBA"></a>CBA</h2><p>2015年12月18日，和方神以及他的两个同学去<code>杭州·广厦体育馆</code>看了<code>浙江广厦控股</code>VS<code>福建泉州银行</code>的比赛，这是第一次去现场看篮球比赛，还挺兴奋的。</p>
+<img src="/images/2016-nba-china-game-shanghai/26.jpg" title="球票">
+<img src="/images/2016-nba-china-game-shanghai/27.jpg" title="罚球">
+<img src="/images/2016-nba-china-game-shanghai/28.jpg" title="球馆上空的球员介绍">
+<img src="/images/2016-nba-china-game-shanghai/29.jpg" title="中场表演，小学生朗诵">
+<img src="/images/2016-nba-china-game-shanghai/30.jpg" title="下半场开始前的热身">
+<p>记忆中当时的感受大概有下面几个：</p>
+<ul>
+<li>场馆有点小，硬件设施很一般</li>
+<li>外援水平确实高</li>
+<li>林志杰比大陆球员水平高不少</li>
+<li>球场活动比较没劲，氛围一般</li>
+</ul>
+<p>记得去年公司举行秋季运动会的时候，还和方神约好一起报名参加今年公司秋季运动会的篮球赛，可计划不如变化，今年三月份方神就跳槽走了；从那以后我把周内打球改到了周末打球，基本坚持每周一次，每次去都能碰到常打的同事，大家慢慢成了球场的熟悉人！</p>
+<h2 id="畅想"><a href="#畅想" class="headerlink" title="畅想"></a>畅想</h2><p>除过篮球，平时也没什么特别的爱好，希望能将每周一次的篮球运动坚持下去！</p>
+<p>希望未来有机会去美帝看看，感受一下他们的生活，再去NBA现场看一次比赛！</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;第一次去现场看 NBA，虽然是在中国，但还是挺值得怀念的，毕竟第一次！！！&lt;/p&gt;
+&lt;h2 id=&quot;比赛信息&quot;&gt;&lt;a href=&quot;#比赛信息&quot; class=&quot;headerlink&quot; title=&quot;比赛信息&quot;&gt;&lt;/a&gt;比赛信息&lt;/h2&gt;&lt;p&gt;赛事：2016 NBA中国赛——火箭VS鹈鹕 上海站&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;时间：2016-10-9 19:00&lt;/li&gt;
+&lt;li&gt;地址：上海梅赛德斯-奔驰文化中心&lt;/li&gt;
+&lt;li&gt;座位：看台525、512区域各一张，进去之后找空位坐到了一个区域&lt;/li&gt;
+&lt;li&gt;买票：在虎扑上找 jrs 买的，每张比原价贵了50&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="Life" scheme="http://tanchao90.com/categories/Life/"/>
+    
+    
+      <category term="Life" scheme="http://tanchao90.com/tags/Life/"/>
+    
+      <category term="Basketball" scheme="http://tanchao90.com/tags/Basketball/"/>
+    
+      <category term="NBA" scheme="http://tanchao90.com/tags/NBA/"/>
+    
+      <category term="CBA" scheme="http://tanchao90.com/tags/CBA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>G20 黄山、千岛湖四日游</title>
+    <link href="http://tanchao90.com/g20-huangshan/"/>
+    <id>http://tanchao90.com/g20-huangshan/</id>
+    <published>2016-10-15T02:00:00.000Z</published>
+    <updated>2016-10-15T02:00:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>奇峰云海峥嵘，苍松破壁挺立。<br>观止三都景色，无愧名山第一！</p>
+<footer><strong>《咏黄山》 周扬</strong><cite><a href="http://www.zbyw.cn/gushi/huangshan.html/" target="_blank" rel="external">描写黄山的诗句</a></cite></footer></blockquote>
+<p>一次说走就走的旅行，计划近乎没有，但旅途顺利、惊喜不断，玩得很爽！</p>
+<a id="more"></a>
+<h2 id="说走就走"><a href="#说走就走" class="headerlink" title="说走就走"></a>说走就走</h2><p>在杭州召开 G20 之际，为了响应“办好 G20，当（赶）好（走）东道主”的政府号召，公司放假两天，加上周末刚好四天假期，所以准备去周边玩一次。</p>
+<p>由于黄山免门票，而且离杭州不远，很顺利的被选为了此次出行的目的地，于是说走就走，在基本无规划的情况下完成了一次比较完美的旅行^-^。</p>
+<p>我是拉着我们组的一个同事去的，在计划不足、准备不充分的情况下，走了一路，惊喜了一路。</p>
+<p>在去的路上还遇到了项目组的另外一个同事和他的小伙伴（<code>惊喜1</code>），到高铁站之后，我俩跟着他们的路线一直走到了云谷寺，然后他们选择坐缆车上山，我们步行上山；当时他们给了我俩一个地图（电子版），在后面的登山中起了很大的帮助，非常感谢。</p>
+<p><strong>PS：</strong>可能很多人都是基于上面的想法，所以当天来黄山的游客绝大多数来自杭州，并且当天黄山上的游客数量竟然达到了景区的最大容量，不得不感叹中国人真是多！</p>
+<h2 id="行程安排"><a href="#行程安排" class="headerlink" title="行程安排"></a>行程安排</h2><p>由于我们在放假前几天才计划了这次出行，所以一切都是匆忙的，没有详细的游玩路线，只是大概规划了此次的主要方向和时间安排，甚至去的火车票都是临时抢到的，下面是最终游玩的路线和安排。</p>
+<p>PS：在下面所有的步行阶段，我俩的速度相对比较快，所以用时比较短，大家可适当放宽时间，比如可以增加到1.5倍。</p>
+<h4 id="Day1-9-2"><a href="#Day1-9-2" class="headerlink" title="Day1 - 9.2"></a>Day1 - 9.2</h4><ul>
+<li><code>杭州东 -&gt; 黄山北站</code> 坐高铁G1509（09:49-13:15），到站之后去旁边的汽车站买票（包括景区大巴的票）乘车</li>
+<li><code>黄山北站 -&gt; 汤口镇-黄山风景区换乘中心</code> 坐大巴</li>
+<li><code>汤口镇-黄山风景区换乘中心 -&gt; 云谷寺</code> 坐景区大巴</li>
+<li><code>云谷寺 -&gt; 仙人翻桌 -&gt; 仙人指路 -&gt; 白鹅岭 -&gt; 北海宾馆</code> 步行，在云谷寺吃了晚饭（泡面+烤肠）后步行上山，也可以乘坐缆车；我俩爬山的速度可谓是飞快，一路赶超别人，五点多开始，七八点就到达北海饭店了</li>
+<li><code>北海宾馆 夜宿帐篷</code> 去之前我们没有订到房间和帐篷，做好了在外面露宿一晚的准备，幸运的是晚上我们在酒店大堂休息的时候，一个工作人员拿出了私人帐篷租给了我们（<code>惊喜2</code>），真是两全其美，他赚了钱，我们睡了觉！！</li>
+</ul>
+<h4 id="Day2-9-3"><a href="#Day2-9-3" class="headerlink" title="Day2 - 9.3"></a>Day2 - 9.3</h4><ul>
+<li><code>北海宾馆 -&gt; 光明顶</code> 步行，大概早上三四点起床，直奔光明顶看日出</li>
+<li><code>光明顶 -&gt; 白云宾馆</code> 步行，在白云宾馆吃了早餐（粥、咸菜、馒头），感觉挺好吃，一下就满血复活了</li>
+<li><code>白云宾馆 -&gt; 海心亭</code> 步行，到达海心亭之后，我两觉得体力充足，没必要现在就去看迎客松、下山，于是有了西海大峡谷之行</li>
+<li><code>海心亭 -&gt; 卧石披云 -&gt; 步仙桥 -&gt; 三溪口 -&gt; 西海大峡谷观光缆车排云溪站</code> 步行，这一路道路险峻，游客稀少，但风景非常漂亮、壮观，这在其他地方是看不到的，非常值得走一趟（<code>惊喜3</code>）</li>
+<li><code>西海大峡谷观光缆车排云溪站 -&gt; 西海大峡谷观光缆车天海站 -&gt; 白云宾馆</code> 坐缆车上山，回到山顶，上来之后发现还是在白云宾馆附近；此时大概是上午九十点，也就是说西海大峡谷一趟大概花了三个小时左右</li>
+<li><code>白云宾馆 -&gt; 海心亭 -&gt; 鳌鱼洞 -&gt; 百步云梯 -&gt; 迎客松</code> 步行，这一路人巨多，不长的路却走了好久；到达迎客松大概是中午，逛了逛，拍了点照片，随便吃了点东西就动身下山了</li>
+<li><code>迎客松 -&gt; 玉屏索道 -&gt; 慈光阁</code> 坐玉屏索道下山</li>
+<li><code>慈光阁 -&gt; 汤口镇-黄山风景区换乘中心</code> 坐大巴，到达汤口镇大概是下午两点左右的样子</li>
+<li><code>汤口镇-黄山风景区换乘中心 -&gt; 宏村</code> 打车，原计划是要在宏村住一晚的，到了之后发现宏村没啥玩的，半小时足够逛完，就去酒店退了房间，准备直奔千岛湖；在宏村游玩等待的时间大概是一个多小时，四五点的时候打到了去黄山市的车（最后直接去了深渡港）</li>
+<li><code>宏村 -&gt; 深渡港</code> 打车，本来想直接打顺风车去千岛湖，无奈打不到，最后决定先回黄山市，第二天去千岛湖；和我们一车回黄山市的其他三个人听说我们要去千岛湖玩的时候，也想一起去（<code>惊喜4</code>）；司机师傅听到我们的计划之后，直接给我们建议了游玩路线，那就是直接去深渡港，在那里过夜，第二天早上坐船去千岛湖，大家沟通之后就让师傅直接把我们拉到深渡港了，师傅非常热心，路上还帮我们联系了酒店（住宿环境还不错）（<code>惊喜5</code>）</li>
+<li><code>深渡港 夜宿酒店</code> 晚上酒店老板帮我们买了第二天的船票和旅游门票，第二天早上还开车送我们过去，非常感谢</li>
+</ul>
+<h4 id="Day3-9-4"><a href="#Day3-9-4" class="headerlink" title="Day3 - 9.4"></a>Day3 - 9.4</h4><ul>
+<li><code>深渡港 -&gt; 梅峰 -&gt; 千岛湖中心-湖区-游客中心</code> 坐船（船上的午餐建议不要预定，真的不好吃），沿途风景非常漂亮，两边是郁郁葱葱的山，中间是清澈的江水，迎面吹着凉爽的风，非常惬意，未曾想到的体验（<code>惊喜6</code>）；到达千岛湖区域之后，不断的下船登岛游玩，梅峰、锁岛、月光岛等，每个岛都有一个主题，尤其梅峰上面看千岛的风景，特别壮观</li>
+<li><code>千岛湖中心-湖区-游客中心 -&gt; 林海酒店</code> 坐工交，住宿在林海酒店是因为：其他三个小伙伴有个同事家是千岛湖的，那个同事建议住在林海酒店，晚饭去旁边的餐馆吃剁椒鱼头（类似农家乐，菜口味还可以）（<code>惊喜7</code>）</li>
+<li><code>夜游淳安县</code> 吃完晚饭之后，那个同事带我们逛了一下淳安县城，城市建设的挺漂亮；</li>
+<li><code>淳安县 夜宿酒店</code></li>
+</ul>
+<h4 id="Day4-9-5"><a href="#Day4-9-5" class="headerlink" title="Day4 - 9.5"></a>Day4 - 9.5</h4><ul>
+<li><code>林海酒店 -&gt; 千岛湖客运中心 -&gt; 杭州东站汽车站</code> 坐大巴，早上睡了个懒觉，起床之后吃完早餐就直接去车站坐车回杭州了</li>
+</ul>
+<h4 id="同事给的地图"><a href="#同事给的地图" class="headerlink" title="同事给的地图"></a>同事给的地图</h4><p>个人感觉这张地图挺好，至少对我们起了很大的帮助。<br><img src="/images/g20-huangshan/map.jpg" title="黄山路线图"></p>
+<h4 id="花费明细"><a href="#花费明细" class="headerlink" title="花费明细"></a>花费明细</h4><p>我俩人均花费大概1500左右的样子，黄山、宏村景点都免门票，其他大概如下：</p>
+<ul>
+<li>住宿：约三百多，帐篷150+深渡港酒店100+千岛湖酒店70</li>
+<li>交通：约五六百，高铁+大巴+打车</li>
+<li>千岛湖门票：貌似一百多</li>
+<li>吃饭：两三百吧</li>
+</ul>
+<h2 id="看到的美景"><a href="#看到的美景" class="headerlink" title="看到的美景"></a>看到的美景</h2><p>这部分主要晒一下当时拍的照片，尤其黄山和千岛湖的风景，真是漂亮。</p>
+<h4 id="夜爬黄山"><a href="#夜爬黄山" class="headerlink" title="夜爬黄山"></a>夜爬黄山</h4><p>下图是云谷寺入口，下山排队往外走的人巨多，感觉能排上百米长：<br><img src="/images/g20-huangshan/1.jpg" title="云谷寺入口"></p>
+<p>下图是在登山口的合照，我和同事+另一个同事和他的小伙伴，拍完照后我们爬山，他们坐缆车：<br><img src="/images/g20-huangshan/2.jpg" title="合照"></p>
+<p>爬山途中的风景：<br><img src="/images/g20-huangshan/3.jpg" title="爬山途中的风景"></p>
+<p>下图就是北海宾馆门口的夜景，晚上我俩的帐篷就搭在宾馆门口右边的台阶上：<br><img src="/images/g20-huangshan/4.jpg" title="北海宾馆外面的夜景"></p>
+<h4 id="光明顶观日出"><a href="#光明顶观日出" class="headerlink" title="光明顶观日出"></a>光明顶观日出</h4><p>早上三四点钟我们起床，然后直奔光明顶看日出，到光明顶的路旁有很多游客睡觉的帐篷；到达光明顶之后，等候的人已经不少了，大家都怀着期待、激动的心情等着。</p>
+<p>大概一个多小时之后，五点多快六点的时候太阳终于升起来了，成功看到日出，遗憾的是当时的季节看不到云海。</p>
+<p>等待的人群：<br><img src="/images/g20-huangshan/5.jpg" title="等待的人群"></p>
+<p>粉红色的太阳渐渐升起：<br><img src="/images/g20-huangshan/6.jpg" title="太阳渐渐升起"></p>
+<p>太阳全部露出云层，变为了火焰的颜色，这时候看着还不刺眼，再升高一点之后就会非常刺眼，没法直视：<br><img src="/images/g20-huangshan/7.jpg" title="太阳升起"></p>
+<p>光明顶全貌：<br><img src="/images/g20-huangshan/8.jpg" title="光明顶"></p>
+<h4 id="西海大峡谷"><a href="#西海大峡谷" class="headerlink" title="西海大峡谷"></a>西海大峡谷</h4><p>下面是西海大峡谷沿途的风景，非常壮观：<br><img src="/images/g20-huangshan/9.jpg"><br><img src="/images/g20-huangshan/10.jpg"><br><img src="/images/g20-huangshan/11.jpg"><br><img src="/images/g20-huangshan/12.jpg"><br><img src="/images/g20-huangshan/13.jpg"><br><img src="/images/g20-huangshan/14.jpg" title="卧石披云"><br><img src="/images/g20-huangshan/15.jpg"><br><img src="/images/g20-huangshan/16.jpg" title="逆光照"><br><img src="/images/g20-huangshan/17.jpg" title="西海大峡谷观光缆车"></p>
+<h4 id="鳌鱼洞-gt-百步云梯-gt-迎客松-gt-玉屏索道下山"><a href="#鳌鱼洞-gt-百步云梯-gt-迎客松-gt-玉屏索道下山" class="headerlink" title="鳌鱼洞 -&gt; 百步云梯 -&gt; 迎客松 -&gt; 玉屏索道下山"></a>鳌鱼洞 -&gt; 百步云梯 -&gt; 迎客松 -&gt; 玉屏索道下山</h4><p>这一路路不长，但人巨多，走了很久，有些路段也非常险峻，比如百步云梯：<br><img src="/images/g20-huangshan/18.jpg" title="百步云梯"><br><img src="/images/g20-huangshan/19.jpg" title="路上挤满了人"><br><img src="/images/g20-huangshan/20.jpg" title="迎客松"><br><img src="/images/g20-huangshan/21.jpg" title="坐玉屏索道下山"></p>
+<h4 id="宏村"><a href="#宏村" class="headerlink" title="宏村"></a>宏村</h4><p>来之前朋友就说宏村没什么玩的，心里已经有了思想准备，可万万没想到的是，比我预期的还没意思很多，半个小时就可以逛完，能看的过去的就是进门水塘旁边的风景了，其他老房子基本全部是店铺，而且破破旧旧，乱起八糟，不知道是怎么评为国家五A级景点的：<br><img src="/images/g20-huangshan/22.jpg" title="宏村石碑"><br><img src="/images/g20-huangshan/23.jpg" title="宏村景区入口"><br><img src="/images/g20-huangshan/24.jpg" title="池塘旁边的风景"><br><img src="/images/g20-huangshan/25.jpg" title="池塘旁边的风景"><br><img src="/images/g20-huangshan/26.jpg" title="画画的姑娘"></p>
+<h4 id="深渡港"><a href="#深渡港" class="headerlink" title="深渡港"></a>深渡港</h4><p>在深渡港吃了一个晚饭，住了一晚，第二天早上出发的时候拍了几张码头的照片：<br><img src="/images/g20-huangshan/27-0.jpg" title="同行的小伙伴，从宏村到深渡港途中"><br><img src="/images/g20-huangshan/27.jpg" title="住宿和吃晚饭的地方"><br><img src="/images/g20-huangshan/28.jpg" title="深渡港码头"><br><img src="/images/g20-huangshan/29.jpg" title="深渡港码头的景色"><br><img src="/images/g20-huangshan/30.jpg" title="深渡港码头的景色"></p>
+<h4 id="深渡港-gt-千岛湖"><a href="#深渡港-gt-千岛湖" class="headerlink" title="深渡港 -&gt;  千岛湖"></a>深渡港 -&gt;  千岛湖</h4><p>早晨坐船（我们的船叫“旺华”号）从深渡港出发，沿途风景秀丽，不觉想起了“朝辞白帝彩云间,千里江陵一日还。两岸猿声啼不住,轻舟已过万重山。”；进入千岛湖景区之后，岛屿慢慢多了起来，水域也变得开阔了，途中登上了梅峰、锁岛等岛屿游玩，全身心放松的一天：<br><img src="/images/g20-huangshan/31.jpg" title="江水上的风景"><br><img src="/images/g20-huangshan/32.jpg" title="江水上的风景"><br><img src="/images/g20-huangshan/33.jpg" title="船荡起的水花"><br><img src="/images/g20-huangshan/34.jpg" title="红旗飘扬"><br><img src="/images/g20-huangshan/35.jpg" title="应该是铁路"><br><img src="/images/g20-huangshan/36.jpg" title="梅峰山下"><br><img src="/images/g20-huangshan/37.jpg" title="梅峰观千岛"><br><img src="/images/g20-huangshan/38.jpg" title="梅峰观千岛"><br><img src="/images/g20-huangshan/39.jpg" title="锁岛"><br><img src="/images/g20-huangshan/40.jpg" title="千岛湖风景"><br><img src="/images/g20-huangshan/41.jpg" title="千岛湖风景"><br><img src="/images/g20-huangshan/42.jpg" title="千岛湖旅游咨询服务中心"></p>
+<h4 id="回杭州"><a href="#回杭州" class="headerlink" title="回杭州"></a>回杭州</h4><p>这是汽车站商店里卖的鱼：<br><img src="/images/g20-huangshan/43.jpg" title="汽车站商店里面的鱼"></p>
+<p>给舍友带的吃的，回家后发现大多数不好吃：<br><img src="/images/g20-huangshan/44.jpg" title="给舍友买的吃的"></p>
+<p>最后晒一张这一趟的车票、门票：<br><img src="/images/g20-huangshan/45.jpg" title="所有的票"></p>
+<h2 id="End"><a href="#End" class="headerlink" title="End"></a>End</h2><p>一趟完美的旅行，希望以后有机会再去。<br>PS：个人感觉 <code>五一 -&gt; 十一</code> 期间去都是非常好的季节，天气晴朗，景色秀丽。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;&lt;p&gt;奇峰云海峥嵘，苍松破壁挺立。&lt;br&gt;观止三都景色，无愧名山第一！&lt;/p&gt;
+&lt;footer&gt;&lt;strong&gt;《咏黄山》 周扬&lt;/strong&gt;&lt;cite&gt;&lt;a href=&quot;http://www.zbyw.cn/gushi/huangshan.html/&quot;&gt;描写黄山的诗句&lt;/a&gt;&lt;/cite&gt;&lt;/footer&gt;&lt;/blockquote&gt;
+&lt;p&gt;一次说走就走的旅行，计划近乎没有，但旅途顺利、惊喜不断，玩得很爽！&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Life" scheme="http://tanchao90.com/categories/Life/"/>
+    
+    
+      <category term="Life" scheme="http://tanchao90.com/tags/Life/"/>
+    
+      <category term="Travel" scheme="http://tanchao90.com/tags/Travel/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Sublime Text 使用小结</title>
+    <link href="http://tanchao90.com/sublime/"/>
+    <id>http://tanchao90.com/sublime/</id>
+    <published>2016-04-18T14:00:00.000Z</published>
+    <updated>2016-04-30T04:00:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>Sublime Text</strong> 是我工作以来使用最多的编辑器，总得来说很好用，简单、简洁、速度快，很适合写Python等脚本语言；<br>本文对我用到的东西做了简单总结，主要包括下面几个方面，通过这些不仅可以提高编程效率，而且可以让编程变得轻松有趣：</p>
+<ul>
+<li><a href="#插件">插件</a></li>
+<li><a href="#个性化配置">个性化配置</a></li>
+<li><a href="#快捷键">快捷键</a></li>
+</ul>
+<a id="more"></a>
+<h2 id="Sublime-Text"><a href="#Sublime-Text" class="headerlink" title="Sublime Text"></a>Sublime Text</h2><h4 id="Sublime-Text-1"><a href="#Sublime-Text-1" class="headerlink" title="Sublime Text"></a><a href="http://www.sublimetext.com/" target="_blank" rel="external">Sublime Text</a></h4><blockquote>
+<p>Sublime Text is a sophisticated text editor for code, markup and prose.<br>You’ll love the slick user interface, extraordinary features and amazing performance.</p>
+</blockquote>
+<h4 id="我的配置文件"><a href="#我的配置文件" class="headerlink" title="我的配置文件"></a>我的配置文件</h4><p>由于 Sublime 的配置文件是纯文本，所以可以很方便的备份，并且做版本管理，我的配置文件保存在<a href="https://github.com/tanchao90/sublime-config" target="_blank" rel="external">个人GitHub</a>上，欢迎查看、fork，使用非常简单，直接clone到本地对应目录，Sublime会自动安装需要的插件，总之一句话：妈妈再也不用担心我配置Sublime了。</p>
+<h4 id="推荐阅读"><a href="#推荐阅读" class="headerlink" title="推荐阅读"></a>推荐阅读</h4><ul>
+<li><a href="https://github.com/jikeytang/sublime-text" target="_blank" rel="external">sublime-text</a> 总结详细、全面、排版漂亮</li>
+<li><a href="http://www.imooc.com/learn/333" target="_blank" rel="external">快乐的sublime编辑器</a> 系列视频，比较全面的了解Sublime</li>
+</ul>
+<h2 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h2><h4 id="Package-Control"><a href="#Package-Control" class="headerlink" title="Package Control"></a><a href="https://packagecontrol.io/" target="_blank" rel="external">Package Control</a></h4><p>这是为 Sublime Text 安装插件的基础，基本上所有插件都可以通过这种方式安装<br>安装方法见：<a href="https://packagecontrol.io/installation" target="_blank" rel="external">Package Control Installation</a></p>
+<h4 id="SublimeCodeIntel"><a href="#SublimeCodeIntel" class="headerlink" title="SublimeCodeIntel"></a><a href="https://github.com/SublimeCodeIntel/SublimeCodeIntel" target="_blank" rel="external">SublimeCodeIntel</a></h4><blockquote>
+<p>A full-featured code intelligence and smart autocomplete engine for Sublime Text.</p>
+</blockquote>
+<p>通过 SublimeCodeIntel 可以实现代码自动补全、函数和参数提示等功能，大大提高开发效率<br><strong>注：</strong>安装时可能会出现安装不成功的情况，卸载重新安装即可<br>具体配置和说明文档可参考 GitHub 上面的 ReadMe 文件，下面是我Python27的配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&quot;codeintel_language_settings&quot;: &#123;</div><div class="line">     &quot;Python&quot;: &#123; // For Windows Python 2.7</div><div class="line">         &quot;python&quot;: &quot;C:/Python27/python.exe&quot;,</div><div class="line">         &quot;pythonExtraPaths&quot;:</div><div class="line">             [</div><div class="line">                 &quot;C:/Python27/Lib&quot;,</div><div class="line">                 &quot;C:/Python27/Lib/site-packages&quot;</div><div class="line">             ],</div><div class="line">     &#125;,</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
+<h4 id="Python-Flake8-Lint"><a href="#Python-Flake8-Lint" class="headerlink" title="Python Flake8 Lint"></a><a href="https://github.com/dreadatour/Flake8Lint" target="_blank" rel="external">Python Flake8 Lint</a></h4><blockquote>
+<p>Python Flake8 Lint is a Sublime Text 2/3 plugin for check Python files against some of the style conventions in <strong>PEP8, pydocstyle, PyFlakes, mccabe, pep8-naming, flake8-debugger and flake8-import-order</strong>.</p>
+</blockquote>
+<p>用于检查 Python 代码，检查范围包括语法、命名规范、文档规范等等，可以通过配置文件决定是否开启对应的检查功能，非常好用；例如许多低级的语法错误都可以通过 Flake 提前发现，大大提高 code 和 debug 效率。</p>
+<h4 id="安装的其他插件"><a href="#安装的其他插件" class="headerlink" title="安装的其他插件"></a>安装的其他插件</h4><p>下面也是我目前安装的几个插件，在这里简单介绍一下：</p>
+<ul>
+<li><a href="https://github.com/skuroda/Sublime-AdvancedNewFile" target="_blank" rel="external">AdvancedNewFile</a> 改进Sublime中创建文件的过程，简单高效</li>
+<li><a href="https://github.com/wbond/sublime_alignment" target="_blank" rel="external">Alignment</a> 等号对齐，也可以增加<code>:</code>等符号，默认快捷键：<code>Ctrl+Alt+A</code></li>
+<li><a href="https://github.com/temochka/sublime-text-2-github-tools" target="_blank" rel="external">Github Tools</a> GitHub 插件</li>
+<li><a href="https://github.com/revolunet/sublimetext-markdown-preview" target="_blank" rel="external">Markdown Preview</a> Markdown文件预览，支持浏览器预览、导出HTML文件等方式</li>
+<li><a href="https://github.com/SublimeText-Markdown/MarkdownEditing" target="_blank" rel="external">MarkdownEditing</a> 支持用Sublime编辑Markdown文件，和专门的Markdown编辑器相比体验比较差</li>
+<li><a href="https://github.com/titoBouzout/SideBarEnhancements" target="_blank" rel="external">SideBarEnhancements</a> 左侧文件目录右键菜单增强插件</li>
+</ul>
+<h2 id="个性化配置"><a href="#个性化配置" class="headerlink" title="个性化配置"></a>个性化配置</h2><p>基础的个性化配置见GitHub配置文件，如使用Tab or 空格</p>
+<h4 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h4><p>这是一个看颜值的时代，编辑器也不例外，一个好的主题可以提升编码幸福感，下面是我比较喜欢的几个主题：</p>
+<ul>
+<li>Tomorrow-Night-Eighties</li>
+<li>Material-Theme</li>
+<li>Tomorrow-Night</li>
+<li>Flatland Monokai</li>
+<li>Flatland Dark</li>
+<li>base16-eighties.dark</li>
+<li>Monokai</li>
+</ul>
+<p>下面是对应的主题链接：</p>
+<ul>
+<li><a href="https://github.com/chriskempson/tomorrow-theme" target="_blank" rel="external">Tomorrow Theme</a></li>
+<li><a href="https://github.com/kkga/spacegray" target="_blank" rel="external">Theme - Spacegray</a></li>
+<li><a href="https://github.com/equinusocio/material-theme" target="_blank" rel="external">Material-Theme</a></li>
+<li><a href="https://github.com/thinkpixellab/flatland" target="_blank" rel="external">Theme - Flatland</a></li>
+<li><a href="http://colorsublime.com/" target="_blank" rel="external">ColorSublime主题网站</a></li>
+<li><a href="https://gist.github.com/renz45/1854721" target="_blank" rel="external">左侧Sidebar黑色UI配置</a></li>
+</ul>
+<h4 id="配置指定语言的编译环境"><a href="#配置指定语言的编译环境" class="headerlink" title="配置指定语言的编译环境"></a>配置指定语言的编译环境</h4><p>通过Tools -&gt; Build System -&gt; New Build System 可以很轻松地自定义新的Build方式，下面是 Python 和 Lua 的例子</p>
+<p><strong>Python</strong>: 如增加2.x版本的配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;cmd&quot;: [&quot;C:/Python27/python.exe&quot;, &quot;-u&quot;, &quot;$file&quot;],</div><div class="line">    &quot;file_regex&quot;: &quot;^[ ]*File \&quot;(...*?)\&quot;, line ([0-9]*)&quot;,</div><div class="line">    &quot;selector&quot;: &quot;source.python&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>Lua</strong>: Sublime Text 默认的Build系统中不包含Lua，需要自己添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;cmd&quot;: [&quot;lua&quot;, &quot;$file&quot;], </div><div class="line">    &quot;file_regex&quot;:&quot;^(?:lua:)?[\t](...*?):([0-9]*):?([0-9]*)&quot;, </div><div class="line">    &quot;selector&quot;:&quot;source.lua&quot; </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="给鼠标右键增加“文件夹打开”功能"><a href="#给鼠标右键增加“文件夹打开”功能" class="headerlink" title="给鼠标右键增加“文件夹打开”功能"></a>给鼠标右键增加“文件夹打开”功能</h4><p>功能：Windows文件夹右键即可选择<strong>“用Sublime Text 3”</strong>打开<br>配置方法：将下面的内容保存成<strong>bat</strong>文件（如add_right_click.bat）执行即可：<strong>注意</strong>修改其中的路径<br><figure class="highlight bat"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@<span class="built_in">echo</span> off</div><div class="line"><span class="built_in">SET</span> st2Path=C:\Program Files (x86)\Sublime Text <span class="number">3</span>\sublime_text.exe</div><div class="line"><span class="comment">rem add it for folders</span></div><div class="line">@reg add "HKEY_CLASSES_ROOT\Folder\shell\Open with Sublime Text <span class="number">3</span>"         /t REG_SZ /v "" /d "Open with Sublime Text <span class="number">3</span>"   /f</div><div class="line">@reg add "HKEY_CLASSES_ROOT\Folder\shell\Open with Sublime Text <span class="number">3</span>"         /t REG_EXPAND_SZ /v "Icon" /d "<span class="variable">%st2Path%</span>,<span class="number">0</span>" /f</div><div class="line">@reg add "HKEY_CLASSES_ROOT\Folder\shell\Open with Sublime Text <span class="number">3</span>\command" /t REG_SZ /v "" /d "<span class="variable">%st2Path%</span> \"<span class="variable">%%1</span>\"" /f</div><div class="line"><span class="built_in">pause</span></div></pre></td></tr></table></figure></p>
+<h2 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h2><p>根据 2-8 原则，个人认为记住几个常用的快捷键即可，其他需要的时候Google^-^下面是我用到的一些快捷键，尤其是前面几项</p>
+<h4 id="Ctrl-Shift-P"><a href="#Ctrl-Shift-P" class="headerlink" title="Ctrl+Shift+P"></a>Ctrl+Shift+P</h4><p>在弹出的搜索框中输入下面的命令即可完成对应的功能：</p>
+<ul>
+<li><code>Install Package</code> 搜索并安装需要的插件</li>
+<li><code>List Packages</code> 显示所有已安装的插件</li>
+<li><code>Remove Packages</code> 移除一个指定的插件</li>
+<li><code>Upgrade Package</code> 更新一个指定的插件</li>
+<li><code>Upgrade/Overwrite All Packages</code> 更新所有已安装的插件</li>
+</ul>
+<h4 id="Ctrl-P"><a href="#Ctrl-P" class="headerlink" title="Ctrl+P"></a>Ctrl+P</h4><p>Goto Anything功能，实现快速查找文件<br>文件名后面还可以跟随下面的参数，从而跳转到该文件中指定位置</p>
+<ul>
+<li><code>:+行号</code> == <code>Ctrl+G</code> 快速跳转到指定行</li>
+<li><code>@+函数名</code> == <code>Ctrl+R</code> 快速找到函数</li>
+<li><code>#+文本</code> 快速进行文件内文本匹配，跳转到第一个匹配的地方</li>
+</ul>
+<h4 id="查找-and-替换"><a href="#查找-and-替换" class="headerlink" title="查找 and 替换"></a>查找 and 替换</h4><ul>
+<li><code>Ctrl+F</code> 文件内查找</li>
+<li><code>Ctrl+H</code> 文件内查找并替换</li>
+<li><code>Ctrl+Shift+F</code> 全局查找</li>
+<li><code>Ctrl+Shift+H</code> 全局查找并替换</li>
+</ul>
+<h4 id="文件Tab管理"><a href="#文件Tab管理" class="headerlink" title="文件Tab管理"></a>文件Tab管理</h4><p>下面部分命令同样可以在 Chrome 浏览器中使用</p>
+<ul>
+<li><code>Ctrl+N</code> or <code>双击Tab栏空白区域</code> 创建新的Tab页面</li>
+<li><code>Ctrl+W</code> 关闭当前Tab页面</li>
+<li><code>Ctrl+Shift+T</code> 依次打开关闭的Tab页面，屡试不爽</li>
+<li><code>Ctrl+Tab</code> 在打开的Tab页面之间切换</li>
+</ul>
+<h4 id="视图管理"><a href="#视图管理" class="headerlink" title="视图管理"></a>视图管理</h4><ul>
+<li><code>Esc</code> 关闭唤出的窗口，如各种搜索框</li>
+<li><code>Ctrl+K, Ctrl+B</code> 显示/关闭左侧目录树</li>
+</ul>
+<h4 id="格式代码"><a href="#格式代码" class="headerlink" title="格式代码"></a>格式代码</h4><ul>
+<li><code>Ctrl+]</code> or <code>Tab</code> 增加缩进</li>
+<li><code>Ctrl+[</code> or <code>Shift+Tab</code> 减少缩进</li>
+<li><code>Ctrl+Shift+[</code> 折叠当前行所在函数</li>
+<li><code>Ctrl+Shift+]</code> 展开当前行所在函数</li>
+<li><code>Ctrl+K, Ctrl+1(2...)</code> 折叠所有函数，其中的数字表示函数层级</li>
+<li><code>Ctrl+K, Ctrl+J</code> 展开所有函数</li>
+</ul>
+<h4 id="文档编辑"><a href="#文档编辑" class="headerlink" title="文档编辑"></a>文档编辑</h4><ul>
+<li><code>Ctrl+/</code> 打开或关闭注释</li>
+<li><code>Ctrl+Shif +V</code> 粘贴，实现完整拷贝，保持原格式</li>
+<li><code>Ctrl+Shift+M</code>：选中括号（(), [], {}）里面的全部内容不包括括号</li>
+<li><code>Ctrl+Enter</code> 在当前行下新建一行</li>
+<li><code>Ctrl+Shift+Enter</code> 在当前行上面添加一行</li>
+<li><code>Ctrl+Shift+(←或→)</code> 快速选中一行中的某一部分，连续按<strong>扩大</strong>或<strong>缩小</strong>选择范围</li>
+<li><code>Ctrl+Shift+(↑或↓)</code> 交换当前行与上(下)一行</li>
+<li><code>Ctrl+Shift+D</code> 可快速复制光标所在的一整行</li>
+<li><code>Ctrl+Shift+K</code> 删除整行</li>
+<li><code>Ctrl+K, Ctrl+U</code> 将所选内容中的字母变成大写</li>
+<li><code>Ctrl+K, Ctrl+L</code> 将所选内容中的字母变成小写</li>
+</ul>
+<h4 id="列选择"><a href="#列选择" class="headerlink" title="列选择"></a>列选择</h4><ul>
+<li><code>Shift+鼠标右键</code></li>
+<li><code>鼠标中键</code></li>
+<li><code>Ctrl+鼠标中键</code> 增加选择</li>
+<li><code>Alt+鼠标中键</code> 减少选择</li>
+<li><code>Alt+F3</code> 全选所有符合条件的单词，产生多个光标</li>
+<li><code>Ctrl+D</code> 依次在满足条件的语句后面添加光标，遇到不需要添加光标的可按 <code>Ctrl+K</code> 跳过</li>
+<li><code>Ctrl+A, Ctrl+Shift+L</code> 在当前文件每行末尾都添加光标</li>
+</ul>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ul>
+<li><a href="http://stackoverflow.com/questions/23730866/set-up-python-3-build-system-with-sublime-text-3" target="_blank" rel="external">Set up Python 3 build system with Sublime Text 3</a></li>
+<li><a href="http://stackoverflow.com/questions/18943406/sublimecodeintel-how-to-set-path-to-python-3-installation" target="_blank" rel="external">SublimeCodeIntel - how to set path to Python 3 installation</a></li>
+<li><a href="http://my.oschina.net/shede333/blog/170536" target="_blank" rel="external">Sublime Text 编辑器 插件 之 “Sublime Alignment” 详解</a></li>
+<li><a href="http://blog.sina.com.cn/s/blog_932db1950101l5oe.html" target="_blank" rel="external">Windows下使用Sublime Text 2配置Lua开发环境</a></li>
+<li><a href="http://blog.csdn.net/abbuggy/article/details/7016185" target="_blank" rel="external">eclipse中格式化代码快捷键Ctrl+Shift+F失效的解决办法</a></li>
+<li><a href="http://www.qiansw.com/sublime-text3%E8%AE%BE%E5%AE%9Atab%E9%94%AE%E4%B8%BA4%E4%B8%AA%E7%A9%BA%E6%A0%BC.html" target="_blank" rel="external">SUBLIME TEXT3设定TAB键为4个空格</a></li>
+<li><a href="http://jingyan.baidu.com/article/7f766dafbc89f24101e1d085.html" target="_blank" rel="external">Sublime Text的列模式如何操作？</a></li>
+<li><a href="http://tutorial.jingwentian.com/Sublime-Text-3-Documentation/column_selection.html" target="_blank" rel="external">列选择</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;Sublime Text&lt;/strong&gt; 是我工作以来使用最多的编辑器，总得来说很好用，简单、简洁、速度快，很适合写Python等脚本语言；&lt;br&gt;本文对我用到的东西做了简单总结，主要包括下面几个方面，通过这些不仅可以提高编程效率，而且可以让编程变得轻松有趣：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#插件&quot;&gt;插件&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#个性化配置&quot;&gt;个性化配置&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#快捷键&quot;&gt;快捷键&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="Tools" scheme="http://tanchao90.com/categories/Tools/"/>
+    
+      <category term="IDE" scheme="http://tanchao90.com/categories/Tools/IDE/"/>
+    
+    
+      <category term="Tools" scheme="http://tanchao90.com/tags/Tools/"/>
+    
+      <category term="IDE" scheme="http://tanchao90.com/tags/IDE/"/>
+    
+      <category term="Sublime" scheme="http://tanchao90.com/tags/Sublime/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>用Hexo和GitHub Pages搭建个人博客</title>
+    <link href="http://tanchao90.com/hexo-github/"/>
+    <id>http://tanchao90.com/hexo-github/</id>
+    <published>2016-04-07T14:00:00.000Z</published>
+    <updated>2017-02-15T15:30:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>本文主要记录我用 <strong>Hexo</strong> 和 <strong>GitHub Pages</strong> 搭建个人博客的过程，主要包括三方面内容：</p>
+<ul>
+<li>对 Hexo 进行了比较详细的描述，方便自己后期查阅</li>
+<li>我搭建博客的基本流程</li>
+<li>遇到的问题</li>
+</ul>
+<a id="more"></a>
+<h2 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a>Hexo</h2><h4 id="什么是Hexo"><a href="#什么是Hexo" class="headerlink" title="什么是Hexo?"></a>什么是Hexo?</h4><ul>
+<li><a href="https://hexo.io/" target="_blank" rel="external">Hexo官网</a></li>
+<li><a href="https://hexo.io/zh-cn/" target="_blank" rel="external">Hexo官网(中文)</a></li>
+<li><a href="https://github.com/hexojs/hexo" target="_blank" rel="external">GitHub Hexo</a></li>
+</ul>
+<blockquote>
+<p>快速、简洁且高效的博客框架</p>
+<blockquote>
+<p>超快速度<br>支持 Markdown<br>一键部署<br>丰富的插件</p>
+</blockquote>
+</blockquote>
+<p>个人使用下来的感受是：安装、使用简单，部署方便，专注于写作，主要得益于下面几点：</p>
+<ul>
+<li>支持Markdown，专注于写作</li>
+<li>资源管理方便，如图片支持两种管理模式</li>
+<li>学习成本很低，常用的命令不超过5个</li>
+<li>灵活的插件，如发布到各个托管网站</li>
+<li>漂亮简洁的主题，有相关能力的还可以自己修改主题或者制作主题</li>
+</ul>
+<h4 id="Hexo目录结构说明"><a href="#Hexo目录结构说明" class="headerlink" title="Hexo目录结构说明"></a>Hexo目录结构说明</h4><blockquote>
+<p>├── <strong>_config.yml</strong>   网站的配置信息<br>├── <strong>package.json</strong>  应用程序的信息。EJS, Stylus和Markdown renderer已默认安装<br>├── <strong>scaffolds</strong>     模版文件夹。当您新建文章时，Hexo会根据<code>scaffold</code>来建立文件<br>├── <strong>source</strong>        资源文件夹是存放用户资源的地方<br>├──   ├── <strong>_drafts</strong> 草稿箱，可以将不想发布的文章放在该目录下面，比如我将自己的写作模板文件放在这里<br>├──   └── <strong>_posts</strong> 该目录下的文件会被生成和发布<br>├── <strong>themes</strong>        主题文件夹。Hexo 会根据主题来生成静态页面<br>└── <strong>public</strong>        执行<code>generate</code>命令后生成<code>public文</code>件夹，并解析Markdown和HTML文件到该目录</p>
+</blockquote>
+<h4 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h4><p>以下是操作Hexo书写、生成、部署博客常用的几个命令，后面会有详细介绍：</p>
+<ul>
+<li><code>hexo init [folder]</code></li>
+<li><code>hexo version</code></li>
+<li><code>hexo list &lt;type&gt;</code></li>
+<li><code>hexo new [layout] &lt;title&gt;</code></li>
+<li><code>hexo publish [layout] &lt;filename&gt;</code></li>
+<li><code>hexo generate</code></li>
+<li><code>hexo clean</code></li>
+<li><code>hexo server</code></li>
+<li><code>hexo deploy</code></li>
+</ul>
+<h4 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h4><p>创建草稿，写作，本地预览</p>
+<ul>
+<li><code>hexo --config custom.yml new draft my_blog</code></li>
+<li><code>hexo --config custom.yml server --draft</code></li>
+</ul>
+<p>写作完成之后，发布草稿，生成静态博客，并部署到 Github Pages</p>
+<ul>
+<li><code>hexo --config custom.yml publish draft my_blog</code></li>
+<li><code>hexo clean</code></li>
+<li><code>hexo --config custom.yml generate</code></li>
+<li><code>hexo --config custom.yml deploy</code></li>
+</ul>
+<h2 id="我的搭建步骤"><a href="#我的搭建步骤" class="headerlink" title="我的搭建步骤"></a>我的搭建步骤</h2><h4 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h4><p>按照Hexo官网的步骤依次安装即可</p>
+<ul>
+<li>Git</li>
+<li>Node.js</li>
+<li>Hexo</li>
+</ul>
+<h4 id="安装主题"><a href="#安装主题" class="headerlink" title="安装主题"></a>安装主题</h4><p>官网有很多的<a href="https://hexo.io/themes/" target="_blank" rel="external">主题</a>，每个都有说明文档，照着按照即可，这里推荐下面两个，本博客使用的是<strong>apollo</strong>；<br>下面是我浏览所有主题之后觉得比较好看的，后面的星表示大致的喜欢程度：</p>
+<ul>
+<li><a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank" rel="external">Apollo</a> ⭐️⭐️⭐️⭐️⭐️</li>
+<li><a href="https://github.com/hexojs/hexo-theme-landscape" target="_blank" rel="external">Landscape</a> ⭐️⭐️⭐️⭐️</li>
+<li><a href="https://github.com/litten/hexo-theme-yilia" target="_blank" rel="external">litten/hexo-theme-yilia</a> ⭐️⭐️⭐️⭐️</li>
+<li><a href="https://github.com/probberechts/cactus-dark" target="_blank" rel="external">Cactus Dark</a> ⭐️⭐️⭐️⭐️</li>
+<li><a href="https://github.com/tufu9441/maupassant-hexo" target="_blank" rel="external">Maupassant</a> ⭐️⭐️⭐️⭐️</li>
+<li><a href="https://github.com/lotabout/very-simple" target="_blank" rel="external">Very-Simple</a> ⭐️⭐️⭐️⭐️</li>
+<li><a href="https://github.com/Alex-fun/hexo-theme-jane/" target="_blank" rel="external">jane</a> ⭐️⭐️⭐️⭐️</li>
+<li><a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="external">NexT</a> ⭐️⭐️⭐️⭐️</li>
+<li><a href="https://github.com/ahonn/hexo-theme-even" target="_blank" rel="external">even</a> ⭐️⭐️⭐️⭐️</li>
+<li><a href="https://github.com/CodeDaraW/Hacker" target="_blank" rel="external">Hacker</a> ⭐️⭐️⭐️</li>
+<li><a href="https://dnxbf321.github.io" target="_blank" rel="external">Simplest</a> <a href="https://github.com/dnxbf321/hexo-theme-simplest" target="_blank" rel="external">github</a> ⭐️⭐️</li>
+</ul>
+<h4 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h4><p>我主要修改了下面的内容：</p>
+<ul>
+<li>博客基本信息：标题、作者等</li>
+<li>deploy信息：指定部署的网站</li>
+<li>主题：选择主题，并修改对应的主题配置文件，比如评论和谷歌分析；</li>
+</ul>
+<p>Hexo支持本地自定义配置文件，然后在执行Hexo命令时通过<code>--config</code>字段指定本地配置文件即可，如我本地的配置文件叫做<code>custom.yml</code>，用法如下：</p>
+<ul>
+<li><code>hexo --config custom.yml new [layout] &lt;title&gt;</code></li>
+<li><code>hexo --config custom.yml server -p 5000</code></li>
+<li><code>hexo --config custom.yml server -p 5000 --draft</code></li>
+</ul>
+<h4 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h4><p>可通过插件来扩展Hexo，提升Hexo的写作体检，插件基本有下面两个方面的来源：</p>
+<ul>
+<li>模板会内置一些插件</li>
+<li>自己安装插件<ul>
+<li><a href="https://github.com/hexojs/hexo-filter-auto-spacing" target="_blank" rel="external">hexo-filter-auto-spacing</a>，在中日韩文与英文之间插入空格，提升阅读体验</li>
+</ul>
+</li>
+</ul>
+<h4 id="Disqus评论"><a href="#Disqus评论" class="headerlink" title="Disqus评论"></a>Disqus评论</h4><p>我的评论系统选择的是Disqus，个人感觉比多说优势多太多，而且功能强大，唯一的不好就是需要翻墙。</p>
+<p>一些Tips：</p>
+<ul>
+<li>163邮箱默认收不到Disqus的邮件，需要设置白名单<ul>
+<li>在邮箱中依此点击：“设置”-&gt;“反垃圾/黑白名单”-&gt;在白名单中添加<code>disqus.com</code></li>
+</ul>
+</li>
+<li>Migration Tools很强大，很好用；本质是将旧的Url映射到新的Url，并且支持多个Url映射到同一个新的Url，可用于完成下面功能：<ul>
+<li>将旧Url的评论迁移到新Url</li>
+<li>将多组评论汇总到一个Url</li>
+<li>删除Url，通过将其映射到其他Url（一般映射为已存在的Url）即可删除该Url，参考自<a href="https://help.disqus.com/customer/portal/questions/6515747-how-can-i-delete-discussions-" target="_blank" rel="external">How can I delete Discussions?</a></li>
+</ul>
+</li>
+</ul>
+<h4 id="写作"><a href="#写作" class="headerlink" title="写作"></a>写作</h4><p>通过 <code>hexo new filename</code> 创建新的文章，用Markdown编辑器完成文章内容的编写</p>
+<h4 id="部署博客"><a href="#部署博客" class="headerlink" title="部署博客"></a>部署博客</h4><p>本博客选择部署在 GitHub Pages 上面，具体可参考<a href="https://hexo.io/zh-cn/docs/deployment.html#Git" target="_blank" rel="external">Hexo部署:Git</a></p>
+<p>关与GitHub Pages的介绍可参考官方文档：<a href="https://help.github.com/articles/what-is-github-pages/" target="_blank" rel="external">What is GitHub Pages?</a> 。</p>
+<h4 id="绑定域名"><a href="#绑定域名" class="headerlink" title="绑定域名"></a>绑定域名</h4><p>具体方法可Google或者参考文章后面的参考链接：</p>
+<ul>
+<li>在 <a href="https://godaddy.com/" target="_blank" rel="external">GoDaddy</a> 购买域名</li>
+<li>将域名绑定到 <code>http://username.github.io</code>,具体参考下面的链接：<ul>
+<li><a href="https://help.github.com/articles/setting-up-an-apex-domain/" target="_blank" rel="external">Setting up an apex domain</a></li>
+<li><a href="http://andrewsturges.com/blog/jekyll/tutorial/2014/11/06/github-and-godaddy.html" target="_blank" rel="external">Configuring a Godaddy domain name with github pages</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><h4 id="bash-hexo-command-not-found"><a href="#bash-hexo-command-not-found" class="headerlink" title="bash: hexo: command not found"></a>bash: hexo: command not found</h4><p>在 Windows下有两种提示，同一个意思</p>
+<ul>
+<li>cmd窗口： ‘hexo’ 不是内部或外部命令，也不是可运行的程序或批处理文件</li>
+<li>Git Bash窗口： bash: hexo: command not found</li>
+</ul>
+<p>我在安装的过程中遇到了该错误，最终是通过卸载Node.js和Git，并重新安装它们和Hexo解决的<br>为此还在Hexo项目下面发起了一个Issue：<a href="https://github.com/hexojs/hexo/issues/1871" target="_blank" rel="external">Windows 7: bash: hexo: command not found #1871</a></p>
+<h4 id="npm-WARN-optional-dep-failed-continuing-fsevents-1-0-11"><a href="#npm-WARN-optional-dep-failed-continuing-fsevents-1-0-11" class="headerlink" title="npm WARN optional dep failed, continuing fsevents@1.0.11"></a>npm WARN optional dep failed, continuing fsevents@1.0.11</h4><p>这是我安装Hexo时出现的警告，通过Google发现是</p>
+<blockquote>
+<p>fsevents is an API available only on OSX</p>
+</blockquote>
+<p><a href="http://stackoverflow.com/questions/31228862/npm-warn-optional-dep-failed-continuing-fsevents0-3-6" target="_blank" rel="external">npm WARN optional dep failed, continuing fsevents@0.3.6</a></p>
+<p>可以忽略该警告，至少我没遇到什么问题</p>
+<h2 id="命令详细说明"><a href="#命令详细说明" class="headerlink" title="命令详细说明"></a>命令详细说明</h2><p>这部分内容可以直接查看官网，那里的信息最新最准确。</p>
+<h4 id="init-新建一个网站"><a href="#init-新建一个网站" class="headerlink" title="init: 新建一个网站"></a>init: 新建一个网站</h4><blockquote>
+<p><strong>$ hexo init [folder]</strong></p>
+</blockquote>
+<h4 id="version-显示Hexo版本"><a href="#version-显示Hexo版本" class="headerlink" title="version: 显示Hexo版本"></a>version: 显示Hexo版本</h4><blockquote>
+<p><strong>$ hexo version</strong></p>
+</blockquote>
+<h4 id="new-新建一篇文章"><a href="#new-新建一篇文章" class="headerlink" title="new: 新建一篇文章"></a>new: 新建一篇文章</h4><blockquote>
+<p><strong>hexo new [layout] title</strong><br>layout指定文章的布局，默认为 post，可以通过修改<code>_config.yml</code>中的<code>default_layout</code>参数来指定默认布局<br>Hexo 有三种默认布局：<code>post、page 和 draft</code>，它们分别对应不同的路径，而您自定义的其他布局和 post 相同，都将储存到 source/_posts 文件夹</p>
+<blockquote>
+<p>post    source/_posts<br>page    source<br>draft    source/_drafts</p>
+</blockquote>
+</blockquote>
+<h4 id="generate-生成静态文件"><a href="#generate-生成静态文件" class="headerlink" title="generate: 生成静态文件"></a>generate: 生成静态文件</h4><blockquote>
+<p><strong>$ hexo generate</strong><br>-d, –deploy, 文件生成后立即部署网站<br>-w, –watch, 监视文件变动</p>
+</blockquote>
+<h4 id="clean-清除缓存文件-db-json-和已生成的静态文件-public"><a href="#clean-清除缓存文件-db-json-和已生成的静态文件-public" class="headerlink" title="clean: 清除缓存文件(db.json) 和已生成的静态文件 (public)"></a>clean: 清除缓存文件(db.json) 和已生成的静态文件 (public)</h4><blockquote>
+<p><strong>$ hexo clean</strong></p>
+</blockquote>
+<h4 id="list-列出网站资料"><a href="#list-列出网站资料" class="headerlink" title="list: 列出网站资料"></a>list: 列出网站资料</h4><blockquote>
+<p><strong>$ hexo list type</strong></p>
+</blockquote>
+<h4 id="publish-发布草稿，也就是将source-drafts中的草稿文件移动到source-posts文件夹"><a href="#publish-发布草稿，也就是将source-drafts中的草稿文件移动到source-posts文件夹" class="headerlink" title="publish: 发布草稿，也就是将source/_drafts中的草稿文件移动到source/_posts文件夹"></a>publish: 发布草稿，也就是将<code>source/_drafts</code>中的草稿文件移动到<code>source/_posts</code>文件夹</h4><blockquote>
+<p><strong>$ hexo publish [layout] filename</strong></p>
+</blockquote>
+<h4 id="server-启动服务器，默认访问网址为http-localhost-4000"><a href="#server-启动服务器，默认访问网址为http-localhost-4000" class="headerlink" title="server: 启动服务器，默认访问网址为http://localhost:4000/"></a>server: 启动服务器，默认访问网址为<a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000/</a></h4><blockquote>
+<p><strong>$ hexo server</strong><br>-i, –ip, 重设ip，覆盖默认的<code>0.0.0.0</code><br>-p, –port, 重设端口<br>-s, –static, 只使用静态文件，也就是不监听文件变化<br>-l, –log, 启动日记记录，使用覆盖记录格式</p>
+</blockquote>
+<h4 id="deploy-部署网站"><a href="#deploy-部署网站" class="headerlink" title="deploy: 部署网站"></a>deploy: 部署网站</h4><blockquote>
+<p><strong>$ hexo deploy</strong><br>-g, –generate, 部署之前预先生成静态文件</p>
+</blockquote>
+<p>若部署到Git（Github），需提前安装<strong>hexo-deployer-git</strong>：<code>npm install hexo-deployer-git --save</code></p>
+<h4 id="render-渲染文件"><a href="#render-渲染文件" class="headerlink" title="render: 渲染文件"></a>render: 渲染文件</h4><blockquote>
+<p><strong>$ hexo render file1 [file2] …</strong><br>-o, –output, 设置输出路径</p>
+</blockquote>
+<h4 id="选项-在执行上面的命令时还可以增加下面的选项，完成额外功能"><a href="#选项-在执行上面的命令时还可以增加下面的选项，完成额外功能" class="headerlink" title="选项: 在执行上面的命令时还可以增加下面的选项，完成额外功能"></a>选项: 在执行上面的命令时还可以增加下面的选项，完成额外功能</h4><blockquote>
+<p><strong>$ hexo –safe</strong>    安全模式，在安全模式下，不会载入插件和脚本<br><strong>$ hexo –debug</strong>   调试模式，在终端中显示调试信息并记录到 debug.log<br><strong>$ hexo –silent</strong>  简洁模式，隐藏终端信息<br><strong>$ hexo –config custom.yml</strong>  自定义配置文件的路径，执行后将不再使用 _config.yml</p>
+</blockquote>
+<h2 id="Hexo官方文档梳理"><a href="#Hexo官方文档梳理" class="headerlink" title="Hexo官方文档梳理"></a><a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="external">Hexo官方文档</a>梳理</h2><p>主要是帮助自己回忆每个模块的内容，读者可以直接查看官网</p>
+<h4 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h4><ul>
+<li>写作: 主要介绍一般的写作流程，从创建文章到发布</li>
+<li><strong>Front-matter</strong>: 可以方便的修改文章信息，如指定文章建立时间，对发布历史文章非常方便~(≧▽≦)/~</li>
+<li><strong>标签插件（Tag Plugins）</strong>: 支持多种标签格式，如引用文章内容、代码块、图片等，这一节功能强大，能极大的帮助丰富文章内容</li>
+<li><strong>资源文件夹</strong>: 主要讲了Hexo中图片等资源的管理，普通用户将资源放在<strong>source</strong>目录下即可</li>
+<li><strong>数据文件夹</strong>: 实现数据复用</li>
+<li>服务器: 详解<code>server</code>命令</li>
+<li>生成器: 详解<code>generate</code>命令</li>
+<li><strong>部署</strong>: 讲解<code>deploy</code>命令和相关配置，可以部署到GitHub、Heroku等，详细说明了每一种对应的配置</li>
+</ul>
+<h4 id="自定义"><a href="#自定义" class="headerlink" title="自定义"></a>自定义</h4><ul>
+<li>永久链接（Permalinks）：配置网页链接的格式</li>
+<li>主题：添加、配置主题，主题目录说明</li>
+<li>模板：模板的使用</li>
+<li>变量：Hexo支持的变量，可在模板中使用</li>
+<li>辅助函数：列举了Hexo内置的所有函数</li>
+<li>国际化（i18n）：国际化的配置，也就是支持多语种选择</li>
+<li>插件: 插件使用和开发</li>
+</ul>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ul>
+<li><a href="http://codepub.cn/2015/04/06/Github-Pages-personal-blog-from-Octopress-to-Hexo/" target="_blank" rel="external">Github Pages个人博客，从Octopress转向Hexo</a></li>
+<li><a href="http://blog.csdn.net/poem_of_sunshine/article/details/29369785/" target="_blank" rel="external">如何搭建一个独立博客——简明Github Pages与Hexo教程</a></li>
+<li><a href="https://github.com/limedroid/HexoLearning" target="_blank" rel="external">Hexo 博客搭建指南</a></li>
+<li><a href="http://wanderyt.github.io/2015/07/13/Apply-theme-and-other-features-in-Hexo/" target="_blank" rel="external">Hexo中添加主题等其他功能</a><ul>
+<li>Sitemap网站地图</li>
+<li>Swifttype，站内搜索框</li>
+</ul>
+</li>
+<li><a href="http://www.jianshu.com/p/e15121af5e22" target="_blank" rel="external">hexo干货系列：（七）hexo安装统计插件</a>，CNZZ</li>
+<li><a href="https://blog.yizhilee.com/post/blog-config/" target="_blank" rel="external">Hexo 主题基础配置</a><ul>
+<li>Sitemap</li>
+<li>流量分析</li>
+<li>侧栏</li>
+<li>RSS</li>
+<li>社交连接</li>
+</ul>
+</li>
+</ul>
+<h2 id="博客乱码问题"><a href="#博客乱码问题" class="headerlink" title="博客乱码问题"></a>博客乱码问题</h2><p>最近迁移旧博客到Hexo时遇到神奇的乱码问题，包括本文扩充之后也出现了，坑了我很久，还以为是特殊代码片段引起的解析问题，具体估计是下面的原因导致的：</p>
+<ul>
+<li><a href="https://github.com/hexojs/hexo-server/issues/23" target="_blank" rel="external">Garbled code will be generated if .md file contains too many Chinese characters #23</a></li>
+<li><a href="https://github.com/hexojs/hexo/issues/2285" target="_blank" rel="external">一篇文章总字符数过多会出现乱码是什么问题? #2285</a></li>
+</ul>
+<p><strong>实测表明：</strong>该问题只在本地Server调试时存在，上传到GitHub Pages之后正常显示；<br>个人猜测可能是本地每篇文章的缓存空间不足导致。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;本文主要记录我用 &lt;strong&gt;Hexo&lt;/strong&gt; 和 &lt;strong&gt;GitHub Pages&lt;/strong&gt; 搭建个人博客的过程，主要包括三方面内容：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;对 Hexo 进行了比较详细的描述，方便自己后期查阅&lt;/li&gt;
+&lt;li&gt;我搭建博客的基本流程&lt;/li&gt;
+&lt;li&gt;遇到的问题&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="Tools" scheme="http://tanchao90.com/categories/Tools/"/>
+    
+    
+      <category term="Hexo" scheme="http://tanchao90.com/tags/Hexo/"/>
+    
+      <category term="Tools" scheme="http://tanchao90.com/tags/Tools/"/>
+    
+      <category term="GitHub Pages" scheme="http://tanchao90.com/tags/GitHub-Pages/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="http://tanchao90.com/hello-world/"/>
+    <id>http://tanchao90.com/hello-world/</id>
+    <published>2016-04-06T14:00:00.000Z</published>
+    <updated>2016-12-25T07:48:02.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>通过几天的折腾，终于用 <a href="https://hexo.io/" target="_blank" rel="external"><strong>Hexo</strong></a> 搭建好了新博客，新的域名、新的风格、新的开始。</p>
+<h2 id="为什么开新博客？"><a href="#为什么开新博客？" class="headerlink" title="为什么开新博客？"></a>为什么开新博客？</h2><p>大概去年10月份的时候用 WordPress 搭建了一个<a href="http://www.tanchaoblog.com/" target="_blank" rel="external">博客</a>，陆陆续续发布了几篇文章，目前依旧在用，但是一直找没找到一个心仪的模板。</p>
+<p>前几天看到<a href="http://numbbbbb.com/" target="_blank" rel="external">梁杰的个人博客</a>时被其简单漂亮的风格所吸引，然后知道了 <strong>Hexo</strong>，然后从上个周末开始利用业余时间学习 <strong>Hexo</strong> 搭建博客，接着就有了这篇文章。</p>
+<a id="more"></a>
+<p>选择从 WordPress 转移到 Hexo 的原因：</p>
+<ul>
+<li>Hexo 书写发布文章更加简单方便，专注于内容</li>
+<li>Hexo 有简洁漂亮的主题</li>
+<li>可以用 GitHub Pages 等网站部署博客，省去了购买管理空间的麻烦</li>
+</ul>
+<p>后续我会把 WordPress上 的文章慢慢转移过来，也会写文章记录用 Hexo 搭建博客的全过程。 </p>
+<p>通过书写前面几篇博客，发现把东西写出来和学会或者知道还是有差别的，写的过程需要回忆、整理、总结，对自己还是蛮有帮助的，至少会有下面的提高：</p>
+<ul>
+<li>提高文字表达能力</li>
+<li>整理知识，记录学习历程</li>
+<li>分享，也许还能帮助到其他人</li>
+</ul>
+<p>在此感谢<a href="http://armsword.com/" target="_blank" rel="external">armsword的涅槃之地</a>，最开始是雷神教我搭建 WordPress 博客。</p>
+<h2 id="一年"><a href="#一年" class="headerlink" title="一年"></a>一年</h2><p>这个时间点也是非常巧，去年的4月6号从北京到了杭州，4月7号就去<strong>诸暨东白湖基地</strong>参加了户外拓展训练，接着就正式开始了职场生涯，到现在刚刚工作一年了，这一年过的前所未有的快，可能是因为太忙吧！</p>
+<p>入职这一年主要做了三件事：</p>
+<ul>
+<li>新人 Mini 项目</li>
+<li>代理游戏的合作开发与上线</li>
+<li>目前正在开发一款 2.5D-MMO-RPG 游戏</li>
+</ul>
+<p>这一年的时间基本上全部花在了公司，尤其是新人 Mini 项目和代理游戏合作开发期间，晚上十一二点回家再平常不过了，付出了很多，但个人成长和得到的东西却比较有限，甚至对某些结果有些失望。</p>
+<p>接下来的一年的期望或者计划：</p>
+<ul>
+<li>多花点时间在个人学习方面</li>
+<li>每月阅读一本书</li>
+<li>一两月写一篇博客</li>
+</ul>
+<p>附一张去年户外拓展训练时我们<a href=""><strong>一血队</strong></a>用荧光棒制作的一副图案，图案的意思自己品味吧^-^！</p>
+<p><img src="/images/hello-world/1.png" alt=""></p>
+<h2 id="搭建本博客用到的技术"><a href="#搭建本博客用到的技术" class="headerlink" title="搭建本博客用到的技术"></a>搭建本博客用到的技术</h2><ol>
+<li><a href="https://pages.github.com/" target="_blank" rel="external">GitHub Pages</a>： 用于部署博客</li>
+<li><a href="https://godaddy.com/" target="_blank" rel="external">GoDaddy 域名</a>： 购买域名，当然也可以不要域名，部署到GitHub上的话可以直接用 <code>http://username.github.io</code> 访问</li>
+<li><a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>： 静态网站生成器</li>
+<li><a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank" rel="external">apollo 模板</a>： Hexo 的模板，风格来自 Vue.js 的文档，参考自<a href="http://numbbbbb.com/2016/01/14/hello-world/" target="_blank" rel="external">Hello World</a></li>
+<li><a href="http://markdownpad.com/" target="_blank" rel="external">MarkdownPad2</a>： Windows 下好用的 Markdown 编辑器</li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;通过几天的折腾，终于用 &lt;a href=&quot;https://hexo.io/&quot;&gt;&lt;strong&gt;Hexo&lt;/strong&gt;&lt;/a&gt; 搭建好了新博客，新的域名、新的风格、新的开始。&lt;/p&gt;
+&lt;h2 id=&quot;为什么开新博客？&quot;&gt;&lt;a href=&quot;#为什么开新博客？&quot; class=&quot;headerlink&quot; title=&quot;为什么开新博客？&quot;&gt;&lt;/a&gt;为什么开新博客？&lt;/h2&gt;&lt;p&gt;大概去年10月份的时候用 WordPress 搭建了一个&lt;a href=&quot;http://www.tanchaoblog.com/&quot;&gt;博客&lt;/a&gt;，陆陆续续发布了几篇文章，目前依旧在用，但是一直找没找到一个心仪的模板。&lt;/p&gt;
+&lt;p&gt;前几天看到&lt;a href=&quot;http://numbbbbb.com/&quot;&gt;梁杰的个人博客&lt;/a&gt;时被其简单漂亮的风格所吸引，然后知道了 &lt;strong&gt;Hexo&lt;/strong&gt;，然后从上个周末开始利用业余时间学习 &lt;strong&gt;Hexo&lt;/strong&gt; 搭建博客，接着就有了这篇文章。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Life" scheme="http://tanchao90.com/categories/Life/"/>
+    
+    
+      <category term="Life" scheme="http://tanchao90.com/tags/Life/"/>
+    
+      <category term="Hexo" scheme="http://tanchao90.com/tags/Hexo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>RabbitMQ--Message Queue（消息队列）</title>
+    <link href="http://tanchao90.com/rabbitmq/"/>
+    <id>http://tanchao90.com/rabbitmq/</id>
+    <published>2016-01-01T16:43:10.000Z</published>
+    <updated>2016-12-23T16:43:10.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>自从搭建好博客基本没写过什么，这篇关于RabbitMQ的博客已经拖了很久了，刚好放假总结一下，希望能为16年开个好头。</p>
+<p>这是2015年参与一个合作项目时，在他们的项目中用到了RabbitMQ作为消息转发中间件，这也是我后续开发的新功能的基础，下面就将我对RabbitMQ的学习做个简单的总结。</p>
+<p>类似的消息队列还有很多，如<a href="https://kafka.apache.org/" target="_blank" rel="external">kalka</a>，<a href="http://zeromq.org/" target="_blank" rel="external">ZeroMQ</a>等，使用时可先结合自己的使用场景对比，选择最合适的。</p>
+<a id="more"></a>
+<h2 id="相关资料"><a href="#相关资料" class="headerlink" title="相关资料"></a>相关资料</h2><h4 id="Rabbitmq官方文档"><a href="#Rabbitmq官方文档" class="headerlink" title="Rabbitmq官方文档"></a><a href="https://www.rabbitmq.com/" target="_blank" rel="external">Rabbitmq官方文档</a></h4><ul>
+<li>非常非常好的学习文档，通过其中的六节教程可以完成RabbitMQ的学习，配图清晰明了，本文也借用了其中很多的图片。</li>
+</ul>
+<h4 id="pika官方文档"><a href="#pika官方文档" class="headerlink" title="pika官方文档"></a><a href="http://pika.readthedocs.org/en/latest/index.html" target="_blank" rel="external">pika官方文档</a></h4><ul>
+<li>官方推荐的Python库，用于在Python中访问RabbitMQ，具体的操作函数可在其中查看；</li>
+<li>关于Python连接RabbitMQ还有其他库，如<a href="https://github.com/celery/py-amqp" target="_blank" rel="external">py-amqp</a>，<a href="https://barryp.org/software/py-amqplib/" target="_blank" rel="external">py-amqplib</a>。</li>
+</ul>
+<h4 id="其他参考资料"><a href="#其他参考资料" class="headerlink" title="其他参考资料"></a>其他参考资料</h4><ul>
+<li><a href="https://my.oschina.net/hncscwc/blog/262246?fromerr=Qm5JsP1J" target="_blank" rel="external">rabbitmq用户管理</a>：用于管理用户，如添加用户、删除用户、设置权限等。</li>
+</ul>
+<h2 id="安装RabbitMQ"><a href="#安装RabbitMQ" class="headerlink" title="安装RabbitMQ"></a>安装RabbitMQ</h2><h4 id="安装Erlang"><a href="#安装Erlang" class="headerlink" title="安装Erlang"></a>安装Erlang</h4><ul>
+<li>RabbitMQ基于Erlang开发，因此需要安装Erlang。</li>
+</ul>
+<h4 id="Windows版本"><a href="#Windows版本" class="headerlink" title="Windows版本"></a>Windows版本</h4><ul>
+<li>下载安装包安装即可。</li>
+</ul>
+<h4 id="Linux："><a href="#Linux：" class="headerlink" title="Linux："></a>Linux：</h4><ul>
+<li>Ubuntu下执行命令：<code>sudo apt-get install rabbitmq-server</code></li>
+<li>在RabbitMQ下添加<code>test</code>账户，并赋值其权限为Administrator：<ul>
+<li><code>rabbitmqctl add_user test test</code></li>
+<li><code>rabbitmqctl set_user_tags test administrator</code></li>
+</ul>
+</li>
+<li>若有必要，则执行指令，为test用户分配<code>/</code>目录权限，具体可参考下面的图片说明：<code>rabbitmqctl set_permissions -p / test &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;</code><img src="/images/rabbitmq/1.png" title="为test用户分配/目录权限">
+</li>
+</ul>
+<h2 id="管理RabbitMQ"><a href="#管理RabbitMQ" class="headerlink" title="管理RabbitMQ"></a>管理RabbitMQ</h2><h4 id="命令行"><a href="#命令行" class="headerlink" title="命令行"></a>命令行</h4><p>笔者只会一些简单的常用命令查看RabbitMQ的信息，但已经满足了我的开发需求，具体如下：</p>
+<ul>
+<li>查看所有的exchange：<code>rabbitmqctl list_exchanges</code></li>
+<li>查看所有的queue：<code>rabbitmqctl list_queues</code></li>
+<li>查看所有的用户：<code>rabbitmqctl list_users</code></li>
+<li>查看所有的绑定（exchange和queue的绑定信息）：<code>rabbitmqctl list_bindings</code></li>
+<li>查看消息确认信息：<code>rabbitmqctl list_queues name messages_ready messages_unacknowledged</code></li>
+<li>查看RabbitMQ状态，包括版本号等信息：<code>rabbitmqctl status</code></li>
+</ul>
+<h4 id="Web管理插件"><a href="#Web管理插件" class="headerlink" title="Web管理插件"></a>Web管理插件</h4><p>该方式操作简单，功能强大且直观，前提是启动Web插件，然后即可通过浏览器查看。<br>启动Web管理插件的命令（<a href="https://www.rabbitmq.com/management.html" target="_blank" rel="external">官方资料</a>）: <code>rabbitmq-plugins enable rabbitmq_management</code><br>下图是RabbitMQ Web管理界面：<br><img src="/images/rabbitmq/2.png" title="RabbitMQ Web管理界面"></p>
+<h2 id="RabbitMQ原理及基本功能介绍"><a href="#RabbitMQ原理及基本功能介绍" class="headerlink" title="RabbitMQ原理及基本功能介绍"></a>RabbitMQ原理及基本功能介绍</h2><h4 id="基本通信模型"><a href="#基本通信模型" class="headerlink" title="基本通信模型"></a>基本通信模型</h4><ul>
+<li>A <strong>producer</strong> is a user application that sends messages.</li>
+<li>A <strong>queue</strong> is a buffer that stores messages.</li>
+<li>A <strong>consumer</strong> is a user application that receives messages.</li>
+</ul>
+<img src="/images/rabbitmq/3.png" title="RabbitMQ基本通信模型">
+<p>符号说明：</p>
+<ul>
+<li>P（Producer）：发送者，生产消息</li>
+<li>X（Exchange）：消息交换器，用于向Queue发布消息，类似于路由器</li>
+<li>amq.XX（Queue）：消息队列，用于存储消息</li>
+<li>C（Consumer）：消费者，接收并处理消息</li>
+</ul>
+<h4 id="RabbitMQ的部分实现机制"><a href="#RabbitMQ的部分实现机制" class="headerlink" title="RabbitMQ的部分实现机制"></a>RabbitMQ的部分实现机制</h4><ol>
+<li>Round-robin dispatching（循环分发）<ul>
+<li>即RabbitMQ会循环将消息分发给每一个消费者；</li>
+<li>若启用该机制，则假如有n个消费者，那么RabbitMQ收到n个消息时，会逐个给每个消费者发送一个消息；</li>
+</ul>
+</li>
+<li>Message acknowledgment（消息确认机制-ack）<ul>
+<li>当打开确认机制（默认打开，可通过参数<code>no_ack=True</code>关闭）时消费者在处理消息的过程中挂掉时，RabbitMQ会将该消息发送给其他消费者；</li>
+<li>开启确认模式时，消费者必须在处理完消息是发送确认消息，否则该消息会被重新发送给一个消费者（可以看作是随机发送），如此下去RabbitMQ将吃掉更多的内存；</li>
+</ul>
+</li>
+<li>Message durability（消息持久化）<ul>
+<li>若开启该功能，则在RabbitMQ Crash的情况下不丢失消息；</li>
+<li>但这不能完全保证所有消息不丢失，如在RabbitMQ收到消息到将其存储到disk的期间发生crash，将丢失这期间收到的所有消息；</li>
+</ul>
+</li>
+<li>Fair dispatch（公平的分发）<ul>
+<li>RabbitMQ默认收到消息时直接分发给对应消费者，而不考虑任务大小；</li>
+<li>为了能够公平的分发消息，也就是考虑任务大小，可以配置<code>channel.basic_qos(prefetch_count=1)</code>，保证接受者处理完消息，并且返回ack消息时才为其派发下一个消息；从而避免某些消费者很忙，某些很闲的情况；</li>
+<li><strong>注</strong>：需要保证消息不超过消息队列的大小：如处理每个消息需要1分钟，而每秒钟就会产生一个消息，那么这种情况下很快就会出现消息数量超过queue size的情况；</li>
+</ul>
+</li>
+</ol>
+<h4 id="Exchange和Queue的一些说明"><a href="#Exchange和Queue的一些说明" class="headerlink" title="Exchange和Queue的一些说明"></a>Exchange和Queue的一些说明</h4><ol>
+<li>默认Exchang<ul>
+<li>定义exchange时，若名字为空，则使用默认exchange；</li>
+</ul>
+</li>
+<li>临时Queue<ul>
+<li><code>result=channel.queue_declare()</code></li>
+<li><code>result=channel.queue_declare(exclusive=True)</code></li>
+<li>上面两句代码即可生成一个无名临时队列，当断开消费者时，该队列也会被删除；</li>
+</ul>
+</li>
+<li>绑定Queue和Exchange<ul>
+<li>队列绑定到exchange上才可以接收exchange分发的消息；</li>
+<li><code>channel.queue_bind(exchange=&#39;logs&#39;,queue=result.method.queue)</code>，这句话即可将前面的无名队列绑定到名为logs的exchange；</li>
+<li>绑定成功之后，exchange收到消息时就会广播给和其绑定的所有消费者；</li>
+</ul>
+</li>
+</ol>
+<h2 id="RabbitMQ的四种工作模式"><a href="#RabbitMQ的四种工作模式" class="headerlink" title="RabbitMQ的四种工作模式"></a>RabbitMQ的四种工作模式</h2><p>RabbitMQ并不是直接将消息发送到queue，而是将消息发送给exchange，然后exchange再将消息发送到对应的queue；<br>exchange共有四种模式：<code>fanout</code>, <code>direct</code>, <code>topic</code> and <code>headers</code>。</p>
+<h4 id="fanout"><a href="#fanout" class="headerlink" title="fanout"></a>fanout</h4><p>exchange将消息发送给和该exchange连接的所有queue；也就是所谓的广播模式；此模式下忽略routing_key；<br><img src="/images/rabbitmq/4.png" title="fanout模型"></p>
+<h4 id="direct"><a href="#direct" class="headerlink" title="direct"></a>direct</h4><p>路由模式，通过routing_key将消息发送给对应的queue;<br>如下面这句即可设置exchange为direct模式，只有routing_key为“black”时才将其发送到队列queue_name；<br><code>channel.queue_bind(exchange=exchange_name,queue=queue_name,routing_key=&#39;black&#39;)</code><br><img src="/images/rabbitmq/5.png" title="direct模型"></p>
+<p>在上图中，Q1和Q2可以绑定同一个key，如绑定routing_key=‘KeySame’，那么收到routing_key为KeySame的消息时将会同时发送给Q1和Q2，退化为广播模式；</p>
+<h4 id="topic"><a href="#topic" class="headerlink" title="topic"></a>topic</h4><p>topic模式类似于direct模式，只是其中的routing_key变成了一个有“.”分隔的字符串，“.”将字符串分割成几个单词，每个单词代表一个条件；<br><img src="/images/rabbitmq/6.png" title="topic模型"></p>
+<ul>
+<li>* (star) can substitute for exactly one word.</li>
+<li># (hash) can substitute for zero or more words.</li>
+</ul>
+<p>其中整个字符串是一条路由规则，通过*和#即可实现灵活的路由，上图的解释如下：</p>
+<ul>
+<li>Q1 is interested in all the orange animals.</li>
+<li>Q2 wants to hear everything about rabbits, and everything about lazy animals.</li>
+</ul>
+<p><strong>注：</strong></p>
+<ul>
+<li>一条消息可有同时满足多个规则，并分发给多个Queue，如：quick.orange.rabbit;</li>
+<li>通过修改路由规则，topic可以退化为fanout和direct模式；</li>
+</ul>
+<h4 id="headers"><a href="#headers" class="headerlink" title="headers"></a>headers</h4><p>headers类型的Exchange不依赖于routing key与binding key的匹配规则来路由消息，而是根据发送的消息内容中的headers属性进行匹配。</p>
+<ul>
+<li>在绑定Queue与Exchange时指定一组键值对；</li>
+<li>当消息发送到Exchange时，RabbitMQ会取到该消息的headers（也是一个键值对的形式），对比其中的键值对是否完全匹配Queue与Exchange绑定时指定的键值对；</li>
+<li>如果完全匹配则消息会路由到该Queue，否则不会路由到该Queue。</li>
+</ul>
+<h2 id="RabbitMQ的使用"><a href="#RabbitMQ的使用" class="headerlink" title="RabbitMQ的使用"></a>RabbitMQ的使用</h2><h4 id="一些使用场景"><a href="#一些使用场景" class="headerlink" title="一些使用场景"></a>一些使用场景</h4><ol>
+<li><p>日志记录</p>
+<ul>
+<li>各个程序可以向同一个Rabbitmq的exchange发送消息，exchange根据routing_key分发消息到不同的队列，然后再由不同的程序接受者处理；</li>
+<li>其中routing_key可以设置成log等级，这样子可以对log实现分级处理；比如下面的两个场景：<ul>
+<li>对于error的log可以报警；</li>
+<li>只有info级别以上的消息才记录到disk；</li>
+</ul>
+</li>
+<li>通过topic模式能实现更灵活的控制，具体看官方文档即可；</li>
+</ul>
+</li>
+<li><p>消息分发服务</p>
+<ul>
+<li>在RabbitMQ不是瓶颈的情况下是很好的选择。</li>
+</ul>
+</li>
+</ol>
+<h4 id="RabbitMQ在我们项目中的用法"><a href="#RabbitMQ在我们项目中的用法" class="headerlink" title="RabbitMQ在我们项目中的用法"></a>RabbitMQ在我们项目中的用法</h4><p>下图中展示了整个系统的架构以及RabbitMQ在其中的作用和相关配置:<br><img src="/images/rabbitmq/7.png" title="项目架构图"></p>
+<ul>
+<li>L1、L2、L3：分别是三个服务器程序，同一套代码的三个运行实例，下面简称 L服务器；</li>
+<li>Queue-1、Queue-2、Queue-3：同一套代码的三个运行实例，它们的作用是将RabbitMQ中发过来的Json数据转换成L服务器能够识别的数据，主要作用是数据格式转化和消息转发；</li>
+<li>Tool1、Tool2：两个不同应用程序，都需要和L服务器进行交互；</li>
+<li>图中分为上下两部分，上半部分是Tool1和Tool2向L服务器发送请求的流程，其中用到两个Exchange，一个模式时fanout，另一个是direct；</li>
+<li>图中的下半部分是Tool1和Tool2接收来自L服务器的数据，通过一个fanout类型的Exchange广播，具体过滤工作由Tool程序自己完成。</li>
+</ul>
+<h2 id="注意事项及解决方法"><a href="#注意事项及解决方法" class="headerlink" title="注意事项及解决方法"></a>注意事项及解决方法</h2><h4 id="Queue和Exchange不支持修改参数"><a href="#Queue和Exchange不支持修改参数" class="headerlink" title="Queue和Exchange不支持修改参数"></a>Queue和Exchange不支持修改参数</h4><p>RabbitMQ不允许重新定义同名但是参数不同的queue，也就是不支持修改已有queue的属性；笔者曾经因为这个错误浪费了很多时间；</p>
+<p><strong>例子</strong><br>在调用exchange_declare函数时，对于同一个exchange必须保证他们的参数完全相同，否则会出错；<br><code>No handlers could be found for logger &quot;pika.adapters.blocking_connection&quot; pika.exceptions.ChannelClosed: (None, None)</code></p>
+<h4 id="pika-exceptions-IncompatibleProtocolError"><a href="#pika-exceptions-IncompatibleProtocolError" class="headerlink" title="pika.exceptions.IncompatibleProtocolError"></a>pika.exceptions.IncompatibleProtocolError</h4><p><strong>原因：</strong>协议错误，RabbitMQ版本不匹配；<br><strong>解决方法：</strong>升级RabbitMQ，一般是升级到3.X即可；</p>
+<h4 id="pika-exceptions-ProbableAuthenticationError"><a href="#pika-exceptions-ProbableAuthenticationError" class="headerlink" title="pika.exceptions.ProbableAuthenticationError"></a>pika.exceptions.ProbableAuthenticationError</h4><p><strong>原因：</strong>权限验证错误<br><strong>解决办法：</strong></p>
+<ul>
+<li>检查连接的账户是否创建成功；</li>
+<li>检查账户权限是否合适；</li>
+<li>guest账户只能用于本地连接RabbitMQ，远程连接必须创建新账户；</li>
+</ul>
+<blockquote><p>This is because you are trying to authenticate using the username and password guest remotely. Starting with RabbitMQ 3.3 you need to create a new account to use remotely, and guest/guest can only be used locally.</p>
+<footer><strong>eandersson</strong><cite><a href="http://stackoverflow.com/questions/30223339/pika-exceptions-probableauthenticationerror-when-trying-to-send-message-to-remot" target="_blank" rel="external">stackoverflow</a></cite></footer></blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;自从搭建好博客基本没写过什么，这篇关于RabbitMQ的博客已经拖了很久了，刚好放假总结一下，希望能为16年开个好头。&lt;/p&gt;
+&lt;p&gt;这是2015年参与一个合作项目时，在他们的项目中用到了RabbitMQ作为消息转发中间件，这也是我后续开发的新功能的基础，下面就将我对RabbitMQ的学习做个简单的总结。&lt;/p&gt;
+&lt;p&gt;类似的消息队列还有很多，如&lt;a href=&quot;https://kafka.apache.org/&quot;&gt;kalka&lt;/a&gt;，&lt;a href=&quot;http://zeromq.org/&quot;&gt;ZeroMQ&lt;/a&gt;等，使用时可先结合自己的使用场景对比，选择最合适的。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Code" scheme="http://tanchao90.com/categories/Code/"/>
+    
+    
+      <category term="Code" scheme="http://tanchao90.com/tags/Code/"/>
+    
+      <category term="MQ" scheme="http://tanchao90.com/tags/MQ/"/>
+    
+      <category term="RabbitMQ" scheme="http://tanchao90.com/tags/RabbitMQ/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Synergy-多台电脑共享一套键盘和鼠标</title>
+    <link href="http://tanchao90.com/synergy/"/>
+    <id>http://tanchao90.com/synergy/</id>
+    <published>2015-10-31T15:45:18.000Z</published>
+    <updated>2016-12-23T15:45:18.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>Synergy是一款共享电脑外设的软件，也就是可以用一套鼠标、键盘控制多台电脑，<a href="https://symless.com/synergy/" target="_blank" rel="external">Synergy官网</a>的说明如下：<br><blockquote><p><strong>Share one mouse and keyboard between multiple computers</strong><br>Synergy combines your desktop devices together in to one cohesive experience. It’s software for sharing your mouse and keyboard between multiple computers on your desk. It works on Windows, Mac OS X and Linux.</p>
+<footer><strong>Synergy</strong><cite><a href="https://symless.com/synergy/welcome-to-island-marketing.html" target="_blank" rel="external">Synergy官网</a></cite></footer></blockquote></p>
+<a id="more"></a>
+<img src="/images/synergy/1.png" title="Synergy首页截图">
+<h2 id="Synergy-combines-your-devices-together-in-to-one-cohesive-experience"><a href="#Synergy-combines-your-devices-together-in-to-one-cohesive-experience" class="headerlink" title="Synergy combines your devices together in to one cohesive experience."></a>Synergy combines your devices together in to one cohesive experience.</h2><ul>
+<li>Seamlessly move your mouse to any computer and start typing.（可以在多个电脑之间无缝的移动鼠标和打字）；</li>
+<li>Works on all major operating systems (Windows, Mac OS X, and Linux).（支持Windows、Mac、Linux）；</li>
+<li>在你的电脑之间共享复制和粘贴；</li>
+<li>Drag and drop files from one computer to another (Windows and Mac OS X).（可以在不同电脑之间拖拽文件）；</li>
+<li>使用公共网络时，加密系统能够保护敏感数据的安全；</li>
+<li>Network-based (IP) software KVM switch (non-video).</li>
+</ul>
+<p>当同时使用好几台电脑时，Synergy特别方便，当然这几台电脑的屏幕必须在视力可视范围内；下面主要讲解Synergy的安装配置。</p>
+<h2 id="下载、安装Synergy"><a href="#下载、安装Synergy" class="headerlink" title="下载、安装Synergy"></a>下载、安装Synergy</h2><p>可以从 <a href="https://symless.com/synergy/" target="_blank" rel="external">Synergy官网</a>或者我的百度网盘下载Windows版本的Synergy：<a href="http://pan.baidu.com/s/1kTzY5mR#list/path=%2F" target="_blank" rel="external">点击下载</a>，其中包含32位、64位两个版本；双击可执行文件即可完成安装。</p>
+<h2 id="配置Synergy"><a href="#配置Synergy" class="headerlink" title="配置Synergy"></a>配置Synergy</h2><p>Synergy有两种模式，分别是<strong>客户端模式</strong>和<strong>服务端模式</strong> ，两者的区别是：只能用服务端所在电脑的鼠标、键盘去控制客户端所在的电脑。</p>
+<h4 id="配置服务端"><a href="#配置服务端" class="headerlink" title="配置服务端"></a>配置服务端</h4><ul>
+<li>在服务端机器安装Synergy，选择服务器模式；</li>
+<li>如下图所示，先点击<strong>Edit</strong>，弹出<strong>Setting窗口</strong>，然后配置本机的名字（<strong>HIH-D-5072-Mine</strong>）和端口（24800）；<img src="/images/synergy/2.png" title="配置服务端"></li>
+<li>点击上图中绿色框内的<strong>Configure Server</strong>，弹出下面的<strong>Server Configuration界面</strong>，在中间会显示一台电脑，名称为<strong>HIH-D-5072-Mine</strong>，也就是本机；<img src="/images/synergy/3.png" title="配置服务端"></li>
+<li>接着我们按图中箭头提示，拖动一个电脑所示的图标到<strong>Server右侧</strong>，双击弹出下图所示的<strong>Screen Setting界面</strong>，设置其中的Screen name为<strong>QA-Server</strong>；并且按下图所示修改左下角的<strong>Dead corners</strong>（死角）；<br>注：必须先在这里添加需要连接的客户端，然后该客户端才被允许连接到服务器；<img src="/images/synergy/4.png" title="配置服务端"></li>
+<li>完成设置之后的效果如上上一张图所示，<strong>左边是服务器</strong>，<strong>右边是客户端</strong>；并且他们之间的相对位置决定了的鼠标在他们之间切换的方式；<br>在服务器窗口时，将鼠标移出右侧边缘，即可进入客户端窗口；<br>在客户端窗口时，将鼠标移出左侧边缘，即可进入服务端窗口；</li>
+<li>点击第二幅说明图中的<strong>Start</strong>启动服务器（目前显示的是Stop，因为我截图时服务器已经处于运行状态了）；</li>
+</ul>
+<h4 id="Dead-corners（死角）的说明"><a href="#Dead-corners（死角）的说明" class="headerlink" title="Dead corners（死角）的说明"></a>Dead corners（死角）的说明</h4><ul>
+<li>如下图所示，死角设置分为电脑屏幕四个角，设置死角之后，将鼠标从图中红框区域移出Windows窗口之外时并不能进入对应的电脑；</li>
+<li>通过设置死角，就可以利用死角保留Windows原有的部分操作，如将Windows窗口靠边（左边、或者右边）、最大化（移到屏幕顶端）；</li>
+<li>该软件的死角区域最大只能设置<strong>99个像素</strong>，有点不是很灵活。<img src="/images/synergy/5.png" title="死角说明">
+</li>
+</ul>
+<h4 id="配置客户端"><a href="#配置客户端" class="headerlink" title="配置客户端"></a>配置客户端</h4><ul>
+<li>在客户端机器安装Synergy，选择客户单模式；</li>
+<li>点击<strong>Edit</strong>弹出<strong>Setting界面</strong>；设置其中的<strong>Screen name</strong>为<strong>QA-Server</strong>（也就是在前面服务器配置界面输入的名字，必须相同，否则客户端无法连接到服务器，有一定的安全作用；</li>
+<li>在图中<strong>Server IP</strong>位置输入服务器IP；</li>
+<li>点击右下角的<strong>Start按钮</strong>即可连接到服务器，然后就可以通过服务器上的鼠标、键盘操作该客户端；<img src="/images/synergy/6.png" title="配置客户端">
+</li>
+</ul>
+<h2 id="其他信息"><a href="#其他信息" class="headerlink" title="其他信息"></a>其他信息</h2><ul>
+<li>参考文档：<a href="http://www.cnblogs.com/gis_gps/archive/2012/10/27/2742526.html" target="_blank" rel="external">[原创]Synergy安装方法</a>；</li>
+<li>类似的软件：<a href="https://www.teamviewer.com/zhCN/" target="_blank" rel="external">TeamViewer</a>，和Synergy不同的是，TeamViewer类似于Windows远程桌面，在用户当前的电脑窗口显示被控制机器，适合远程控制；使用体验非常好。</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Synergy是一款共享电脑外设的软件，也就是可以用一套鼠标、键盘控制多台电脑，&lt;a href=&quot;https://symless.com/synergy/&quot;&gt;Synergy官网&lt;/a&gt;的说明如下：&lt;br&gt;&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;Share one mouse and keyboard between multiple computers&lt;/strong&gt;&lt;br&gt;Synergy combines your desktop devices together in to one cohesive experience. It’s software for sharing your mouse and keyboard between multiple computers on your desk. It works on Windows, Mac OS X and Linux.&lt;/p&gt;
+&lt;footer&gt;&lt;strong&gt;Synergy&lt;/strong&gt;&lt;cite&gt;&lt;a href=&quot;https://symless.com/synergy/welcome-to-island-marketing.html&quot;&gt;Synergy官网&lt;/a&gt;&lt;/cite&gt;&lt;/footer&gt;&lt;/blockquote&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Tools" scheme="http://tanchao90.com/categories/Tools/"/>
+    
+    
+      <category term="Tools" scheme="http://tanchao90.com/tags/Tools/"/>
+    
+      <category term="Synergy" scheme="http://tanchao90.com/tags/Synergy/"/>
+    
+      <category term="TeamViewer" scheme="http://tanchao90.com/tags/TeamViewer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用WordPress搭建个人博客</title>
+    <link href="http://tanchao90.com/build-blog-with-wordpress/"/>
+    <id>http://tanchao90.com/build-blog-with-wordpress/</id>
+    <published>2015-10-22T15:46:32.000Z</published>
+    <updated>2016-12-20T15:46:32.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>本文记录本博客（指之前的WordPress博客）的搭建过程，希望对想使用WordPress搭建网站的人有所帮助。<br>整个搭建过程大概包括下面几步，后文将详细说明每一步的操作：</p>
+<ul>
+<li>购买域名</li>
+<li>购买空间</li>
+<li>解析域名</li>
+<li>部署和安装WordPress</li>
+<li>选择主题</li>
+<li>开始写博客</li>
+</ul>
+<a id="more"></a>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h4 id="下载WordPress："><a href="#下载WordPress：" class="headerlink" title="下载WordPress："></a>下载WordPress：</h4><ul>
+<li>在 <a href="https://cn.wordpress.org/" target="_blank" rel="external">WordPress</a> 官网下载最新版即可，我下载的版本是：wordpress-4.3.1-zh_CN.zip；</li>
+</ul>
+<h4 id="VPN："><a href="#VPN：" class="headerlink" title="VPN："></a>VPN：</h4><ul>
+<li>搭建的过程中部分网站的访问速度很慢，而且很不稳定，为了顺利完成搭建，可能需要借助于VPN；</li>
+<li>我使用了 <a href="https://www.getgreenjsq.me/" target="_blank" rel="external">GREEN加速器（GreenVPN加速器唯一官网）</a>，新用户有200M免费流量，足以完成整个搭建过程；</li>
+<li>GREEN加速器域名变化比较快，可以通过谷歌或者 <a href="https://www.getgreenjsq.me/getdomain.html" target="_blank" rel="external">获取本站最新地址（域名）的方法</a>（请发送任意邮件至<code>GreenDizhi@gmail.com</code>系统将自动回复最新地址到您的邮箱）获取最新域名；</li>
+<li>GREEN加速器首页截图如下：<img src="/images/build-blog-with-wordpress/0.png" title="GREEN加速器首页"></li>
+</ul>
+<h2 id="购买域名"><a href="#购买域名" class="headerlink" title="购买域名"></a>购买域名</h2><p>经同学介绍，我选择了在 <a href="https://sg.godaddy.com/zh/" target="_blank" rel="external">GoDaddy</a> 上面购买域名；<br>比较简短的域名都被注册了，所以我最终选了目前这个域名（<code>tanchaoblog</code>），不过还算好记，价钱也不贵，大约两年120元；<br><strong>注</strong>：可以在网上找一些优惠码，系统会在 <strong>默认优惠</strong> 和 <strong>优惠码</strong> 之间选一个优惠额度更大的，我使用的是默认优惠。</p>
+<h2 id="购买空间"><a href="#购买空间" class="headerlink" title="购买空间"></a>购买空间</h2><p>这个也是同学推荐的：<a href="http://vpsaa.com/" target="_blank" rel="external">VPSAA</a>，我选择的是 <a href="http://my.vpsaa.com/cart.php?gid=35" target="_blank" rel="external">虚拟主机/日本主机/日本主机JP200</a>，也就是日本主机中最便宜的一个；<br>原价65元一年，网上有新人优惠码（<strong>NEW</strong>），打九折，最终花费了58.5元；<br>完成购买之后会收到VPSAA的邮件，包含购买的空间信息和相关资料，其中最主要的是 <strong>服务器信息</strong> 和 <strong>DA面版信息</strong>，如下图所示：<br><img src="/images/build-blog-with-wordpress/1.png" title="空间数据"></p>
+<h2 id="解析域名"><a href="#解析域名" class="headerlink" title="解析域名"></a>解析域名</h2><p>这一步的目的是将购买的域名映射到刚才购买的空间地址，需要在GoDaddy上面操作，具体可参考 <a href="http://www.sohlg.com/seo/godaddy.html" target="_blank" rel="external">2015最新版godaddy域名解析方法教程</a>。<br><strong>注意事项</strong>：</p>
+<ul>
+<li>删除多余的规则；</li>
+<li>将 <strong>A(Host)</strong> 中默认 <strong>@记录</strong> 中的IP改为上面购买的的服务器IP；</li>
+</ul>
+<h2 id="部署和安装-WordPress"><a href="#部署和安装-WordPress" class="headerlink" title="部署和安装 WordPress"></a>部署和安装 WordPress</h2><p>这一步比较麻烦，也是比较耗时的一步，大致可分为两个阶段：</p>
+<ul>
+<li>在虚拟主机上部署WordPress，可参考文档 <a href="http://jingyan.baidu.com/article/86fae346d66d033c48121a75.html" target="_blank" rel="external">如何利用DirectAdmin面板快速安装wordpress程序</a>完成；</li>
+<li>进入WordPress界面，开始安装；注意记住输入的用户名和密码，后期管理WordPress站点需要；</li>
+</ul>
+<p><strong>注意事项</strong>：</p>
+<ul>
+<li>在上传WordPress压缩包时一定要重新压缩文件，否则在线操作需要多一次文件拷贝；</li>
+<li>文件压缩格式必须是<strong>.zip</strong>或者<strong>.tar.gz</strong>，否则无法在线解析；</li>
+<li>在虚拟主机上部署WordPress的过程中可能需要VPN的帮助；</li>
+<li>记住数据库相关参数、WordPress账号密码；</li>
+</ul>
+<h2 id="选择主题"><a href="#选择主题" class="headerlink" title="选择主题"></a>选择主题</h2><p>WordPress有一套默认的主题，但大家也可以选择自己喜欢的主题来自定义博客；<br>选择主题大致有两个方法：</p>
+<ul>
+<li><strong>WordPress/仪表盘/外观/主题</strong>中有很多主题，大家可以浏览、安装自己喜欢的；</li>
+<li>在网上下载主题文件，然后上传到WordPress，上传也很简单，依次进入<strong>WordPress/仪表盘/外观/主题/添加/上传主题</strong>即可完成主题上传；上传文件必须是压缩包，格式要求同前面；</li>
+</ul>
+<h2 id="开始写博客"><a href="#开始写博客" class="headerlink" title="开始写博客"></a>开始写博客</h2><p>搭建好博客之后就可以开写了，可以直接在仪表盘中发表文章；但要写一篇美观、漂亮的博客可不容易，通过看别人博客及自己了解的信息，主要是有下面几点内容：</p>
+<ul>
+<li>安装插件来丰富WordPress的功能，如防止垃圾评论插件、书写代码插件等，目前我还没有研究这方面的内容；</li>
+<li>好的排版，目前我准备使用<strong>Markdown</strong>来写博客，本文就是用Markdown写的，可以参考文章 <a href="http://sspai.com/25137" target="_blank" rel="external">认识与入门Markdown</a> 了解Markdown；</li>
+<li>合理组织文章内容，更好的去表达内容；这方面我特别欠缺，希望以后能有所提高；</li>
+</ul>
+<h2 id="其他："><a href="#其他：" class="headerlink" title="其他："></a>其他：</h2><ol>
+<li>关于WordPress我也是刚接触，欢迎大家交流讨论；</li>
+<li><a href="http://www.zrblog.net/" target="_blank" rel="external">赵荣部落</a>：上面有很多域名、主机相关的信息可参考。</li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;本文记录本博客（指之前的WordPress博客）的搭建过程，希望对想使用WordPress搭建网站的人有所帮助。&lt;br&gt;整个搭建过程大概包括下面几步，后文将详细说明每一步的操作：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;购买域名&lt;/li&gt;
+&lt;li&gt;购买空间&lt;/li&gt;
+&lt;li&gt;解析域名&lt;/li&gt;
+&lt;li&gt;部署和安装WordPress&lt;/li&gt;
+&lt;li&gt;选择主题&lt;/li&gt;
+&lt;li&gt;开始写博客&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="Tools" scheme="http://tanchao90.com/categories/Tools/"/>
+    
+    
+      <category term="Tools" scheme="http://tanchao90.com/tags/Tools/"/>
+    
+      <category term="WordPress" scheme="http://tanchao90.com/tags/WordPress/"/>
+    
+      <category term="GoDaddy" scheme="http://tanchao90.com/tags/GoDaddy/"/>
+    
+      <category term="VPSAA" scheme="http://tanchao90.com/tags/VPSAA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>我的第一篇博客</title>
+    <link href="http://tanchao90.com/my-first-blog/"/>
+    <id>http://tanchao90.com/my-first-blog/</id>
+    <published>2015-10-21T15:05:19.000Z</published>
+    <updated>2016-12-20T15:05:19.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>俗话说万事开头难，有搭建个人博客这个想法已经很久了，但一直没有行动，主要是太懒。<br>最近在整理收藏的博客地址的时候，看到 <a href="http://blog.csdn.net/happydeer" target="_blank" rel="external">陆其明</a> 的一句话：</p>
+<blockquote><p>有人曾经问我，“你这样把技术都说白了，不怕别人超过你吗？”我说，“我不怕，因为我也一直在进步！”况且，我相信，特定的技术都是有保鲜期的，唯有分享才能发挥它的最大价值。我只后悔自己当年分享得还不够，有一些代码至今还沉睡在我的硬盘里，而它们现在已经几乎没有任何价值了。</p>
+<footer><strong>CSDN:业界</strong><cite><a href="http://www.csdn.net/article/2014-06-10/2820155" target="_blank" rel="external">专访陆其明：技术牛人的蜕变之路</a></cite></footer></blockquote>
+<a id="more"></a>
+<p>这让我想起自己本科期间在CSDN上面上传的各种程序和资料，其中大多数程序都是平时的编程作业，如离散数学、数据结构等等课程的作业；其实当时上传的目的主要是赚点CSDN的积分，以便能更自在的下载自己需要的资料。</p>
+<p>虽然只是一些简单的课程作业，并且代码质量也不高，但其中有个程序也被下载了四十多次，这些程序让我的账户上多出了六七百个积分，已经显得”很富裕”了^-^！同时也给那些下载我程序的人提供了或多或少的帮助，这也是上传这些代码的另一个原因，因为我开始学习编程的时候，也经常在网上找类似的代码，然后参考着完成自己的程序，回头想想这对我学习编程并产生兴趣起了不少影响。</p>
+<p>假如我当时不将这些程序上传到CSDN的话，它们只能永远呆在我的硬盘里，变得毫无用处。</p>
+<p>所以，当看到陆其明那句话的时候，心头一热，觉得是时候着手搭建一个博客了，既能对自己的学习、生活、工作做一些简单的记录和总结，又能和其他人分享、交流，更好的去进步。</p>
+<p>于是便有了 <strong>这个博客，这篇文章！</strong></p>
+<p>PS：之前还在新浪博客、QQ空间写过一些内容，后续可能会整理一些精彩的出来。</p>
+<ul>
+<li><a href="http://blog.sina.com.cn/chaotanblog" target="_blank" rel="external">新浪-微笑吧的博客</a></li>
+</ul>
+<p>最后希望这是一个好的开始，争取每个月都能写几篇文章。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;俗话说万事开头难，有搭建个人博客这个想法已经很久了，但一直没有行动，主要是太懒。&lt;br&gt;最近在整理收藏的博客地址的时候，看到 &lt;a href=&quot;http://blog.csdn.net/happydeer&quot;&gt;陆其明&lt;/a&gt; 的一句话：&lt;/p&gt;
+&lt;blockquote&gt;&lt;p&gt;有人曾经问我，“你这样把技术都说白了，不怕别人超过你吗？”我说，“我不怕，因为我也一直在进步！”况且，我相信，特定的技术都是有保鲜期的，唯有分享才能发挥它的最大价值。我只后悔自己当年分享得还不够，有一些代码至今还沉睡在我的硬盘里，而它们现在已经几乎没有任何价值了。&lt;/p&gt;
+&lt;footer&gt;&lt;strong&gt;CSDN:业界&lt;/strong&gt;&lt;cite&gt;&lt;a href=&quot;http://www.csdn.net/article/2014-06-10/2820155&quot;&gt;专访陆其明：技术牛人的蜕变之路&lt;/a&gt;&lt;/cite&gt;&lt;/footer&gt;&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="Life" scheme="http://tanchao90.com/categories/Life/"/>
+    
+    
+      <category term="Life" scheme="http://tanchao90.com/tags/Life/"/>
+    
+  </entry>
+  
+</feed>

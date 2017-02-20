@@ -1,0 +1,49 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Synergy-多台电脑共享一套键盘和鼠标 · TanChao的博客</title><meta name="description" content="The longest journey begins with the first step."><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/logo.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://tanchao90.com/atom.xml" title="TanChao的博客"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/logo.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">主页</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">所有文章</a></li><li class="nav-list-item"><a href="http://weibo.com/tanchao90" target="_blank" class="nav-list-link">微博</a></li><li class="nav-list-item"><a href="https://github.com/tanchao90" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Synergy-多台电脑共享一套键盘和鼠标</h1><div class="post-info">Oct 31, 2015</div><div class="post-content"><p>Synergy是一款共享电脑外设的软件，也就是可以用一套鼠标、键盘控制多台电脑，<a href="https://symless.com/synergy/" target="_blank" rel="external">Synergy官网</a>的说明如下：<br><blockquote><p><strong>Share one mouse and keyboard between multiple computers</strong><br>Synergy combines your desktop devices together in to one cohesive experience. It’s software for sharing your mouse and keyboard between multiple computers on your desk. It works on Windows, Mac OS X and Linux.</p>
+<footer><strong>Synergy</strong><cite><a href="https://symless.com/synergy/welcome-to-island-marketing.html" target="_blank" rel="external">Synergy官网</a></cite></footer></blockquote></p>
+<a id="more"></a>
+<img src="/images/synergy/1.png" title="Synergy首页截图">
+<h2 id="Synergy-combines-your-devices-together-in-to-one-cohesive-experience"><a href="#Synergy-combines-your-devices-together-in-to-one-cohesive-experience" class="headerlink" title="Synergy combines your devices together in to one cohesive experience."></a>Synergy combines your devices together in to one cohesive experience.</h2><ul>
+<li>Seamlessly move your mouse to any computer and start typing.（可以在多个电脑之间无缝的移动鼠标和打字）；</li>
+<li>Works on all major operating systems (Windows, Mac OS X, and Linux).（支持Windows、Mac、Linux）；</li>
+<li>在你的电脑之间共享复制和粘贴；</li>
+<li>Drag and drop files from one computer to another (Windows and Mac OS X).（可以在不同电脑之间拖拽文件）；</li>
+<li>使用公共网络时，加密系统能够保护敏感数据的安全；</li>
+<li>Network-based (IP) software KVM switch (non-video).</li>
+</ul>
+<p>当同时使用好几台电脑时，Synergy特别方便，当然这几台电脑的屏幕必须在视力可视范围内；下面主要讲解Synergy的安装配置。</p>
+<h2 id="下载、安装Synergy"><a href="#下载、安装Synergy" class="headerlink" title="下载、安装Synergy"></a>下载、安装Synergy</h2><p>可以从 <a href="https://symless.com/synergy/" target="_blank" rel="external">Synergy官网</a>或者我的百度网盘下载Windows版本的Synergy：<a href="http://pan.baidu.com/s/1kTzY5mR#list/path=%2F" target="_blank" rel="external">点击下载</a>，其中包含32位、64位两个版本；双击可执行文件即可完成安装。</p>
+<h2 id="配置Synergy"><a href="#配置Synergy" class="headerlink" title="配置Synergy"></a>配置Synergy</h2><p>Synergy有两种模式，分别是<strong>客户端模式</strong>和<strong>服务端模式</strong> ，两者的区别是：只能用服务端所在电脑的鼠标、键盘去控制客户端所在的电脑。</p>
+<h4 id="配置服务端"><a href="#配置服务端" class="headerlink" title="配置服务端"></a>配置服务端</h4><ul>
+<li>在服务端机器安装Synergy，选择服务器模式；</li>
+<li>如下图所示，先点击<strong>Edit</strong>，弹出<strong>Setting窗口</strong>，然后配置本机的名字（<strong>HIH-D-5072-Mine</strong>）和端口（24800）；<img src="/images/synergy/2.png" title="配置服务端"></li>
+<li>点击上图中绿色框内的<strong>Configure Server</strong>，弹出下面的<strong>Server Configuration界面</strong>，在中间会显示一台电脑，名称为<strong>HIH-D-5072-Mine</strong>，也就是本机；<img src="/images/synergy/3.png" title="配置服务端"></li>
+<li>接着我们按图中箭头提示，拖动一个电脑所示的图标到<strong>Server右侧</strong>，双击弹出下图所示的<strong>Screen Setting界面</strong>，设置其中的Screen name为<strong>QA-Server</strong>；并且按下图所示修改左下角的<strong>Dead corners</strong>（死角）；<br>注：必须先在这里添加需要连接的客户端，然后该客户端才被允许连接到服务器；<img src="/images/synergy/4.png" title="配置服务端"></li>
+<li>完成设置之后的效果如上上一张图所示，<strong>左边是服务器</strong>，<strong>右边是客户端</strong>；并且他们之间的相对位置决定了的鼠标在他们之间切换的方式；<br>在服务器窗口时，将鼠标移出右侧边缘，即可进入客户端窗口；<br>在客户端窗口时，将鼠标移出左侧边缘，即可进入服务端窗口；</li>
+<li>点击第二幅说明图中的<strong>Start</strong>启动服务器（目前显示的是Stop，因为我截图时服务器已经处于运行状态了）；</li>
+</ul>
+<h4 id="Dead-corners（死角）的说明"><a href="#Dead-corners（死角）的说明" class="headerlink" title="Dead corners（死角）的说明"></a>Dead corners（死角）的说明</h4><ul>
+<li>如下图所示，死角设置分为电脑屏幕四个角，设置死角之后，将鼠标从图中红框区域移出Windows窗口之外时并不能进入对应的电脑；</li>
+<li>通过设置死角，就可以利用死角保留Windows原有的部分操作，如将Windows窗口靠边（左边、或者右边）、最大化（移到屏幕顶端）；</li>
+<li>该软件的死角区域最大只能设置<strong>99个像素</strong>，有点不是很灵活。<img src="/images/synergy/5.png" title="死角说明">
+</li>
+</ul>
+<h4 id="配置客户端"><a href="#配置客户端" class="headerlink" title="配置客户端"></a>配置客户端</h4><ul>
+<li>在客户端机器安装Synergy，选择客户单模式；</li>
+<li>点击<strong>Edit</strong>弹出<strong>Setting界面</strong>；设置其中的<strong>Screen name</strong>为<strong>QA-Server</strong>（也就是在前面服务器配置界面输入的名字，必须相同，否则客户端无法连接到服务器，有一定的安全作用；</li>
+<li>在图中<strong>Server IP</strong>位置输入服务器IP；</li>
+<li>点击右下角的<strong>Start按钮</strong>即可连接到服务器，然后就可以通过服务器上的鼠标、键盘操作该客户端；<img src="/images/synergy/6.png" title="配置客户端">
+</li>
+</ul>
+<h2 id="其他信息"><a href="#其他信息" class="headerlink" title="其他信息"></a>其他信息</h2><ul>
+<li>参考文档：<a href="http://www.cnblogs.com/gis_gps/archive/2012/10/27/2742526.html" target="_blank" rel="external">[原创]Synergy安装方法</a>；</li>
+<li>类似的软件：<a href="https://www.teamviewer.com/zhCN/" target="_blank" rel="external">TeamViewer</a>，和Synergy不同的是，TeamViewer类似于Windows远程桌面，在用户当前的电脑窗口显示被控制机器，适合远程控制；使用体验非常好。</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/rabbitmq/" class="prev">PREV</a><a href="/build-blog-with-wordpress/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'tanchao90';
+var disqus_identifier = 'synergy/';
+var disqus_title = 'Synergy-多台电脑共享一套键盘和鼠标';
+var disqus_url = 'http://tanchao90.com/synergy/';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//tanchao90.disqus.com/count.js" async></script><div class="copyright"><p>© 2015 - 2017 <a href="http://tanchao90.com">TanChao</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-80568471-1",'auto');ga('send','pageview');</script></body></html>
