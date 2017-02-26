@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://tanchao90.com/hello-world/</loc>
+    
+    <lastmod>2017-02-26T09:24:57.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tanchao90.com/this-war-of-mine/</loc>
+    
+    <lastmod>2017-02-26T09:16:43.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tanchao90.com/open-source-licenses/</loc>
+    
+    <lastmod>2017-02-23T15:19:10.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://tanchao90.com/hexo-github/</loc>
     
     <lastmod>2017-02-15T15:30:00.000Z</lastmod>
@@ -19,20 +40,6 @@
     <loc>http://tanchao90.com/virtual-machine-use-experience/</loc>
     
     <lastmod>2016-12-25T09:25:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tanchao90.com/hello-world/</loc>
-    
-    <lastmod>2016-12-25T07:48:02.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tanchao90.com/this-war-of-mine/</loc>
-    
-    <lastmod>2016-12-25T07:33:22.000Z</lastmod>
     
   </url>
   

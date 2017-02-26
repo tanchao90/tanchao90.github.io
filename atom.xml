@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tanchao90.com/"/>
-  <updated>2016-12-25T09:25:26.000Z</updated>
+  <updated>2017-02-23T15:19:10.000Z</updated>
   <id>http://tanchao90.com/</id>
   
   <author>
@@ -14,6 +14,214 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>如何选择开源许可证</title>
+    <link href="http://tanchao90.com/open-source-licenses/"/>
+    <id>http://tanchao90.com/open-source-licenses/</id>
+    <published>2017-02-23T15:19:10.000Z</published>
+    <updated>2017-02-23T15:19:10.000Z</updated>
+    
+    <content type="html"><![CDATA[<a id="more"></a>
+<p>平时查阅 Github 的时候，发现上面好多代码都有开源协议申明，如 MIT、BSD、Apache 等，甚至有些博客都有版权申明，所以最近专门了解了一下<code>开源许可证（Open Source License）</code>，结果发现通过OSI（<a href="https://opensource.org/" target="_blank" rel="external">Open Source Initiative</a>）批准的许可证（<a href="https://opensource.org/licenses/alphabetical" target="_blank" rel="external">Licenses by Name</a>）就有接近一百个，如此多的许可证让人眼花缭乱，如何才能选择一个适合自己项目的呢？</p>
+<!-- more -->
+<p>本文主要参考其他人的博客成文，对那些博客中的信息做了一个整理总结，方便自己学习，希望对以后的学习者有帮助。</p>
+<p>文章主要分<code>开源许可证</code>、<code>非软件类许可证</code>两大方面，它们本质上都属于<code>开放内容许可证</code>（<a href="https://en.wikipedia.org/wiki/Open_Content_License" target="_blank" rel="external">Open Content License</a>），具体章节如下：</p>
+<ul>
+<li><a href="#开源许可证">开源许可证</a></li>
+<li><a href="#如何选择合适的开源许可证">如何选择合适的开源许可证</a></li>
+<li><a href="#为代码添加开源许可证">为代码添加开源许可证</a></li>
+<li><a href="#非软件类许可证">非软件类许可证</a></li>
+</ul>
+<h2 id="开源许可证"><a href="#开源许可证" class="headerlink" title="开源许可证"></a>开源许可证</h2><blockquote><p>An open-source license is a type of license for computer software and other products that allows the source code, blueprint or design to be used, modified and/or shared under defined terms and conditions.</p>
+<footer><strong>Open-source license</strong><cite><a href="https://en.wikipedia.org/wiki/Open-source_license" target="_blank" rel="external">Wikipedia</a></cite></footer></blockquote>
+<p>虽然OSI批准的许可证有接近一百个，但是比较流行的并不多，大概只有五六个，如MIT、BSD、Apache、GPL、LGPL、Mozilla等，所以下面主要介绍这几个协议。</p>
+<h4 id="MIT"><a href="#MIT" class="headerlink" title="MIT"></a>MIT</h4><ul>
+<li><a href="https://opensource.org/licenses/MIT" target="_blank" rel="external">The MIT License</a></li>
+</ul>
+<p>MIT许可协议之名源自麻省理工学院（Massachusetts Institute of Technology, MIT），又称“X许可协议”（X License）或“X11许可协议”（X11 License）。</p>
+<p>MIT是限制最少的开源许可证！</p>
+<p>特点：</p>
+<ul>
+<li>可以任意使用、拷贝和修改代码</li>
+<li>可以用于商业软件</li>
+<li>修改后的代码或者发行包包含原作者的许可信息</li>
+<li>使用此协议的项目：<a href="https://github.com/jquery/jquery/blob/master/LICENSE.txt" target="_blank" rel="external">jQuery</a>, <a href="https://github.com/dotnet/corefx/blob/master/LICENSE" target="_blank" rel="external">.NET Core</a>, <a href="https://github.com/rails/rails/blob/master/activerecord/MIT-LICENSE" target="_blank" rel="external">Rails</a>, <a href="https://github.com/nodejs/node/blob/master/LICENSE" target="_blank" rel="external">Node.js</a> 等</li>
+</ul>
+<h4 id="BSD（Berkeley-Software-Distribution-License）"><a href="#BSD（Berkeley-Software-Distribution-License）" class="headerlink" title="BSD（Berkeley Software Distribution License）"></a>BSD（Berkeley Software Distribution License）</h4><ul>
+<li><a href="https://opensource.org/licenses/BSD-2-Clause" target="_blank" rel="external">The 2-Clause BSD License</a></li>
+<li><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank" rel="external">BSD 3-Clause “New” or “Revised” license</a></li>
+</ul>
+<p>特点：</p>
+<ul>
+<li>可以任意使用、拷贝和修改代码</li>
+<li>可以用于商业软件</li>
+<li>修改后的代码需包含原代码中的 BSD 许可证</li>
+<li>未获书面许可，不可以用开源代码的作者/机构名字和原来产品的名字做市场推广</li>
+<li>使用此协议的项目：<a href="https://nginx.org/en/" target="_blank" rel="external">nginx</a>, <a href="https://redis.io/topics/license" target="_blank" rel="external">Redis</a> 等</li>
+</ul>
+<h4 id="Apache-License"><a href="#Apache-License" class="headerlink" title="Apache License"></a>Apache License</h4><ul>
+<li><a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank" rel="external">Apache LICENSE-2.0</a></li>
+<li><a href="https://opensource.org/licenses/Apache-2.0" target="_blank" rel="external">Apache License, Version 2.0</a></li>
+</ul>
+<p>特点：</p>
+<ul>
+<li>允许使用者修改和重新发布代码(以其他协议形式)，允许闭源商业发布和销售</li>
+<li>一次授权，永久使用</li>
+<li>一国授权，在其他国家也适用</li>
+<li>授权不能撤回</li>
+<li>使用者需要给代码的用户一份 Apache Lience</li>
+<li>如果你修改了代码，需要在被修改的文件中说明</li>
+<li>如果再发布的产品中包含了 Notice 文件，则需要在 Notice 文件中带有 Apache Lience</li>
+<li>使用此协议的项目：<a href="https://github.com/android/platform_system_core/blob/master/NOTICE" target="_blank" rel="external">Android</a>, <a href="https://svn.apache.org/viewvc/httpd/httpd/trunk/LICENSE?view=markup" target="_blank" rel="external">Apache</a>, <a href="https://github.com/apple/swift/blob/master/LICENSE.txt" target="_blank" rel="external">Swift</a> 等</li>
+</ul>
+<h4 id="GPL（GNU-General-Public-License）"><a href="#GPL（GNU-General-Public-License）" class="headerlink" title="GPL（GNU General Public License）"></a>GPL（GNU General Public License）</h4><ul>
+<li><a href="https://opensource.org/licenses/gpl-license" target="_blank" rel="external">GNU General Public License Versions</a></li>
+</ul>
+<p>特点：</p>
+<ul>
+<li>可以任意使用、拷贝和修改代码</li>
+<li>具有“传染性”，只要在一个软件中使用(“使用”指类库引用或者修改后的代码) GPL 协议的产品，则该软件产品必须也采用 GPL 协议，既必须也是开源和免费的</li>
+<li>不适合商业软件</li>
+<li>使用此协议的项目：<a href="http://git.savannah.gnu.org/cgit/bash.git/tree/COPYING" target="_blank" rel="external">Bash</a>, <a href="https://github.com/torvalds/linux" target="_blank" rel="external">Linux</a>, <a href="https://github.com/git/git" target="_blank" rel="external">Git</a>, <a href="https://github.com/WordPress/WordPress/blob/master/license.txt" target="_blank" rel="external">WordPress</a> 等</li>
+</ul>
+<h4 id="LGPL（GNU-Library-or-“Lesser”-General-Public-License）"><a href="#LGPL（GNU-Library-or-“Lesser”-General-Public-License）" class="headerlink" title="LGPL（GNU Library or “Lesser” General Public License）"></a>LGPL（GNU Library or “Lesser” General Public License）</h4><ul>
+<li><a href="https://opensource.org/licenses/lgpl-license" target="_blank" rel="external">LGPL Licenses</a></li>
+</ul>
+<p>由于 GPL 太严格，所有的使用者都必须免费和开源，基于此原因产生了 LGPL。</p>
+<p>特点：</p>
+<ul>
+<li>允许商业软件通过类库引用(link)方式使用 LGPL 类库而不需要开源商业软件的代码</li>
+<li>如果要修改原始组件的代码，则涉及修改部分的代码和基于原来代码衍生的代码都必须采用 LGPL 协议</li>
+<li>不适合以 LGPL 协议为基础的代码进行二次开发的商业软件</li>
+<li>使用此协议的项目：<a href="https://docs.jboss.org/jbossas/admindevel326/html/apa.html" target="_blank" rel="external">JBoss</a>, <a href="http://hibernate.org/community/license/" target="_blank" rel="external">Hibernate</a>, <a href="https://www.qt.io/qt-licensing-terms/" target="_blank" rel="external">Qt</a> 等</li>
+</ul>
+<h4 id="References"><a href="#References" class="headerlink" title="References"></a>References</h4><ul>
+<li><a href="https://zh.wikipedia.org/wiki/MIT%E8%A8%B1%E5%8F%AF%E8%AD%89" target="_blank" rel="external">MIT许可证 - Wikipedia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/BSD_licenses" target="_blank" rel="external">BSD</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/BSD%E8%AE%B8%E5%8F%AF%E8%AF%81" target="_blank" rel="external">BSD许可证</a></li>
+<li><a href="https://www.gnu.org/licenses/gpl-howto.html" target="_blank" rel="external">GNU GPL</a></li>
+</ul>
+<h2 id="如何选择合适的开源许可证"><a href="#如何选择合适的开源许可证" class="headerlink" title="如何选择合适的开源许可证"></a>如何选择合适的开源许可证</h2><h4 id="一图胜千言"><a href="#一图胜千言" class="headerlink" title="一图胜千言"></a>一图胜千言</h4><p>俗话说一图胜千言，网上已经有很多流程图来说这个事情，比较清晰的有下面两张：</p>
+<p>【图1】： 来自阮一峰老师的博客 <a href="http://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html" target="_blank" rel="external">如何选择开源许可证？</a>：<br><img src="/images/open-source-licenses/1.png" title="来自阮一峰老师的博客-如何选择开源许可证"></p>
+<p>【图2】： 来自乌克兰程序员 Paul Miller <a href="http://paulmillr.com/posts/simple-description-of-popular-software-licenses/" target="_blank" rel="external">开源许可协议分析图</a>：<br><img src="/images/open-source-licenses/2.png" title="来自乌克兰程序员 Paul Miller"></p>
+<p>【图2】 对应的中文版可查看 陈皓的博客【酷客-COOLSHELL】 <a href="http://coolshell.cn/articles/4657.html" target="_blank" rel="external">狗日的开源软件许可证</a>：<br><img src="/images/open-source-licenses/3.jpg" title="来自陈皓的博客-狗日的开源软件许可证"></p>
+<h4 id="Github-官方说明"><a href="#Github-官方说明" class="headerlink" title="Github 官方说明"></a>Github 官方说明</h4><p>为了帮助大家为自己的代码选择合适的许可证，Github 专门提供了一个网站来举例说明，对应的中英文链接如下：</p>
+<ul>
+<li><a href="https://choosealicense.com/" target="_blank" rel="external">Choose an open source license</a></li>
+<li><a href="http://choosealicense.online/" target="_blank" rel="external">选择一个开源软件协议</a></li>
+</ul>
+<p>网址首页推荐了 MIT、Apache、GPL 三个许可证，并做了简单说明，列出了部分用该许可证的项目，方便大家参考，用户也可进入协议详情页面详细了解每个协议的权利和约束，网址展示很漂亮，如 <a href="http://choosealicense.online/licenses/mit/" target="_blank" rel="external">MIT 许可证说明</a>。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ul>
+<li>若只要求署名，则可选择 MIT、BSD 许可证</li>
+<li>若对专利有一定要求，则可选择 Apache 许可证</li>
+<li>若想促进代码分享，强制使用者开源、免费，则选择 GPL 许可证</li>
+<li>若想促进源码分享，但对类库使用放松限制，则可考虑 LGPL</li>
+</ul>
+<h4 id="References-1"><a href="#References-1" class="headerlink" title="References"></a>References</h4><ul>
+<li><a href="http://www.cnblogs.com/Wayou/p/how_to_choose_a_license.html" target="_blank" rel="external">如何为你的代码选择一个开源协议</a><ul>
+<li>【各协议授权详情】部分用图表的形式对比说明了各个协议，清晰明了</li>
+</ul>
+</li>
+<li><a href="http://blog.jasonding.top/2015/05/11/Git/%E3%80%90Git%E3%80%91%E8%AE%A4%E8%AF%86%E5%90%84%E7%A7%8D%E5%BC%80%E6%BA%90%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E5%85%B3%E7%B3%BB/" target="_blank" rel="external">【Git】认识各种开源协议及其关系</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2010/02/why_gpl_is_a_better_choice.html" target="_blank" rel="external">为什么GPL是更好的开源许可证?</a></li>
+<li><a href="http://eleveneat.com/2015/12/15/License/" target="_blank" rel="external">如何选择和使用开源许可协议</a></li>
+</ul>
+<h2 id="为代码添加开源许可证"><a href="#为代码添加开源许可证" class="headerlink" title="为代码添加开源许可证"></a>为代码添加开源许可证</h2><p>以 Github 仓库为例，为 GitHub 仓库添加许可证有两种方式：</p>
+<ul>
+<li>创建仓库的同时选择一个许可证，Github 可自动为其创建相关许可证文件</li>
+<li>手动创建名为 <code>LICENSE</code> 的文件，并将对应许可证的内容写入该文件，然后将该文件放入仓库根目录即可</li>
+</ul>
+<h4 id="为-Github-仓库添加-MIT-许可证"><a href="#为-Github-仓库添加-MIT-许可证" class="headerlink" title="为 Github 仓库添加 MIT 许可证"></a>为 Github 仓库添加 MIT 许可证</h4><p>由于我的 Github 仓库 <a href="https://github.com/tanchao90/evolution" target="_blank" rel="external">evolution</a> 已经存在，所以只能采用第二种方法，添加 MIT 许可证文件之后的仓库如下图所示：仓库中包含 <code>LICENSE</code> 文件，并且 Github 会识别其中的内容，并在仓库右上角显示出协议名称。<br><img src="/images/open-source-licenses/4.png"></p>
+<h4 id="MIT-许可证头部说明"><a href="#MIT-许可证头部说明" class="headerlink" title="MIT 许可证头部说明"></a>MIT 许可证头部说明</h4><p>关于 MIT 许可证头部 <code>Copyright (c) [year] [fullname]</code> 中 year、fullname 的含义和填写说明，可参考 <a href="http://opensource.stackexchange.com/questions/1522/what-should-be-written-in-mit-license-year-full-name" target="_blank" rel="external">What should be written in MIT license (year, full name)?</a>：</p>
+<blockquote>
+<p><code>[year]</code> is the <strong>year copyright was applied</strong>. If you apply the copyright (which happens automatically when you write the work) in 2015, put in 2015. Some people like to put in a range of years (i.e. 2015-2020) - this isn’t necessary.<br><code>[fullname]</code> is the <strong>full name of the entity that owns the copyright</strong>. </p>
+</blockquote>
+<h2 id="非软件类许可证"><a href="#非软件类许可证" class="headerlink" title="非软件类许可证"></a>非软件类许可证</h2><p>除过软件许可证之外，还有 <a href="http://choosealicense.online/non-software/" target="_blank" rel="external">非软件类协议</a>，用于多媒体、文章等内容，其中最常用的就是 <code>知识共享许可证</code>(<a href="https://creativecommons.org/licenses/" target="_blank" rel="external">The Creative Commons Licenses</a>，也称为CC协议)。</p>
+<h4 id="知识共享许可证"><a href="#知识共享许可证" class="headerlink" title="知识共享许可证"></a>知识共享许可证</h4><p>CC协议为作者提供了四种权利，分别是：</p>
+<ul>
+<li>署名（Attribution，简写为BY）：必须提到原作者</li>
+<li>非商业用途（Noncommercial，简写为NC）：不得用于盈利性目的</li>
+<li>禁止演绎（No Derivative Works，简写为ND）：不得修改原作品</li>
+<li>相同方式共享（Share Alike，简写为SA）：如果允许修改原作品，那么必须使用相同的许可证发布</li>
+</ul>
+<p>上述四种权利的具体含义可参考 <a href="http://creativecommons.net.cn/licenses/licenses_exp/" target="_blank" rel="external">许可协议说明-知识共享中国大陆</a> 一文，文章使用具体的场景对其进行说明，简单明了。</p>
+<p>对上述权利任意组合可以产生16种权利组合，但去除其中的无效（或没意义）组合，最终只留下了6种组合，绝大多数创作共用许可证都属于这6种组合之一，分别如下表格所示：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">协议名称</th>
+<th style="text-align:center">中文名称</th>
+<th style="text-align:center">协议图示</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">CC BY</td>
+<td style="text-align:center">署名</td>
+<td style="text-align:center"><img src="https://licensebuttons.net/l/by/3.0/88x31.png" alt="CC BY"></td>
+</tr>
+<tr>
+<td style="text-align:center">CC BY-SA</td>
+<td style="text-align:center">署名-相同方式共享</td>
+<td style="text-align:center"><img src="https://licensebuttons.net/l/by-sa/3.0/88x31.png" alt="CC BY-SA"></td>
+</tr>
+<tr>
+<td style="text-align:center">CC BY-ND</td>
+<td style="text-align:center">署名-禁止演绎</td>
+<td style="text-align:center"><img src="https://licensebuttons.net/l/by-nd/3.0/88x31.png" alt="CC BY-ND"></td>
+</tr>
+<tr>
+<td style="text-align:center">CC BY-NC</td>
+<td style="text-align:center">署名-非商业性使用</td>
+<td style="text-align:center"><img src="https://licensebuttons.net/l/by-nc/3.0/88x31.png" alt="CC BY-NC"></td>
+</tr>
+<tr>
+<td style="text-align:center">CC BY-NC-SA</td>
+<td style="text-align:center">署名-非商业性使用-相同方式共享</td>
+<td style="text-align:center"><img src="https://licensebuttons.net/l/by-nc-sa/3.0/88x31.png" alt="CC BY-NC-SA"></td>
+</tr>
+<tr>
+<td style="text-align:center">CC BY-NC-ND</td>
+<td style="text-align:center">署名-非商业性使用-禁止演绎</td>
+<td style="text-align:center"><img src="https://licensebuttons.net/l/by-nc-nd/3.0/88x31.png" alt="CC BY-NC-ND"></td>
+</tr>
+</tbody>
+</table>
+<h4 id="为我的博客添加协议声明"><a href="#为我的博客添加协议声明" class="headerlink" title="为我的博客添加协议声明"></a>为我的博客添加协议声明</h4><p>作者可根据自己的意愿选择上述6种协议中的一种用到自己的作品上。</p>
+<p>对于本博客而言，我个人倾向于选择 <code>CC BY-NC-SA 4.0</code> 协议，具体的版权声明如下：</p>
+<blockquote>
+<p>本博客所有内容均采用创作共用 <strong>[署名-非商业性使用-相同方式共享 4.0 (CC BY-NC-SA 4.0)]</strong> 许可证授权。如要查看许可证全文，请访问如下网址 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="external">CC BY-NC-SA 4.0</a>。</p>
+</blockquote>
+<h4 id="References-2"><a href="#References-2" class="headerlink" title="References"></a>References</h4><ul>
+<li><a href="http://www.ruanyifeng.com/blog/2008/04/creative_commons_licenses.html" target="_blank" rel="external">谈谈创作共用许可证（Creative Commons licenses）</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E5%88%9B%E4%BD%9C%E5%85%B1%E7%94%A8" target="_blank" rel="external">知识共享-wiki</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;平时查阅 Github 的时候，发现上面好多代码都有开源协议申明，如 MIT、BSD、Apache 等，甚至有些博客都有版权申明，所以最近专门了解了一下&lt;code&gt;开源许可证（Open Source License）&lt;/code&gt;，结果发
+    
+    </summary>
+    
+      <category term="编程工具" scheme="http://tanchao90.com/categories/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7/"/>
+    
+    
+      <category term="MIT" scheme="http://tanchao90.com/tags/MIT/"/>
+    
+      <category term="BSD" scheme="http://tanchao90.com/tags/BSD/"/>
+    
+      <category term="Apache" scheme="http://tanchao90.com/tags/Apache/"/>
+    
+      <category term="GPL" scheme="http://tanchao90.com/tags/GPL/"/>
+    
+      <category term="LGPL" scheme="http://tanchao90.com/tags/LGPL/"/>
+    
+      <category term="Creative Commons" scheme="http://tanchao90.com/tags/Creative-Commons/"/>
+    
+  </entry>
   
   <entry>
     <title>VMware、VirtualBox使用总结</title>
@@ -195,14 +403,14 @@
     
     </summary>
     
-      <category term="Tools" scheme="http://tanchao90.com/categories/Tools/"/>
+      <category term="编程工具" scheme="http://tanchao90.com/categories/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7/"/>
     
-    
-      <category term="Tools" scheme="http://tanchao90.com/tags/Tools/"/>
     
       <category term="VMware Workstation" scheme="http://tanchao90.com/tags/VMware-Workstation/"/>
     
       <category term="VirtualBox" scheme="http://tanchao90.com/tags/VirtualBox/"/>
+    
+      <category term="Parallels Desktop" scheme="http://tanchao90.com/tags/Parallels-Desktop/"/>
     
       <category term="OS X" scheme="http://tanchao90.com/tags/OS-X/"/>
     
@@ -217,7 +425,7 @@
     <link href="http://tanchao90.com/this-war-of-mine/"/>
     <id>http://tanchao90.com/this-war-of-mine/</id>
     <published>2016-12-19T12:39:14.000Z</published>
-    <updated>2016-12-25T07:33:22.000Z</updated>
+    <updated>2017-02-26T09:16:43.000Z</updated>
     
     <content type="html"><![CDATA[<img src="/images/this-war-of-mine/0.jpg" title="游戏开始画面">
 <a id="more"></a>
@@ -274,10 +482,10 @@
     
     </summary>
     
-      <category term="Game" scheme="http://tanchao90.com/categories/Game/"/>
+      <category term="游戏" scheme="http://tanchao90.com/categories/%E6%B8%B8%E6%88%8F/"/>
     
     
-      <category term="Game" scheme="http://tanchao90.com/tags/Game/"/>
+      <category term="游戏" scheme="http://tanchao90.com/tags/%E6%B8%B8%E6%88%8F/"/>
     
   </entry>
   
@@ -371,12 +579,8 @@
     
     </summary>
     
-      <category term="Life" scheme="http://tanchao90.com/categories/Life/"/>
+      <category term="吃喝玩乐" scheme="http://tanchao90.com/categories/%E5%90%83%E5%96%9D%E7%8E%A9%E4%B9%90/"/>
     
-    
-      <category term="Life" scheme="http://tanchao90.com/tags/Life/"/>
-    
-      <category term="Basketball" scheme="http://tanchao90.com/tags/Basketball/"/>
     
       <category term="NBA" scheme="http://tanchao90.com/tags/NBA/"/>
     
@@ -469,12 +673,14 @@
     
     </summary>
     
-      <category term="Life" scheme="http://tanchao90.com/categories/Life/"/>
+      <category term="旅行" scheme="http://tanchao90.com/categories/%E6%97%85%E8%A1%8C/"/>
     
     
-      <category term="Life" scheme="http://tanchao90.com/tags/Life/"/>
+      <category term="旅行" scheme="http://tanchao90.com/tags/%E6%97%85%E8%A1%8C/"/>
     
-      <category term="Travel" scheme="http://tanchao90.com/tags/Travel/"/>
+      <category term="黄山" scheme="http://tanchao90.com/tags/%E9%BB%84%E5%B1%B1/"/>
+    
+      <category term="千岛湖" scheme="http://tanchao90.com/tags/%E5%8D%83%E5%B2%9B%E6%B9%96/"/>
     
   </entry>
   
@@ -627,12 +833,8 @@
     
     </summary>
     
-      <category term="Tools" scheme="http://tanchao90.com/categories/Tools/"/>
+      <category term="编程工具" scheme="http://tanchao90.com/categories/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7/"/>
     
-      <category term="IDE" scheme="http://tanchao90.com/categories/Tools/IDE/"/>
-    
-    
-      <category term="Tools" scheme="http://tanchao90.com/tags/Tools/"/>
     
       <category term="IDE" scheme="http://tanchao90.com/tags/IDE/"/>
     
@@ -874,12 +1076,10 @@
     
     </summary>
     
-      <category term="Tools" scheme="http://tanchao90.com/categories/Tools/"/>
+      <category term="博客" scheme="http://tanchao90.com/categories/%E5%8D%9A%E5%AE%A2/"/>
     
     
       <category term="Hexo" scheme="http://tanchao90.com/tags/Hexo/"/>
-    
-      <category term="Tools" scheme="http://tanchao90.com/tags/Tools/"/>
     
       <category term="GitHub Pages" scheme="http://tanchao90.com/tags/GitHub-Pages/"/>
     
@@ -890,7 +1090,7 @@
     <link href="http://tanchao90.com/hello-world/"/>
     <id>http://tanchao90.com/hello-world/</id>
     <published>2016-04-06T14:00:00.000Z</published>
-    <updated>2016-12-25T07:48:02.000Z</updated>
+    <updated>2017-02-26T09:24:57.000Z</updated>
     
     <content type="html"><![CDATA[<p>通过几天的折腾，终于用 <a href="https://hexo.io/" target="_blank" rel="external"><strong>Hexo</strong></a> 搭建好了新博客，新的域名、新的风格、新的开始。</p>
 <h2 id="为什么开新博客？"><a href="#为什么开新博客？" class="headerlink" title="为什么开新博客？"></a>为什么开新博客？</h2><p>大概去年10月份的时候用 WordPress 搭建了一个<a href="http://www.tanchaoblog.com/" target="_blank" rel="external">博客</a>，陆陆续续发布了几篇文章，目前依旧在用，但是一直找没找到一个心仪的模板。</p>
@@ -943,10 +1143,8 @@
     
     </summary>
     
-      <category term="Life" scheme="http://tanchao90.com/categories/Life/"/>
+      <category term="博客" scheme="http://tanchao90.com/categories/%E5%8D%9A%E5%AE%A2/"/>
     
-    
-      <category term="Life" scheme="http://tanchao90.com/tags/Life/"/>
     
       <category term="Hexo" scheme="http://tanchao90.com/tags/Hexo/"/>
     
@@ -1125,10 +1323,8 @@
     
     </summary>
     
-      <category term="Code" scheme="http://tanchao90.com/categories/Code/"/>
+      <category term="程序设计" scheme="http://tanchao90.com/categories/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/"/>
     
-    
-      <category term="Code" scheme="http://tanchao90.com/tags/Code/"/>
     
       <category term="MQ" scheme="http://tanchao90.com/tags/MQ/"/>
     
@@ -1192,10 +1388,8 @@
     
     </summary>
     
-      <category term="Tools" scheme="http://tanchao90.com/categories/Tools/"/>
+      <category term="编程工具" scheme="http://tanchao90.com/categories/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7/"/>
     
-    
-      <category term="Tools" scheme="http://tanchao90.com/tags/Tools/"/>
     
       <category term="Synergy" scheme="http://tanchao90.com/tags/Synergy/"/>
     
@@ -1279,10 +1473,8 @@
     
     </summary>
     
-      <category term="Tools" scheme="http://tanchao90.com/categories/Tools/"/>
+      <category term="博客" scheme="http://tanchao90.com/categories/%E5%8D%9A%E5%AE%A2/"/>
     
-    
-      <category term="Tools" scheme="http://tanchao90.com/tags/Tools/"/>
     
       <category term="WordPress" scheme="http://tanchao90.com/tags/WordPress/"/>
     
@@ -1323,10 +1515,10 @@
     
     </summary>
     
-      <category term="Life" scheme="http://tanchao90.com/categories/Life/"/>
+      <category term="博客" scheme="http://tanchao90.com/categories/%E5%8D%9A%E5%AE%A2/"/>
     
     
-      <category term="Life" scheme="http://tanchao90.com/tags/Life/"/>
+      <category term="博客" scheme="http://tanchao90.com/tags/%E5%8D%9A%E5%AE%A2/"/>
     
   </entry>
   
