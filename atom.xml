@@ -950,11 +950,15 @@
     <published>2016-04-07T14:00:00.000Z</published>
     <updated>2017-02-15T15:30:00.000Z</updated>
     
-    <content type="html"><![CDATA[<p>本文主要记录我用 <strong>Hexo</strong> 和 <strong>GitHub Pages</strong> 搭建个人博客的过程，主要包括三方面内容：</p>
+    <content type="html"><![CDATA[<p>本文主要记录我用 <strong>Hexo</strong> 和 <strong>GitHub Pages</strong> 搭建个人博客的过程，主要包括以下章节：</p>
 <ul>
-<li>对 Hexo 进行了比较详细的描述，方便自己后期查阅</li>
-<li>我搭建博客的基本流程</li>
-<li>遇到的问题</li>
+<li><a href="#Hexo">Hexo</a></li>
+<li><a href="#我的搭建过程">我的搭建过程</a></li>
+<li><a href="#博客备份">博客备份</a></li>
+<li><a href="#遇到的问题">遇到的问题</a></li>
+<li><a href="#命令详细说明">命令详细说明</a></li>
+<li><a href="#官方文档梳理">官方文档梳理</a></li>
+<li><a href="#参考文章">参考文章</a></li>
 </ul>
 <a id="more"></a>
 <h2 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a>Hexo</h2><h4 id="什么是Hexo"><a href="#什么是Hexo" class="headerlink" title="什么是Hexo?"></a>什么是Hexo?</h4><ul>
@@ -1003,13 +1007,20 @@
 <li><code>hexo --config custom.yml generate</code></li>
 <li><code>hexo --config custom.yml deploy</code></li>
 </ul>
-<h2 id="我的搭建步骤"><a href="#我的搭建步骤" class="headerlink" title="我的搭建步骤"></a>我的搭建步骤</h2><h4 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h4><p>按照Hexo官网的步骤依次安装即可</p>
+<h2 id="我的搭建过程"><a href="#我的搭建过程" class="headerlink" title="我的搭建过程"></a>我的搭建过程</h2><h4 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h4><p>按照Hexo官网的步骤依次安装即可。</p>
 <ul>
 <li>Git</li>
 <li>Node.js</li>
 <li>Hexo</li>
 </ul>
-<h4 id="安装主题"><a href="#安装主题" class="headerlink" title="安装主题"></a>安装主题</h4><p>官网有很多的<a href="https://hexo.io/themes/" target="_blank" rel="external">主题</a>，每个都有说明文档，照着按照即可，这里推荐下面两个，本博客使用的是<strong>apollo</strong>；<br>下面是我浏览所有主题之后觉得比较好看的，后面的星表示大致的喜欢程度：</p>
+<p>升级 Hexo 的建议：</p>
+<ul>
+<li>小版本内除非必要，否则不要升级，意义不大</li>
+<li>大版本升级最好重新创建 Hexo 工程，然后拷贝博客源文件和相关配置</li>
+<li>上述建议的原因是我在网上看到了很多升级的惨痛教训</li>
+</ul>
+<h4 id="安装主题"><a href="#安装主题" class="headerlink" title="安装主题"></a>安装主题</h4><p>官网有很多的<a href="https://hexo.io/themes/" target="_blank" rel="external">主题</a>，每个都有说明文档，照着按照即可，本博客使用的是<strong>apollo</strong>；</p>
+<p>下面是我浏览所有主题之后觉得比较好看的，后面的星表示大致的喜欢程度：</p>
 <ul>
 <li><a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank" rel="external">Apollo</a> ⭐️⭐️⭐️⭐️⭐️</li>
 <li><a href="https://github.com/hexojs/hexo-theme-landscape" target="_blank" rel="external">Landscape</a> ⭐️⭐️⭐️⭐️</li>
@@ -1023,6 +1034,7 @@
 <li><a href="https://github.com/CodeDaraW/Hacker" target="_blank" rel="external">Hacker</a> ⭐️⭐️⭐️</li>
 <li><a href="https://dnxbf321.github.io" target="_blank" rel="external">Simplest</a> <a href="https://github.com/dnxbf321/hexo-theme-simplest" target="_blank" rel="external">github</a> ⭐️⭐️</li>
 </ul>
+<p>PS：若主题是通过 Github 管理的，则可直接进入主题目录通过 git 命令对其更新。</p>
 <h4 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h4><p>我主要修改了下面的内容：</p>
 <ul>
 <li>博客基本信息：标题、作者等</li>
@@ -1050,17 +1062,17 @@
 <li>在邮箱中依此点击：“设置”-&gt;“反垃圾/黑白名单”-&gt;在白名单中添加<code>disqus.com</code></li>
 </ul>
 </li>
-<li>Migration Tools很强大，很好用；本质是将旧的Url映射到新的Url，并且支持多个Url映射到同一个新的Url，可用于完成下面功能：<ul>
+<li>Migration Tools 很强大，很好用；本质是将旧的Url映射到新的Url，并且支持多个Url映射到同一个新的Url，可用于完成下面功能：<ul>
 <li>将旧Url的评论迁移到新Url</li>
 <li>将多组评论汇总到一个Url</li>
 <li>删除Url，通过将其映射到其他Url（一般映射为已存在的Url）即可删除该Url，参考自<a href="https://help.disqus.com/customer/portal/questions/6515747-how-can-i-delete-discussions-" target="_blank" rel="external">How can I delete Discussions?</a></li>
 </ul>
 </li>
 </ul>
-<h4 id="写作"><a href="#写作" class="headerlink" title="写作"></a>写作</h4><p>通过 <code>hexo new filename</code> 创建新的文章，用Markdown编辑器完成文章内容的编写</p>
+<h4 id="写作"><a href="#写作" class="headerlink" title="写作"></a>写作</h4><p>通过 <code>hexo new filename</code> 创建新的文章，用Markdown编辑器完成文章内容的编写。</p>
 <h4 id="部署博客"><a href="#部署博客" class="headerlink" title="部署博客"></a>部署博客</h4><p>本博客选择部署在 GitHub Pages 上面，具体可参考<a href="https://hexo.io/zh-cn/docs/deployment.html#Git" target="_blank" rel="external">Hexo部署:Git</a></p>
-<p>关与GitHub Pages的介绍可参考官方文档：<a href="https://help.github.com/articles/what-is-github-pages/" target="_blank" rel="external">What is GitHub Pages?</a> 。</p>
-<h4 id="绑定域名"><a href="#绑定域名" class="headerlink" title="绑定域名"></a>绑定域名</h4><p>具体方法可Google或者参考文章后面的参考链接：</p>
+<p>关于 GitHub Pages 的介绍可参考官方文档：<a href="https://help.github.com/articles/what-is-github-pages/" target="_blank" rel="external">What is GitHub Pages?</a> 。</p>
+<h4 id="购买并绑定域名"><a href="#购买并绑定域名" class="headerlink" title="购买并绑定域名"></a>购买并绑定域名</h4><p>具体方法可Google或者参考文章后面的参考链接：</p>
 <ul>
 <li>在 <a href="https://godaddy.com/" target="_blank" rel="external">GoDaddy</a> 购买域名</li>
 <li>将域名绑定到 <code>http://username.github.io</code>,具体参考下面的链接：<ul>
@@ -1069,18 +1081,34 @@
 </ul>
 </li>
 </ul>
-<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><h4 id="bash-hexo-command-not-found"><a href="#bash-hexo-command-not-found" class="headerlink" title="bash: hexo: command not found"></a>bash: hexo: command not found</h4><p>在 Windows下有两种提示，同一个意思</p>
+<h2 id="博客备份"><a href="#博客备份" class="headerlink" title="博客备份"></a>博客备份</h2><p>俗话说备份容灾非常重要，博客源文件的备份亦是如此，尤其随着博客数目增加之后，备份既可以保存原始文件用于恢复博客，还能够帮忙对比每次的修改，避免意外误操作已有的博客文件。</p>
+<p>常用的备份策略：</p>
 <ul>
-<li>cmd窗口： ‘hexo’ 不是内部或外部命令，也不是可运行的程序或批处理文件</li>
+<li>在本地磁盘备份博客源文件</li>
+<li>通过 Github、Bitbucket 等网络仓库备份，个人建议私有仓库，恰巧 Bitbucket 提供免费的私有仓库，值得拥有</li>
+</ul>
+<p>上述两种方案都可以通过手工操作，也可以写代码辅助自己完成；为此我专门写了一个备份程序，辅助自己完成备份，简单方便。</p>
+<p>我的备份方案是采用 Bitbucket 的私有仓库，本地采用自动化脚本辅助备份、还原，备份工具及说明可参考我的 Github 仓库：<a href="https://github.com/tanchao90/hexo-git-backup" target="_blank" rel="external">tanchao90/hexo-git-backup</a>。</p>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><h4 id="bash-hexo-command-not-found"><a href="#bash-hexo-command-not-found" class="headerlink" title="bash: hexo: command not found"></a>bash: hexo: command not found</h4><p>在 Windows 下有两种提示，同一个意思</p>
+<ul>
+<li>cmd 窗口： ‘hexo’ 不是内部或外部命令，也不是可运行的程序或批处理文件</li>
 <li>Git Bash窗口： bash: hexo: command not found</li>
 </ul>
-<p>我在安装的过程中遇到了该错误，最终是通过卸载Node.js和Git，并重新安装它们和Hexo解决的<br>为此还在Hexo项目下面发起了一个Issue：<a href="https://github.com/hexojs/hexo/issues/1871" target="_blank" rel="external">Windows 7: bash: hexo: command not found #1871</a></p>
-<h4 id="npm-WARN-optional-dep-failed-continuing-fsevents-1-0-11"><a href="#npm-WARN-optional-dep-failed-continuing-fsevents-1-0-11" class="headerlink" title="npm WARN optional dep failed, continuing fsevents@1.0.11"></a>npm WARN optional dep failed, continuing fsevents@1.0.11</h4><p>这是我安装Hexo时出现的警告，通过Google发现是</p>
+<p>我在安装的过程中遇到了该错误，最终是通过卸载 Node.js 和 Git，并重新安装它们和 Hexo 解决的<br>为此还在 Hexo 项目下面发起了一个Issue：<a href="https://github.com/hexojs/hexo/issues/1871" target="_blank" rel="external">Windows 7: bash: hexo: command not found #1871</a></p>
+<h4 id="npm-WARN-optional-dep-failed-continuing-fsevents-1-0-11"><a href="#npm-WARN-optional-dep-failed-continuing-fsevents-1-0-11" class="headerlink" title="npm WARN optional dep failed, continuing fsevents@1.0.11"></a>npm WARN optional dep failed, continuing fsevents@1.0.11</h4><p>这是我安装 Hexo 时出现的警告，通过 Google 发现是</p>
 <blockquote>
 <p>fsevents is an API available only on OSX</p>
 </blockquote>
 <p><a href="http://stackoverflow.com/questions/31228862/npm-warn-optional-dep-failed-continuing-fsevents0-3-6" target="_blank" rel="external">npm WARN optional dep failed, continuing fsevents@0.3.6</a></p>
 <p>可以忽略该警告，至少我没遇到什么问题</p>
+<h4 id="博客乱码问题"><a href="#博客乱码问题" class="headerlink" title="博客乱码问题"></a>博客乱码问题</h4><p>最近迁移旧博客到 Hexo 时遇到神奇的乱码问题，包括本文扩充之后也出现了，坑了我很久，还以为是特殊代码片段引起的解析问题，具体估计是下面的原因导致的：</p>
+<ul>
+<li><a href="https://github.com/hexojs/hexo-server/issues/23" target="_blank" rel="external">Garbled code will be generated if .md file contains too many Chinese characters #23</a></li>
+<li><a href="https://github.com/hexojs/hexo/issues/2285" target="_blank" rel="external">一篇文章总字符数过多会出现乱码是什么问题? #2285</a></li>
+</ul>
+<p><strong>实测表明：</strong>该问题只在本地Server调试时存在，上传到GitHub Pages之后正常显示；<br>个人猜测可能是本地每篇文章的缓存空间不足导致。</p>
+<h4 id="ERROR-Deployer-not-found-git"><a href="#ERROR-Deployer-not-found-git" class="headerlink" title="ERROR Deployer not found: git"></a>ERROR Deployer not found: git</h4><p>在2017年2月份的时候，尝试重建了一次 Hexo 环境，结果遇到了上述错误，最终参考 <a href="http://www.jianshu.com/p/5e0ca2b14815" target="_blank" rel="external">升级hexo碰到“Deployer not found”问题及解决</a> 解决，解决办法是执行下面的命令安装 git 组件：</p>
+<p><code>npm install --save hexo-deployer-git</code></p>
 <h2 id="命令详细说明"><a href="#命令详细说明" class="headerlink" title="命令详细说明"></a>命令详细说明</h2><p>这部分内容可以直接查看官网，那里的信息最新最准确。</p>
 <h4 id="init-新建一个网站"><a href="#init-新建一个网站" class="headerlink" title="init: 新建一个网站"></a>init: 新建一个网站</h4><blockquote>
 <p><strong>$ hexo init [folder]</strong></p>
@@ -1119,7 +1147,7 @@
 <h4 id="选项-在执行上面的命令时还可以增加下面的选项，完成额外功能"><a href="#选项-在执行上面的命令时还可以增加下面的选项，完成额外功能" class="headerlink" title="选项: 在执行上面的命令时还可以增加下面的选项，完成额外功能"></a>选项: 在执行上面的命令时还可以增加下面的选项，完成额外功能</h4><blockquote>
 <p><strong>$ hexo –safe</strong>    安全模式，在安全模式下，不会载入插件和脚本<br><strong>$ hexo –debug</strong>   调试模式，在终端中显示调试信息并记录到 debug.log<br><strong>$ hexo –silent</strong>  简洁模式，隐藏终端信息<br><strong>$ hexo –config custom.yml</strong>  自定义配置文件的路径，执行后将不再使用 _config.yml</p>
 </blockquote>
-<h2 id="Hexo官方文档梳理"><a href="#Hexo官方文档梳理" class="headerlink" title="Hexo官方文档梳理"></a><a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="external">Hexo官方文档</a>梳理</h2><p>主要是帮助自己回忆每个模块的内容，读者可以直接查看官网</p>
+<h2 id="官方文档梳理"><a href="#官方文档梳理" class="headerlink" title="官方文档梳理"></a>官方文档梳理</h2><p>梳理 <a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="external">Hexo官方文档</a>，帮助自己回忆每个模块的内容，读者可以直接查看官网。</p>
 <h4 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h4><ul>
 <li>写作: 主要介绍一般的写作流程，从创建文章到发布</li>
 <li><strong>Front-matter</strong>: 可以方便的修改文章信息，如指定文章建立时间，对发布历史文章非常方便~(≧▽≦)/~</li>
@@ -1158,21 +1186,19 @@
 </ul>
 </li>
 </ul>
-<h2 id="博客乱码问题"><a href="#博客乱码问题" class="headerlink" title="博客乱码问题"></a>博客乱码问题</h2><p>最近迁移旧博客到Hexo时遇到神奇的乱码问题，包括本文扩充之后也出现了，坑了我很久，还以为是特殊代码片段引起的解析问题，具体估计是下面的原因导致的：</p>
-<ul>
-<li><a href="https://github.com/hexojs/hexo-server/issues/23" target="_blank" rel="external">Garbled code will be generated if .md file contains too many Chinese characters #23</a></li>
-<li><a href="https://github.com/hexojs/hexo/issues/2285" target="_blank" rel="external">一篇文章总字符数过多会出现乱码是什么问题? #2285</a></li>
-</ul>
-<p><strong>实测表明：</strong>该问题只在本地Server调试时存在，上传到GitHub Pages之后正常显示；<br>个人猜测可能是本地每篇文章的缓存空间不足导致。</p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;本文主要记录我用 &lt;strong&gt;Hexo&lt;/strong&gt; 和 &lt;strong&gt;GitHub Pages&lt;/strong&gt; 搭建个人博客的过程，主要包括三方面内容：&lt;/p&gt;
+      &lt;p&gt;本文主要记录我用 &lt;strong&gt;Hexo&lt;/strong&gt; 和 &lt;strong&gt;GitHub Pages&lt;/strong&gt; 搭建个人博客的过程，主要包括以下章节：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;对 Hexo 进行了比较详细的描述，方便自己后期查阅&lt;/li&gt;
-&lt;li&gt;我搭建博客的基本流程&lt;/li&gt;
-&lt;li&gt;遇到的问题&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#Hexo&quot;&gt;Hexo&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#我的搭建过程&quot;&gt;我的搭建过程&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#博客备份&quot;&gt;博客备份&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#遇到的问题&quot;&gt;遇到的问题&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#命令详细说明&quot;&gt;命令详细说明&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#官方文档梳理&quot;&gt;官方文档梳理&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#参考文章&quot;&gt;参考文章&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
     
     </summary>
