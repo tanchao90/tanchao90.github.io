@@ -1293,6 +1293,7 @@
 </ul>
 <h4 id="pika官方文档"><a href="#pika官方文档" class="headerlink" title="pika官方文档"></a><a href="http://pika.readthedocs.org/en/latest/index.html" target="_blank" rel="external">pika官方文档</a></h4><ul>
 <li>官方推荐的Python库，用于在Python中访问RabbitMQ，具体的操作函数可在其中查看；</li>
+<li>pika 是 <a href="https://www.amqp.org/" target="_blank" rel="external">AMPQ</a>（Advanced Message Queuing Protocol） 协议的一种实现；</li>
 <li>关于Python连接RabbitMQ还有其他库，如<a href="https://github.com/celery/py-amqp" target="_blank" rel="external">py-amqp</a>，<a href="https://barryp.org/software/py-amqplib/" target="_blank" rel="external">py-amqplib</a>。</li>
 </ul>
 <h4 id="其他参考资料"><a href="#其他参考资料" class="headerlink" title="其他参考资料"></a>其他参考资料</h4><ul>
