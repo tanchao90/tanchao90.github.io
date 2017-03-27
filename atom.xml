@@ -1293,11 +1293,15 @@
 </ul>
 <h4 id="pika官方文档"><a href="#pika官方文档" class="headerlink" title="pika官方文档"></a><a href="http://pika.readthedocs.org/en/latest/index.html" target="_blank" rel="external">pika官方文档</a></h4><ul>
 <li>官方推荐的Python库，用于在Python中访问RabbitMQ，具体的操作函数可在其中查看；</li>
-<li>pika 是 <a href="https://www.amqp.org/" target="_blank" rel="external">AMPQ</a>（Advanced Message Queuing Protocol） 协议的一种实现；</li>
+<li>pika 是 <a href="https://www.amqp.org/" target="_blank" rel="external">AMQP</a>（Advanced Message Queuing Protocol） 协议的一种实现；</li>
 <li>关于Python连接RabbitMQ还有其他库，如<a href="https://github.com/celery/py-amqp" target="_blank" rel="external">py-amqp</a>，<a href="https://barryp.org/software/py-amqplib/" target="_blank" rel="external">py-amqplib</a>。</li>
 </ul>
 <h4 id="其他参考资料"><a href="#其他参考资料" class="headerlink" title="其他参考资料"></a>其他参考资料</h4><ul>
 <li><a href="https://my.oschina.net/hncscwc/blog/262246?fromerr=Qm5JsP1J" target="_blank" rel="external">rabbitmq用户管理</a>：用于管理用户，如添加用户、删除用户、设置权限等。</li>
+<li><a href="https://www.rabbitmq.com/tutorials/amqp-concepts.html" target="_blank" rel="external">AMQP 0-9-1 Model Explained</a></li>
+<li><a href="http://www.amqp.org/resources/download" target="_blank" rel="external">AMQP Protocol Downloads</a></li>
+<li><a href="http://www.jianshu.com/p/f2d3c544d3c7" target="_blank" rel="external">RabbitMQ在分布式系统中的应用</a></li>
+<li><a href="http://blog.csdn.net/cadem/article/details/53422912" target="_blank" rel="external">RabbitMQ可用性和可靠性分析</a></li>
 </ul>
 <h2 id="安装RabbitMQ"><a href="#安装RabbitMQ" class="headerlink" title="安装RabbitMQ"></a>安装RabbitMQ</h2><h4 id="安装Erlang"><a href="#安装Erlang" class="headerlink" title="安装Erlang"></a>安装Erlang</h4><ul>
 <li>RabbitMQ基于Erlang开发，因此需要安装Erlang。</li>
