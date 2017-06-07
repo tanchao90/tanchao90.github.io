@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tanchao90.com/"/>
-  <updated>2017-02-26T14:04:52.000Z</updated>
+  <updated>2017-06-07T15:47:44.000Z</updated>
   <id>http://tanchao90.com/</id>
   
   <author>
@@ -14,6 +14,86 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Raven 性能优化</title>
+    <link href="http://tanchao90.com/raven/"/>
+    <id>http://tanchao90.com/raven/</id>
+    <published>2017-06-07T15:47:44.000Z</published>
+    <updated>2017-06-07T15:47:44.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>笔者近期对 Python 版本的 Raven 进行了性能优化，本文是对优化过程的复盘和总结。</p>
+<a id="more"></a>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>收集异常和错误（Exception &amp; Error，后面简称EE）信息是修复 bug 的重要基础，我们项目采用 Raven 和 Sentry 实现 EE 的收集和管理。</p>
+<p>最近测试中发现，当出现某个频发的 EE 时，我们的游戏画面会出现卡顿，怀疑是 Raven 过渡耗时导致的；经测试发现，每一个 EE 收集操作会消耗好几毫秒，这对于每秒60帧的游戏来说太奢侈了，每一帧只有16毫秒，一个 EE 消耗几毫秒，四五个就可以消耗完所有的时间，势必造成卡顿。</p>
+<p>通过分析 Raven 的性能热点，对热点优化，最终将每一个收集操作的时间控制在一毫米之内，游戏体验显著提升。</p>
+<p>注：本文中被优化的 Raven 版本并不是最新版，我对比 github 上最新的版本发现主要逻辑基本一致，并未发生大的变化。</p>
+<h2 id="Sentry-amp-Raven"><a href="#Sentry-amp-Raven" class="headerlink" title="Sentry &amp; Raven"></a>Sentry &amp; Raven</h2><h4 id="Sentry"><a href="#Sentry" class="headerlink" title="Sentry"></a><a href="https://github.com/getsentry/sentry" target="_blank" rel="external">Sentry</a></h4><blockquote>
+<p>Sentry is a modern error logging and aggregation platform.</p>
+</blockquote>
+<h4 id="Raven"><a href="#Raven" class="headerlink" title="Raven"></a><a href="https://github.com/getsentry/raven-python" target="_blank" rel="external">Raven</a></h4><blockquote>
+<p>Raven is a Python client for Sentry.</p>
+</blockquote>
+<h2 id="性能分析"><a href="#性能分析" class="headerlink" title="性能分析"></a>性能分析</h2><p>分析 Python 代码的时间消耗可以用 <a href="https://github.com/rkern/line_profiler" target="_blank" rel="external">rkern/line_profiler</a> 工具，在某些情况下不能使用外部库时，就需要自己用 <code>time</code> 库记录时间来分析了。</p>
+<p>注：分析内存也有类似的兄弟工具：<a href="https://pypi.python.org/pypi/memory_profiler/0.9" target="_blank" rel="external">memory_profiler</a>。</p>
+<p>下图是出现 EE 时 Raven 的调用过程图，其中红色背景的代码段是性能热点，后文主要对这些部分进行优化。</p>
+<img src="/images/raven/1.png" title="Raven EE 收集流程图">
+<p>注：此图用 Visio 2016 绘制，原文件可在 <a href="https://github.com/tanchao90/evolution/tree/master/python/Tools/Raven" target="_blank" rel="external">github/tanchao90 /evolution/Python/Raven</a> 下载。</p>
+<h4 id="raven-base-py-send"><a href="#raven-base-py-send" class="headerlink" title="raven\base.py send()"></a><code>raven\base.py send()</code></h4><p>该函数消耗主要在于 encode() 函数，发送本身采用异步方案，耗时可忽略；</p>
+<h4 id="raven-base-py-encode"><a href="#raven-base-py-encode" class="headerlink" title="raven\base.py encode()"></a><code>raven\base.py encode()</code></h4><p>该函数消耗取决于要 encode 的 data 的大小，所以通过控制 data 的大小来保证 encode 的效率；</p>
+<h4 id="raven-base-py-build-msg"><a href="#raven-base-py-build-msg" class="headerlink" title="raven\base.py build_msg()"></a><code>raven\base.py build_msg()</code></h4><p>该函数耗时非常多，主要取决于 <code>handler.capture(**kwargs)</code> 内部收集 EE 数据的耗时；</p>
+<p>该函数中通过 <code>processor.process(data)</code> 对收集的 EE 数据进行过滤，保证安全性;</p>
+<h4 id="utils-stacks-py-get-lines-from-file"><a href="#utils-stacks-py-get-lines-from-file" class="headerlink" title="utils\stacks.py get_lines_from_file()"></a><code>utils\stacks.py get_lines_from_file()</code></h4><p>该函数用于获取 EE 所在行前后五行的代码段，消耗一般；</p>
+<h4 id="utils-stacks-py-get-frame-locals"><a href="#utils-stacks-py-get-frame-locals" class="headerlink" title="utils\stacks.py get_frame_locals()"></a><code>utils\stacks.py get_frame_locals()</code></h4><p>该函数遍历 EE 栈，并获取每一个栈帧中的局部对象，包括变量、函数、类等，并对这些对象数据进行序列化；</p>
+<p>该函数非常耗时，并且耗时不确定，主要取决于下面几个因素：</p>
+<ul>
+<li>EE 栈的深度</li>
+<li>EE 栈帧中局部对象的数量及其复杂程度，Raven 默认限制每个栈帧中对象序列化之后的数据大小不超过 4096 bytes，从而一定程度上保证产生的数据量；但 Raven 是对每一个对象序列化之后才能计算产生的数据的大小，因此该机制并不能消除序列化对象带来的性能消耗，而在我们的游戏中，有些局部变量是非常庞大的 dict 或者 list，序列化会造成极大的性能消耗；</li>
+<li>序列化每一个对象非常耗时，具体说明见后文 transform() 函数；</li>
+</ul>
+<h4 id="raven-utils-serializer-manager-py-class-Serializer-object-transform"><a href="#raven-utils-serializer-manager-py-class-Serializer-object-transform" class="headerlink" title="raven\utils\serializer\manager.py class Serializer(object): transform()"></a><code>raven\utils\serializer\manager.py class Serializer(object): transform()</code></h4><p>该函数用于序列化每一个对象，非常耗时，主要是因为下面几个方面：</p>
+<ul>
+<li>对于任何对象的序列化，即使最简单的 Int，都需要实例化所有的序列化类（<code>raven\utils\serializer\base.py class XXSerializer</code>）;</li>
+<li>函数内部包含过多的 <code>try catch</code>，每个对象至少被 <code>try catch</code> 一次，类似 list、dict 的复杂对象被 <code>try catch</code> 的次数不少于其中的基本元素数目； </li>
+</ul>
+<h2 id="优化方案"><a href="#优化方案" class="headerlink" title="优化方案"></a>优化方案</h2><h4 id="方案-1-0"><a href="#方案-1-0" class="headerlink" title="方案 1.0"></a>方案 1.0</h4><p>由于项目近期要对外测试，所以和老大沟通之后，选择了修改代码量最小的方案，目的是在最低风险的情况下极大可能的优化性能。</p>
+<ul>
+<li>由于我们的数据不涉及敏感信息，所以我们直接注释掉 <code>processor.process(data)</code>；</li>
+<li>对 <code>get_lines_from_file()</code> 函数进行修改，只获取 EE 所在行的代码，从而优化获取消耗并减少产生的数据量，提升 encode 效率；</li>
+<li>关闭 <code>get_frame_locals()</code> 函数调用，放弃收集每一个栈帧中的对象数据，既舍弃了序列化耗时，又大大减少了产生的数据量，提升 encode 效率；</li>
+</ul>
+<p>通过上面三点的优化，目前我的测试 case 已经可以在一毫秒之内完成发送（优化之前基本在3-5毫秒），效果显著；<br>不好的一点是，收集的信息量会大大减少，也许在一些特殊情况下会对分析和处理 EE 造成困难；</p>
+<h4 id="方案-2-0"><a href="#方案-2-0" class="headerlink" title="方案 2.0"></a>方案 2.0</h4><p>本方案是对上述 1.0 方案的改进，更精细化的进行优化，有待于实践验证。</p>
+<ul>
+<li>开启 <code>get_frame_locals()</code> 函数调用，但设置规则过滤当前栈帧中的对象，只对满足条件的对象进行序列号，这样就能在一定程度上保留现场信息，同时大大提高序列化效率，控制产生的数据量；</li>
+<li>优化序列化类的实现（<code>class Serializer(object)</code>），大大减少其中的 <code>try catch</code> 次数，这个可有效提高序列化效率；</li>
+<li>可以考虑只收集 EE 栈中部分栈帧的数据；比如控制栈帧层数，最多只收集离 EE 触发栈帧最近的5个栈帧的数据，这样既保留了最有效的数据，又控制了数据量；</li>
+</ul>
+<p>相比方案 1.0，本方案有比较灵活的策略，可以更多的保留 EE 相关数据，同时也提高性能，但性能肯定会比方案 1.0 有所降低，算是数据和性能的一个权衡。</p>
+<h2 id="优化感悟"><a href="#优化感悟" class="headerlink" title="优化感悟"></a>优化感悟</h2><p>回顾同事之前对项目客户端的优化和我本次对 Raven 优化的经历，我大概有以下几点感悟，希望能在以后继续提升自己的理解：</p>
+<ul>
+<li>准确定位性能热点，积极借助于性能分析工具，阅读和分析源码，发现热点的真正原因；</li>
+<li>纯代码的优化提升会比较有限，一般不会有质变，除非之前的代码非常烂；</li>
+<li>性能优化要有明显的提升，往往需要做出一些取舍，比如降低客户端的渲染效果（画质、特效等），对渲染效果分级等；再如本文中直接放弃收集每一个栈帧的数据，对修复 EE 影响不大，但是可以带来质变的提升。</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;笔者近期对 Python 版本的 Raven 进行了性能优化，本文是对优化过程的复盘和总结。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="程序设计" scheme="http://tanchao90.com/categories/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/"/>
+    
+    
+      <category term="Raven" scheme="http://tanchao90.com/tags/Raven/"/>
+    
+      <category term="Sentry" scheme="http://tanchao90.com/tags/Sentry/"/>
+    
+      <category term="Python" scheme="http://tanchao90.com/tags/Python/"/>
+    
+  </entry>
   
   <entry>
     <title>2017 元旦香港行</title>
