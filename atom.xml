@@ -52,6 +52,7 @@
 </ul>
 <h2 id="书"><a href="#书" class="headerlink" title="书"></a>书</h2><p>这一节主要列一些自己以前读过的好书，尤其2016读了好多书，包括《三体》、《明朝那些事》这样的长篇巨著。</p>
 <h4 id="编程"><a href="#编程" class="headerlink" title="编程"></a>编程</h4><ul>
+<li><a href="https://book.douban.com/subject/25900156/" target="_blank" rel="external">Redis设计与实现</a></li>
 <li><a href="https://book.douban.com/subject/25662138/" target="_blank" rel="external">NoSQL精粹</a></li>
 <li><a href="https://book.douban.com/subject/4262627/" target="_blank" rel="external">重构-改善既有代码的设计</a></li>
 <li><a href="https://book.douban.com/subject/23008813/" target="_blank" rel="external">高性能MySQL</a></li>
@@ -93,6 +94,7 @@
 <li><a href="https://movie.douban.com/subject/1291549/" target="_blank" rel="external">放牛班的春天</a></li>
 <li><a href="https://movie.douban.com/subject/5262027/" target="_blank" rel="external">此间的少年</a></li>
 <li><a href="https://movie.douban.com/subject/25964071/" target="_blank" rel="external">夏洛特烦恼</a></li>
+<li><a href="https://movie.douban.com/subject/26387939/" target="_blank" rel="external">摔跤吧！爸爸 Dangal</a></li>
 </ul>
 <h4 id="纪录片"><a href="#纪录片" class="headerlink" title="纪录片"></a>纪录片</h4><ul>
 <li><a href="https://movie.douban.com/subject/24736278/" target="_blank" rel="external">河西走廊</a></li>
@@ -1528,6 +1530,8 @@
 <li><a href="http://www.amqp.org/resources/download" target="_blank" rel="external">AMQP Protocol Downloads</a></li>
 <li><a href="http://www.jianshu.com/p/f2d3c544d3c7" target="_blank" rel="external">RabbitMQ在分布式系统中的应用</a></li>
 <li><a href="http://blog.csdn.net/cadem/article/details/53422912" target="_blank" rel="external">RabbitMQ可用性和可靠性分析</a></li>
+<li><a href="http://blog.wentong.me/2016/01/message-queue-research/" target="_blank" rel="external">几款消息中间的调研</a></li>
+<li><a href="http://www.jianshu.com/p/d31ae9e3bfb6" target="_blank" rel="external">即时通信RabbitMQ二-性能测试</a></li>
 </ul>
 <h2 id="安装RabbitMQ"><a href="#安装RabbitMQ" class="headerlink" title="安装RabbitMQ"></a>安装RabbitMQ</h2><h4 id="安装Erlang"><a href="#安装Erlang" class="headerlink" title="安装Erlang"></a>安装Erlang</h4><ul>
 <li>RabbitMQ基于Erlang开发，因此需要安装Erlang。</li>
