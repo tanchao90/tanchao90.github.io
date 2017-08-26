@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tanchao90.com/"/>
-  <updated>2017-07-15T09:00:00.000Z</updated>
+  <updated>2017-08-25T13:41:02.000Z</updated>
   <id>http://tanchao90.com/</id>
   
   <author>
@@ -14,6 +14,214 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>MyBatis 事务操作中缓存带来的坑</title>
+    <link href="http://tanchao90.com/mybatis-cache-pit/"/>
+    <id>http://tanchao90.com/mybatis-cache-pit/</id>
+    <published>2017-08-25T13:41:02.000Z</published>
+    <updated>2017-08-25T13:41:02.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>记一次 MyBatis 缓存踩坑过程，最后通过跟踪源码定位、解决问题。</p>
+<a id="more"></a>
+<h2 id="踩坑背景"><a href="#踩坑背景" class="headerlink" title="踩坑背景"></a>踩坑背景</h2><p>我们的项目使用 <a href="http://www.mybatis.org/mybatis-3/" target="_blank" rel="external">MyBatis</a> 作为数据库访问层，并且使用 <a href="https://code.google.com/archive/p/shardbatis/" target="_blank" rel="external">shardbatis</a> 进行分表，分表逻辑通过实现 <code>ShardStrategy</code> 接口中的 <code>getTargetTableName</code> 接口完成。踩坑是在下面的特定情况下发生的：</p>
+<ul>
+<li>假如有三个分表，分别是 <code>demo_0</code>、<code>demo_1</code>、<code>demo_2</code>，其中包含的满足后面查询条件的数据分别有3条、0条、1条；</li>
+<li>通过 <a href="http://www.mybatis.org/generator/" target="_blank" rel="external">MyBatis Generator</a> 生成对应的文件，包括 <code>DemoMapper.xml</code>、<code>DemoMapper.java</code>、<code>Demo.Java</code>、<code>DemoExample.java</code>；</li>
+<li>业务处理函数 <code>getDemoList</code> 被 <code>@Transactional</code> 注解，这是一个事务性操作，失败时数据库操作会回滚；</li>
+<li><code>getDemoList</code> 函数需要用同样的查询条件查询多张分表，并汇总结果；</li>
+<li>查询的 SQL 语句通过 DemoExample 类实例创建。</li>
+</ul>
+<h2 id="实际表现"><a href="#实际表现" class="headerlink" title="实际表现"></a>实际表现</h2><p>实际的查询结果与 <code>getDemoList</code> 函数查询分表的顺序有关，如下表格所示：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">数据表查询顺序</th>
+<th style="text-align:center">查询总结果中的记录数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">demo_0、demo_1、demo_2</td>
+<td style="text-align:center">9</td>
+</tr>
+<tr>
+<td style="text-align:center">demo_1、demo_0、demo_2</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">demo_2、demo_1、demo_0</td>
+<td style="text-align:center">3</td>
+</tr>
+</tbody>
+</table>
+<p>通过实际的代码 debug 调试，发现 <code>getDemoList</code> 返回的结果是将一份数据重复了三次，并且都是每次查询时 <code>第一个访问的数据表</code> 中的数据。</p>
+<h2 id="问题原因及其解决办法"><a href="#问题原因及其解决办法" class="headerlink" title="问题原因及其解决办法"></a>问题原因及其解决办法</h2><h4 id="问题原因"><a href="#问题原因" class="headerlink" title="问题原因"></a>问题原因</h4><p>通过跟踪代码和 Google，发现问题的原因如下：</p>
+<ul>
+<li>在使用 MyBatis 的项目中，被 <code>@Transactional</code> 注解的函数中，一个单独的 sqlSession 对象将会被创建和使用，所有数据库操作会共用这个 sqlSession，当事务完成时，这个 sqlSession 会以合适的方式提交或回滚；</li>
+<li><code>select</code> 语句默认开启查询缓存，并且不清除缓存，所以使用同一个 sqlSession 多次用相同的条件查询数据库时，只有第一次真实访问数据库，后面的查询都直接读取缓存返回；</li>
+</ul>
+<p>虽然在项目中增加了分表逻辑，但是因为是采用相同的查询语句及其查询条件，所以在到达分表逻辑之前就已经命中缓存，提前返回，从而导致上面的错误。</p>
+<h4 id="flushCache-和-useCache-属性"><a href="#flushCache-和-useCache-属性" class="headerlink" title="flushCache 和 useCache 属性"></a><code>flushCache</code> 和 <code>useCache</code> 属性</h4><p>MyBatis 的一级缓存（local cache），即本地缓存，作用域默认为 Session，所以当 Session flush 或 close 之后，该 Session 中的所有 Cache 就将清空。其中 flush 可在每个 SQL 语句中配置，具体说明如下：</p>
+<ul>
+<li>当为 <code>select</code> 语句时<ul>
+<li><code>flushCache</code> 默认为 false，表示任何时候语句被调用，都不会去清空本地缓存和二级缓存；</li>
+<li><code>useCache</code> 默认为 true，表示会将本条语句的结果进行二级缓存；</li>
+</ul>
+</li>
+<li>当为 <code>insert</code>、<code>update</code>、<code>delete</code> 语句时：<ul>
+<li><code>flushCache</code> 默认为 true，表示任何时候语句被调用，都会导致本地缓存和二级缓存被清空；</li>
+<li><code>useCache</code> 属性在该情况下没有。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight xml"><figcaption><span>默认的 select</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"save"</span> <span class="attr">parameterType</span>=<span class="string">"XX"</span> <span class="attr">flushCache</span>=<span class="string">"false"</span> <span class="attr">useCache</span>=<span class="string">"true"</span>&gt;</span></div><div class="line">    ……</div><div class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></div></pre></td></tr></table></figure>
+<h4 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h4><p>为了解决这个问题，需要在 <code>DemoMapper.xml</code> 中对应的 SQL 中添加 <code>flushCache=&quot;true&quot;</code> 属性，表示在每次查询前清空缓存，下面几个 sql 都需要添加，因为底层都是通过 select 实现：</p>
+<ul>
+<li><code>selectByExample</code></li>
+<li><code>selectByExampleWithRowbounds</code></li>
+<li><code>selectByPrimaryKey</code></li>
+<li><code>countByExample</code></li>
+</ul>
+<p>注：Mapper.xml 文件的配置可参考 <a href="http://www.mybatis.org/mybatis-3/zh/sqlmap-xml.html" target="_blank" rel="external">Mapper XML 文件</a>。</p>
+<h2 id="定位问题的过程"><a href="#定位问题的过程" class="headerlink" title="定位问题的过程"></a>定位问题的过程</h2><p>本文中用到的 MyBatis 版本是 <code>mybatis-3.3.0</code>：<code>mybatis-3.3.0-sources.jar</code>。</p>
+<h4 id="查询本地缓存之前清除缓存"><a href="#查询本地缓存之前清除缓存" class="headerlink" title="查询本地缓存之前清除缓存"></a>查询本地缓存之前清除缓存</h4><figure class="highlight java"><figcaption><span>/org/apache/ibatis/executor/BaseExecutor.java</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="keyword">public</span> &lt;E&gt; <span class="function">List&lt;E&gt; <span class="title">query</span><span class="params">(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, CacheKey key, BoundSql boundSql)</span> <span class="keyword">throws</span> SQLException </span>&#123;</div><div class="line">  ErrorContext.instance().resource(ms.getResource()).activity(<span class="string">"executing a query"</span>).object(ms.getId());</div><div class="line">  <span class="keyword">if</span> (closed) &#123;</div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> ExecutorException(<span class="string">"Executor was closed."</span>);</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// 配置 flushCache="true" 之后，ms.isFlushCacheRequired() 函数返回 true，将会在这里清除本地缓存</span></div><div class="line">  <span class="keyword">if</span> (queryStack == <span class="number">0</span> &amp;&amp; ms.isFlushCacheRequired()) &#123;</div><div class="line">    clearLocalCache();</div><div class="line">  &#125;</div><div class="line">  List&lt;E&gt; list;</div><div class="line">  <span class="keyword">try</span> &#123;</div><div class="line">    queryStack++;</div><div class="line">    <span class="comment">// 在这里查询本地缓存，key 由查询语句生成</span></div><div class="line">    list = resultHandler == <span class="keyword">null</span> ? (List&lt;E&gt;) localCache.getObject(key) : <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">if</span> (list != <span class="keyword">null</span>) &#123;</div><div class="line">      handleLocallyCachedOutputParameters(ms, key, parameter, boundSql);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      list = queryFromDatabase(ms, parameter, rowBounds, resultHandler, key, boundSql);</div><div class="line">    &#125;</div><div class="line">  &#125; <span class="keyword">finally</span> &#123;</div><div class="line">    queryStack--;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">if</span> (queryStack == <span class="number">0</span>) &#123;</div><div class="line">    <span class="keyword">for</span> (DeferredLoad deferredLoad : deferredLoads) &#123;</div><div class="line">      deferredLoad.load();</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// issue #601</span></div><div class="line">    deferredLoads.clear();</div><div class="line">    <span class="keyword">if</span> (configuration.getLocalCacheScope() == LocalCacheScope.STATEMENT) &#123;</div><div class="line">      <span class="comment">// issue #482</span></div><div class="line">      clearLocalCache();</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> list;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="缓存查询结果"><a href="#缓存查询结果" class="headerlink" title="缓存查询结果"></a>缓存查询结果</h4><figure class="highlight java"><figcaption><span>/org/apache/ibatis/executor/BaseExecutor.java</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> &lt;E&gt; <span class="function">List&lt;E&gt; <span class="title">queryFromDatabase</span><span class="params">(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, CacheKey key, BoundSql boundSql)</span> <span class="keyword">throws</span> SQLException </span>&#123;</div><div class="line">  List&lt;E&gt; list;</div><div class="line">  localCache.putObject(key, EXECUTION_PLACEHOLDER);</div><div class="line">  <span class="keyword">try</span> &#123;</div><div class="line">    list = doQuery(ms, parameter, rowBounds, resultHandler, boundSql);</div><div class="line">  &#125; <span class="keyword">finally</span> &#123;</div><div class="line">    localCache.removeObject(key);</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// 将查询结果添加到本地缓存</span></div><div class="line">  localCache.putObject(key, list);</div><div class="line">  <span class="keyword">if</span> (ms.getStatementType() == StatementType.CALLABLE) &#123;</div><div class="line">    localOutputParameterCache.putObject(key, parameter);</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> list;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="根据查询语句生成-cacheKey"><a href="#根据查询语句生成-cacheKey" class="headerlink" title="根据查询语句生成 cacheKey"></a>根据查询语句生成 cacheKey</h4><figure class="highlight java"><figcaption><span>/org/apache/ibatis/executor/BaseExecutor.java</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> CacheKey <span class="title">createCacheKey</span><span class="params">(MappedStatement ms, Object parameterObject, RowBounds rowBounds, BoundSql boundSql)</span> </span>&#123;</div><div class="line">  <span class="keyword">if</span> (closed) &#123;</div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> ExecutorException(<span class="string">"Executor was closed."</span>);</div><div class="line">  &#125;</div><div class="line">  CacheKey cacheKey = <span class="keyword">new</span> CacheKey();</div><div class="line">  cacheKey.update(ms.getId());</div><div class="line">  cacheKey.update(Integer.valueOf(rowBounds.getOffset()));</div><div class="line">  cacheKey.update(Integer.valueOf(rowBounds.getLimit()));</div><div class="line">  cacheKey.update(boundSql.getSql());</div><div class="line">  List&lt;ParameterMapping&gt; parameterMappings = boundSql.getParameterMappings();</div><div class="line">  TypeHandlerRegistry typeHandlerRegistry = ms.getConfiguration().getTypeHandlerRegistry();</div><div class="line">  <span class="comment">// mimic DefaultParameterHandler logic</span></div><div class="line">  <span class="comment">// 依此遍历查询参数，将每个参数对应的值拼接到 cacheKey 中</span></div><div class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; parameterMappings.size(); i++) &#123;</div><div class="line">    ParameterMapping parameterMapping = parameterMappings.get(i);</div><div class="line">    <span class="keyword">if</span> (parameterMapping.getMode() != ParameterMode.OUT) &#123;</div><div class="line">      Object value;</div><div class="line">      String propertyName = parameterMapping.getProperty();</div><div class="line">      <span class="keyword">if</span> (boundSql.hasAdditionalParameter(propertyName)) &#123;</div><div class="line">        value = boundSql.getAdditionalParameter(propertyName);</div><div class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (parameterObject == <span class="keyword">null</span>) &#123;</div><div class="line">        value = <span class="keyword">null</span>;</div><div class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (typeHandlerRegistry.hasTypeHandler(parameterObject.getClass())) &#123;</div><div class="line">        value = parameterObject;</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        MetaObject metaObject = configuration.newMetaObject(parameterObject);</div><div class="line">        value = metaObject.getValue(propertyName);</div><div class="line">      &#125;</div><div class="line">      cacheKey.update(value);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">if</span> (configuration.getEnvironment() != <span class="keyword">null</span>) &#123;</div><div class="line">    <span class="comment">// issue #176</span></div><div class="line">    cacheKey.update(configuration.getEnvironment().getId());</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> cacheKey;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>Example：</strong>如下，就是根据一个 select 语句生成 cacheKey：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">350854748:2813260859:com.demo.dao.mapper.DemoMapper.selectByExample:0:2147483647:select</div><div class="line">    id, uid, start_time, end_time, status, is_deleted</div><div class="line">    from demo</div><div class="line">    WHERE (  uid = ? and end_time &gt; ? and status = ? and is_deleted = ? ):2:Wed Aug 16 13:32:01 CST 2017:1:false:SqlSessionFactoryBean</div></pre></td></tr></table></figure></p>
+<h4 id="Session-管理"><a href="#Session-管理" class="headerlink" title="Session 管理"></a>Session 管理</h4><figure class="highlight java"><figcaption><span>/org/mybatis/spring/SqlSessionTemplate.java</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">   * Proxy needed to route MyBatis method calls to the proper SqlSession got</div><div class="line">   * from Spring's Transaction Manager</div><div class="line">   * It also unwraps exceptions thrown by &#123;<span class="doctag">@code</span> Method#invoke(Object, Object...)&#125; to</div><div class="line">   * pass a &#123;<span class="doctag">@code</span> PersistenceException&#125; to the &#123;<span class="doctag">@code</span> PersistenceExceptionTranslator&#125;.</div><div class="line">   */</div><div class="line">  <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">SqlSessionInterceptor</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</div><div class="line">      SqlSession sqlSession = getSqlSession(</div><div class="line">          SqlSessionTemplate.<span class="keyword">this</span>.sqlSessionFactory,</div><div class="line">          SqlSessionTemplate.<span class="keyword">this</span>.executorType,</div><div class="line">          SqlSessionTemplate.<span class="keyword">this</span>.exceptionTranslator);</div><div class="line">      <span class="keyword">try</span> &#123;</div><div class="line">        Object result = method.invoke(sqlSession, args);</div><div class="line">        <span class="comment">// 对于非事务性 session，会直接调用 commit</span></div><div class="line">        <span class="keyword">if</span> (!isSqlSessionTransactional(sqlSession, SqlSessionTemplate.<span class="keyword">this</span>.sqlSessionFactory)) &#123;</div><div class="line">          <span class="comment">// force commit even on non-dirty sessions because some databases require</span></div><div class="line">          <span class="comment">// a commit/rollback before calling close()</span></div><div class="line">          <span class="comment">// 在 commit 中，会清除本地缓存</span></div><div class="line">          sqlSession.commit(<span class="keyword">true</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">      &#125; <span class="keyword">catch</span> (Throwable t) &#123;</div><div class="line">        Throwable unwrapped = unwrapThrowable(t);</div><div class="line">        <span class="keyword">if</span> (SqlSessionTemplate.<span class="keyword">this</span>.exceptionTranslator != <span class="keyword">null</span> &amp;&amp; unwrapped <span class="keyword">instanceof</span> PersistenceException) &#123;</div><div class="line">          <span class="comment">// release the connection to avoid a deadlock if the translator is no loaded. See issue #22</span></div><div class="line">          closeSqlSession(sqlSession, SqlSessionTemplate.<span class="keyword">this</span>.sqlSessionFactory);</div><div class="line">          sqlSession = <span class="keyword">null</span>;</div><div class="line">          Throwable translated = SqlSessionTemplate.<span class="keyword">this</span>.exceptionTranslator.translateExceptionIfPossible((PersistenceException) unwrapped);</div><div class="line">          <span class="keyword">if</span> (translated != <span class="keyword">null</span>) &#123;</div><div class="line">            unwrapped = translated;</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">throw</span> unwrapped;</div><div class="line">      &#125; <span class="keyword">finally</span> &#123;</div><div class="line">        <span class="keyword">if</span> (sqlSession != <span class="keyword">null</span>) &#123;</div><div class="line">          <span class="comment">// 对于事务性 session，closeSqlSession 时只会 holder.released()</span></div><div class="line">          closeSqlSession(sqlSession, SqlSessionTemplate.<span class="keyword">this</span>.sqlSessionFactory);</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<h4 id="flushCache-所在的-Java-对象"><a href="#flushCache-所在的-Java-对象" class="headerlink" title="flushCache 所在的 Java 对象"></a>flushCache 所在的 Java 对象</h4><figure class="highlight java"><figcaption><span>/org/apache/ibatis/mapping/MappedStatement.java</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">MappedStatement</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> flushCacheRequired;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a href="http://blog.csdn.net/ssssny/article/details/52248960" target="_blank" rel="external">MyBatis 的 flushCache 和 useCache 的使用</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;记一次 MyBatis 缓存踩坑过程，最后通过跟踪源码定位、解决问题。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Java" scheme="http://tanchao90.com/categories/Java/"/>
+    
+    
+      <category term="Java" scheme="http://tanchao90.com/tags/Java/"/>
+    
+      <category term="Mybatis" scheme="http://tanchao90.com/tags/Mybatis/"/>
+    
+      <category term="MySQL" scheme="http://tanchao90.com/tags/MySQL/"/>
+    
+      <category term="Cache" scheme="http://tanchao90.com/tags/Cache/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MyBatis</title>
+    <link href="http://tanchao90.com/mybatis/"/>
+    <id>http://tanchao90.com/mybatis/</id>
+    <published>2017-08-19T05:32:08.000Z</published>
+    <updated>2017-08-19T05:32:08.000Z</updated>
+    
+    <content type="html"><![CDATA[<img src="/images/mybatis/1.png" title="MyBatis">
+<a id="more"></a>
+<p>目前的工作是 Java 服务端开发，用到的技术有 <a href="https://spring.io/" target="_blank" rel="external">Spring</a>、<a href="https://projects.spring.io/spring-boot/" target="_blank" rel="external">Spring Boot</a>、<a href="http://www.mybatis.org/mybatis-3/" target="_blank" rel="external">MyBatis</a>、<a href="https://redis.io/" target="_blank" rel="external">Redis</a>、<a href="https://www.mysql.com/" target="_blank" rel="external">MySQL</a> 等；近期通过两个项目的实践，对 MyBatis 进行了系统性的学习和踩坑，在此对其做一个简单的总结和回顾。</p>
+<h2 id="学习-MyBatis"><a href="#学习-MyBatis" class="headerlink" title="学习 MyBatis"></a>学习 MyBatis</h2><p><a href="http://www.mybatis.org/mybatis-3/" target="_blank" rel="external">MyBatis 官方文档</a> 比较清晰明了，而且有英文、中文等多个语言版本，是非常好的学习资料，建议先通读一遍官方文档；</p>
+<p>总的来说，通过以下几个方面就可以熟悉 MyBatis：</p>
+<ul>
+<li>通读官方文档，理解 MyBatis 的概念及其用法；</li>
+<li>项目实践，遇到问题 Google；</li>
+<li>对于遇到的问题，搜索相关博客，进行系统性的学习，争取理解其来龙去脉；</li>
+<li>代码 debug，逐步跟踪源码，熟悉 MyBatis 的处理流程，从代码层面分析问题；</li>
+</ul>
+<p>后文将通过几个主题谈谈我对 MyBatis 的理解。</p>
+<p><strong>注：</strong>还有一个项目 <a href="http://mp.baomidou.com/" target="_blank" rel="external">Mybatis-Plus</a>，是对 MyBatis 的增强，可以参考一下。</p>
+<h2 id="什么是-MyBatis-？"><a href="#什么是-MyBatis-？" class="headerlink" title="什么是 MyBatis ？"></a>什么是 MyBatis ？</h2><blockquote><p>MyBatis 是一款优秀的持久层框架，它支持定制化 SQL、存储过程以及高级映射。MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。MyBatis 可以使用简单的 XML 或注解来配置和映射原生信息，将接口和 Java 的 POJOs(Plain Old Java Objects,普通的 Java对象)映射成数据库中的记录。</p>
+<footer><strong>MyBatis</strong><cite><a href="http://www.mybatis.org/mybatis-3/zh/index.html" target="_blank" rel="external">MyBatis 简介</a></cite></footer></blockquote>
+<p><a href="http://www.jianshu.com/p/ec40a82cae28" target="_blank" rel="external">终结篇：MyBatis原理深入解析（一）</a> 详细讲解了 JDBC 到 Mybaits 的演变，非常清晰的展示了 MyBatis 的功能及用法。</p>
+<p>此外，个人觉得 <a href="https://book.douban.com/subject/25953851/" target="_blank" rel="external">深入分析 Java Web 技术内幕</a> 一书中 【第 15 章 深入分析 iBatis 框架之系统架构与映射原理】讲的也比较明白，将 MyBatis 的功能总结为如下两点：</p>
+<ul>
+<li>根据 JDBC 规范建立与数据库的连接；</li>
+<li>通过反射打通 Java 对象与数据库参数交互之间相互转换的关系；</li>
+</ul>
+<p>书中下面两幅图中的内容清晰直观的描述了 MyBatis 功能、配置文件和代码的关系：</p>
+<img src="/images/mybatis/2.jpeg" title="MyBatis">
+<img src="/images/mybatis/3.jpeg" title="MyBatis">
+<h2 id="作用域（Scope）和生命周期"><a href="#作用域（Scope）和生命周期" class="headerlink" title="作用域（Scope）和生命周期"></a>作用域（Scope）和生命周期</h2><p>作用域和生命周期在程序中非常重要，好在 MyBatis 已经帮我们处理好了这些问题，具体可查看 <a href="http://www.mybatis.org/mybatis-3/zh/getting-started.html" target="_blank" rel="external">作用域（Scope）和生命周期</a>。</p>
+<blockquote><p>依赖注入框架可以创建线程安全的、<strong>基于事务的 SqlSession</strong> 和映射器（mapper）并将它们直接注入到你的 bean 中，因此可以直接忽略它们的生命周期。</p>
+<footer><strong>MyBatis</strong></footer></blockquote>
+<p>其中涉及到下面几个类，对 MyBatis 的环境配置，主要是对这几个类的配置，比如配置 DataSource、TransactionManager、SqlSessionFactoryBean 等。</p>
+<ul>
+<li><code>SqlSessionFactoryBuilder</code> 这个类可以被实例化、使用和丢弃，一旦创建了 SqlSessionFactory，就不再需要它了。因此 SqlSessionFactoryBuilder 实例的最佳作用域是方法作用域（也就是局部方法变量）。</li>
+<li><code>SqlSessionFactory</code> SqlSessionFactory 一旦被创建就应该在应用的运行期间一直存在，没有任何理由对它进行清除或重建。SqlSessionFactory 的最佳作用域是应用作用域。</li>
+<li><code>SqlSession</code> 每个线程都应该有它自己的 SqlSession 实例。SqlSession 的实例不是线程安全的，因此是不能被共享的，所以它的最佳的作用域是请求或方法作用域。绝对不能将 SqlSession 实例的引用放在一个类的静态域，甚至一个类的实例变量也不行。也绝不能将 SqlSession 实例的引用放在任何类型的管理作用域中，比如 Servlet 架构中的 HttpSession。</li>
+</ul>
+<h2 id="Mapper-配置"><a href="#Mapper-配置" class="headerlink" title="Mapper 配置"></a>Mapper 配置</h2><p>MyBatis 目前支持两种方式的配置，分别是：</p>
+<ul>
+<li>Java 注解：只有 Java 文件，简单清晰，但是不够灵活，可用于处理一些简单的 SQL；</li>
+<li>XML 配置：需要增加 XML 文件，但是功能强大，借助于 MyBatis 的 <code>动态 SQL</code> 可以完成各种复杂的 SQL 语句；</li>
+</ul>
+<p><strong>注：</strong> 在 XML 配置中，MyBatis 可通过配置 <code>databaseIdProvider</code> 支持不同的数据库，针对它们各自的语法，同一条语句可以有不同的版本，MyBatis 通过 SQL 映射语句中 databaseId 字段选择合适的语句，从而对于逻辑层屏蔽数据库差异。</p>
+<p>目前常见的做法是采用 XML 方式配置，特殊情况下借助于 Java 注解完成；</p>
+<p>对于 XML 配置的方式，可以采用 <a href="http://www.mybatis.org/generator/" target="_blank" rel="external">MyBatis Generator</a> 工具一键生成对应的配置文件，比如对于数据库 <code>demo</code>，通过配置可生成下面的四个文件：</p>
+<ul>
+<li><code>DemoMapper.xml</code> 包含 <code>&lt;mapper&gt;</code>、<code>&lt;sql&gt;</code>、<code>&lt;select&gt;</code>、<code>&lt;update&gt;</code> 等数据库语句的具体配置；</li>
+<li><code>DemoMapper.java</code> 是一个接口，定义了一些数据库操作，和 <code>DemoMapper.xml</code> 中的 sql 语句对应；</li>
+<li><code>Demo.Java</code> 是 PO（Persistent Object）持久层对象，和数据库表中的字段一一对应；</li>
+<li><code>DemoExample.java</code> 拥有构造操作数据库的条件，在 Java 代码中组合出任何查询条件，本质是借助 MyBatis 的 <code>动态 SQL</code>，它可以根据参数值生成不同的 sql；</li>
+</ul>
+<p><strong>注：</strong>修改 <code>generatorConfig.xml</code> 后重新生成上述四个文件时，需要先删除对应的 <code>*Mapper.xml</code> 文件，否则新生成的 XML 会追加到旧文件后面，出现错误。 </p>
+<p>在我们的项目中，由于用到了 <a href="https://code.google.com/archive/p/shardbatis/" target="_blank" rel="external">shardbatis</a> 分表，所以需要对 <code>DemoExample.java</code>、<code>DemoMapper.java</code> 做一些修改，采用 XML 配置、Java 注解配置共存的方式，也踩了一些坑，总结如下：</p>
+<ul>
+<li>注解和 XML 配置不要混用；</li>
+<li>推荐使用 XML 配置，灵活强大；</li>
+<li>使用 XML 配置的情况下，部分注解会失效；如 SELECT 语句配置在 XML 中时，@Options() 注解该 SELECT 对应的接口函数会失效，MyBatis 按照 XML 中的语句配置工作；</li>
+<li>部分情况下可搭配注解和 XML 一起使用；如 @Select() 情况下，可用 @ResultMap() 和 Mapper.xml 搭配处理返回结果，进行列名转换等；</li>
+<li>在被 @Transactional 注解的函数中，所有数据库操作会共用一个 sqlSession；</li>
+<li>SELECT 语句默认开启查询缓存，所以在相同的 sqlSession 中（比如在 @Transactional 注解的函数中），多次用相同的条件查询数据库时，后面的查询会直接读取缓存返回；</li>
+</ul>
+<h2 id="插件（plugins）"><a href="#插件（plugins）" class="headerlink" title="插件（plugins）"></a>插件（plugins）</h2><blockquote><p>MyBatis 允许你在已映射语句执行过程中的某一点进行拦截调用。</p>
+<footer><strong>MyBatis</strong><cite><a href="http://www.mybatis.org/mybatis-3/zh/configuration.html#plugins" target="_blank" rel="external">插件（plugins）</a></cite></footer></blockquote>
+<p>其实就是说可以为 MyBatis 增加各种插件，扩展 MyBatis 的功能，比如在我们的项目中就用到了下面两个插件：</p>
+<ul>
+<li><a href="https://code.google.com/archive/p/shardbatis/" target="_blank" rel="external">shardbatis</a> 分表插件；</li>
+<li><code>PageInterceptor</code> 这是一个自定义的分页插件，通过拦截 <code>StatementHandler</code> 的 <code>prepare</code> 方法，重写sql语句实现物理分页。<ul>
+<li>增加这个插件是因为 MyBatis 默认的分页是逻辑分页，非常低效，是将所有的结果查询出来之后，再来截取指定页面的结果。</li>
+<li><a href="https://github.com/pagehelper/Mybatis-PageHelper" target="_blank" rel="external">Mybatis-PageHelper</a> 这是在网上看到的一个分页插件，我没实践过。</li>
+</ul>
+</li>
+</ul>
+<p><strong>注：</strong>各个插件在一起可能会出现冲突，需要根据具体问题查看代码来解决。</p>
+<h2 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h2><p>MyBatis 支持两级缓存，默认情况只开启一级缓存（sqlSession 缓存，不同 sqlSession 互不干扰），二级缓存需要配置才能启用，具体可看文章 <a href="http://blog.csdn.net/luanlouis/article/details/41408341" target="_blank" rel="external">《深入理解mybatis原理》 MyBatis的二级缓存的设计原理</a>。</p>
+<p>在实际的项目中一般不会启用 MyBatis 的二级缓存，往往在业务逻辑层使用 Redis、<a href="https://github.com/Qihoo360/pika" target="_blank" rel="external">Qihoo360/pika</a> 等内存数据库做缓存，这样会更加灵活和可控，程序相应的可靠性、扩展性也会提高。</p>
+<p>在项目过程中，由于不熟悉一级缓存，踩了一个坑，具体见另一篇博客 <a href="http://tanchao90.com/mybatis-cache-pit/">MyBatis 事务操作中缓存带来的坑</a>。</p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a href="https://alwayswithme.github.io/jekyll/update/2015/07/16/mybatis-trap.html" target="_blank" rel="external">MyBatis 的坑</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/25010714" target="_blank" rel="external">Spring Boot 系列(六)：如何优雅的使用 mybatis - 知乎专栏</a> </li>
+<li><a href="http://www.jianshu.com/p/03642b807688" target="_blank" rel="external">增强 MyBatis 注解 - 简书</a> </li>
+<li><a href="http://openwares.net/database/mybatis_parametertype.html" target="_blank" rel="external">MyBatis 传入参数与 parameterType – OpenWares | Open Source and Free Matters</a> </li>
+<li><a href="https://github.com/Vence/personalKnowledge/wiki/%E5%85%B3%E4%BA%8EMybatis%E5%8A%A8%E6%80%81%E8%B5%8B%E5%80%BC%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F" target="_blank" rel="external">关于 Mybatis 动态赋值的三种方式</a></li>
+<li><a href="https://stackoverflow.com/questions/20708775/why-does-this-where-clause-work-in-my-mybatis-mapper-spring3-application" target="_blank" rel="external">Why does this WHERE clause work in my MyBatis mapper + Spring3 application?</a></li>
+<li><a href="https://my.oschina.net/zudajun/blog/671446" target="_blank" rel="external">Mybatis3.3.x 技术内幕（十三）：Mybatis之RowBounds分页原理 - 祖大俊的个人页面</a> </li>
+<li><a href="http://www.songjie.info/mybatis%E5%AD%A6%E4%B9%A0-databaseidprovider%E5%92%8Cdatabaseid/" target="_blank" rel="external">【原创】MyBatis 学习——databaseIdProvider 和 databaseId – 宋杰的站点</a> </li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;img src=&quot;/images/mybatis/1.png&quot; title=&quot;MyBatis&quot;&gt;
+    
+    </summary>
+    
+      <category term="Java" scheme="http://tanchao90.com/categories/Java/"/>
+    
+    
+      <category term="Java" scheme="http://tanchao90.com/tags/Java/"/>
+    
+      <category term="Mybatis" scheme="http://tanchao90.com/tags/Mybatis/"/>
+    
+      <category term="MySQL" scheme="http://tanchao90.com/tags/MySQL/"/>
+    
+  </entry>
   
   <entry>
     <title>2016</title>
