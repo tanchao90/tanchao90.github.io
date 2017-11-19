@@ -1,0 +1,182 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 微信公众号后台开发 —— 功能开发 · TanChao的博客</title><meta name="description" content="The longest journey begins with the first step."><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/logo.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://tanchao90.com/atom.xml" title="TanChao的博客"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/logo.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">主页</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">所有文章</a></li><li class="nav-list-item"><a href="http://weibo.com/tanchao90" target="_blank" class="nav-list-link">微博</a></li><li class="nav-list-item"><a href="https://github.com/tanchao90" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">微信公众号后台开发 —— 功能开发</h1><div class="post-info">Nov 18, 2017</div><div class="post-content"><p>本文主要记录功能开发过程，以用到的知识点或者功能点为章节总结。</p>
+<a id="more"></a>
+<p>目录：</p>
+<ul>
+<li><a href="#Python">Python</a> </li>
+<li><a href="#配置文件">配置文件</a></li>
+<li><a href="#日志">日志</a></li>
+<li><a href="#WeRoBot">WeRoBot</a></li>
+<li><a href="#SQLAlchemy">SQLAlchemy</a></li>
+<li><a href="#有限状态机">有限状态机</a></li>
+<li><a href="#测试">测试</a></li>
+</ul>
+<h2 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h2><p>关于 Python，熟悉语言肯定是基础，可以让开发变得简单、高效，此外可能还需要做下面的工作：</p>
+<ul>
+<li>配置开发环境，对本项目来说主要包括：<ul>
+<li>创建虚拟 Python 环境，可参考 <a href="http://tanchao90.com/python-env/">Python 总结 —— Python 版本管理</a>；</li>
+<li>安装依赖的软件包；</li>
+</ul>
+</li>
+<li>发现一些好用的轮子，提高效率，可参考<a href="https://www.zhihu.com/question/24590883" target="_blank" rel="external">哪些 Python 库让你相见恨晚？</a>；</li>
+</ul>
+<h4 id="References"><a href="#References" class="headerlink" title="References"></a>References</h4><ul>
+<li><a href="https://stackoverflow.com/questions/20301920/whats-the-difference-between-coding-utf8-and-coding-utf-8" target="_blank" rel="external">What’s the difference between ‘coding=utf8’ and ‘-<em>- coding: utf-8 -</em>-‘?</a></li>
+<li><a href="https://stackoverflow.com/questions/16869024/what-is-pycache" target="_blank" rel="external">What is <strong>pycache</strong>?</a></li>
+<li><a href="http://blog.csdn.net/index20001/article/details/73501375" target="_blank" rel="external">运行Python脚本时生成的<strong>pycache</strong>文件夹</a></li>
+<li><a href="http://www.laobi.space/2016/12/04/Python%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0-68-%E2%80%94%E2%80%94-import/" target="_blank" rel="external">Python内置函数(68)——<strong>import</strong></a></li>
+<li><a href="https://stackoverflow.com/questions/2724260/why-does-pythons-import-require-fromlist/2725668#2725668" target="_blank" rel="external">Why does Python’s <strong>import</strong> require fromlist?</a></li>
+</ul>
+<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><p>自己实现了一个配置文件管理模块，具有如下功能：</p>
+<ul>
+<li>像访问类属性一样访问每一个配置项，代码清晰简洁；</li>
+<li>支持默认配置、本地配置；</li>
+<li>支持同时配置多套环境；</li>
+<li>通过启动命令中的参数指定运行环境；<ul>
+<li>这个功能借助于 getopt 模块实现，具体参考 <a href="http://www.jianshu.com/p/71bc0c8295ed" target="_blank" rel="external">Python 获取命令行参数：getopt模块</a></li>
+</ul>
+</li>
+</ul>
+<h4 id="References-1"><a href="#References-1" class="headerlink" title="References"></a>References</h4><ul>
+<li><a href="https://stackoverflow.com/questions/29033259/how-to-iterate-over-dict-in-class-like-if-just-referring-to-dict" target="_blank" rel="external">How to iterate over <code>dict</code> in class like if just referring to <code>dict</code>?</a></li>
+</ul>
+<h2 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h2><p>对于线上程序，日志对于定位问题至关重要，本公众号后台程序基于 <a href="https://github.com/getlogbook/logbook" target="_blank" rel="external">getlogbook/logbook</a> 自定义了一个日志模块，主要完成下面的功能：</p>
+<ul>
+<li>自定义日志格式；</li>
+<li>支持不同级别的日志；</li>
+<li>可根据级别处理日志，如 Debug 只在开发环境打印，Info 输出到文件，Error 邮件通知；</li>
+<li>对于 Error log，通过邮件的方式通知我，及时发现问题；<ul>
+<li>完成该功能时，邮件发送方账号需要开启 <code>POP3/SMTP服务</code>，并将验证密码配置为 <code>授权密码</code>，保证邮箱账号原始密码的安全；</li>
+</ul>
+</li>
+</ul>
+<h4 id="一些不错的日志库"><a href="#一些不错的日志库" class="headerlink" title="一些不错的日志库"></a>一些不错的日志库</h4><ul>
+<li><a href="https://docs.python.org/3.5/library/logging.html" target="_blank" rel="external">logging — Logging facility for Python</a></li>
+<li><a href="https://github.com/getlogbook/logbook" target="_blank" rel="external">getlogbook/logbook</a></li>
+<li><a href="https://github.com/hynek/structlog" target="_blank" rel="external">hynek/structlog</a></li>
+<li><a href="https://github.com/metachris/logzero" target="_blank" rel="external">metachris/logzero</a> 默认彩色</li>
+<li><a href="https://github.com/borntyping/python-colorlog" target="_blank" rel="external">borntyping/python-colorlog</a> 可自定义各种颜色</li>
+<li><a href="https://github.com/reubano/pygogo" target="_blank" rel="external">reubano/pygogo</a></li>
+</ul>
+<h4 id="References-2"><a href="#References-2" class="headerlink" title="References"></a>References</h4><ul>
+<li><a href="https://blog.yasking.org/a/python-logbook.html" target="_blank" rel="external">Python日志记录包logbook</a></li>
+<li><a href="https://www.zybuluo.com/rickyChen/note/362077" target="_blank" rel="external">关于发邮件报错535 Error：authentication failed解决方法</a></li>
+</ul>
+<h2 id="WeRoBot"><a href="#WeRoBot" class="headerlink" title="WeRoBot"></a>WeRoBot</h2><ul>
+<li><a href="https://github.com/whtsky/WeRoBot" target="_blank" rel="external">whtsky/WeRoBot</a> 微信公众号开发框架，封装了和微信服务器的交互；</li>
+<li><a href="https://werobot.readthedocs.io/zh_CN/latest/index.html" target="_blank" rel="external">WeRoBot Docs</a></li>
+</ul>
+<p>通过使用 WeRoBot，省去和微信服务器的交互工作，专注于公众号功能的实现，使用下来没发现什么特别的问题，而且使用简单，值得推荐；</p>
+<p>WeRoBot 默认单线程运行，通过配置可多线程运行，本程序借助于 <a href="http://www.gevent.org/index.html" target="_blank" rel="external">gevent</a> 实现多线程，具体配置也非常简单，在主逻辑代码中加入下面的配置即可：<br><figure class="highlight python"><figcaption><span>main.py</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> gevent <span class="keyword">import</span> monkey</div><div class="line">monkey.patch_all()</div><div class="line"></div><div class="line">robot = werobot.WeRoBot(...)</div><div class="line"></div><div class="line">robot.run(server=<span class="string">'gevent'</span>)</div></pre></td></tr></table></figure></p>
+<h4 id="References-3"><a href="#References-3" class="headerlink" title="References"></a>References</h4><ul>
+<li><a href="https://aiohttp.readthedocs.io/en/stable/" target="_blank" rel="external">aiohttp: Asynchronous HTTP Client/Server</a></li>
+<li><a href="http://www.gevent.org/index.html" target="_blank" rel="external">gevent</a></li>
+<li><a href="https://medium.freecodecamp.org/million-requests-per-second-with-python-95c137af319" target="_blank" rel="external">A million requests per second with Python</a></li>
+<li><a href="http://www.vincentsfootprint.com/post/python-wsgi-performance-benchmark-test" target="_blank" rel="external">Python WSGI Server 性能分析</a></li>
+<li><a href="https://github.com/whtsky/WeRoBot/issues/63" target="_blank" rel="external">运行hello word例子出错 #63</a></li>
+</ul>
+<h2 id="SQLAlchemy"><a href="#SQLAlchemy" class="headerlink" title="SQLAlchemy"></a>SQLAlchemy</h2><p>通过 <a href="http://www.sqlalchemy.org/" target="_blank" rel="external">SQLAlchemy</a> 访问 MySQL，支持 ORM，支持一定的连接管理，使用还挺简单，用到的版本如下：</p>
+<ul>
+<li>MySQl 5.7.19</li>
+<li>SQLAlchemy-1.1.15</li>
+</ul>
+<p>需要安装下面的库：</p>
+<ul>
+<li><code>pip install SQLAlchemy</code></li>
+<li><code>pip install pymysql</code></li>
+<li><code>pip install sqlalchemy-repr</code></li>
+</ul>
+<h4 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h4><ul>
+<li><a href="https://docs.sqlalchemy.org/en/latest/orm/session_basics.html" target="_blank" rel="external">Session Basics</a></li>
+<li><a href="https://docs.sqlalchemy.org/en/latest/orm/contextual.html#unitofwork-contextual" target="_blank" rel="external">Contextual/Thread-local Sessions</a></li>
+<li><a href="https://anyisalin.github.io/anyisalin.github.io/2017/03/07/python-context-manager/" target="_blank" rel="external">Python - 上下文管理</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/24709718" target="_blank" rel="external">Python进阶：With语句和上下文管理器ContextManager</a></li>
+</ul>
+<p>注意多线程下 Session 的管理，保证一个 Session 最多被一个线程使用，并且能及时的提交、回滚、释放，多线程下可通过下面的方式管理：</p>
+<ul>
+<li>借助于 Python 的上下文管理器（@contextmanager）实现；</li>
+<li>自定义上下文，结合 scoped_session 实现；</li>
+</ul>
+<h4 id="ORM"><a href="#ORM" class="headerlink" title="ORM"></a>ORM</h4><ul>
+<li><a href="http://pythoncentral.io/sqlalchemy-orm-examples/" target="_blank" rel="external">SQLAlchemy ORM Examples</a></li>
+<li><a href="https://github.com/manicmaniac/sqlalchemy-repr" target="_blank" rel="external">manicmaniac/sqlalchemy-repr</a> <ul>
+<li>Automatically generates pretty <code>repr</code> of a SQLAlchemy model.</li>
+<li>格式化 ORM 对象 print 结果，还不错；</li>
+</ul>
+</li>
+</ul>
+<h4 id="遇到的问题："><a href="#遇到的问题：" class="headerlink" title="遇到的问题："></a>遇到的问题：</h4><p>刚上线的第二天就收到了异常邮件，提示错误：(pymysql.err.OperationalError) (2006, “MySQL server has gone away (BrokenPipeError(32, ‘Broken pipe’))”)，经查证是由于 MySQL 默认 8 小时断开连接的问题导致的，参考了下面的文章：</p>
+<ul>
+<li><a href="http://docs.sqlalchemy.org/en/latest/faq/connections.html#mysql-server-has-gone-away" target="_blank" rel="external">“MySQL Server has gone away”</a></li>
+<li><a href="https://docs.sqlalchemy.org/en/latest/core/engines.html#engine-creation-api" target="_blank" rel="external">Engine Creation API</a></li>
+<li><a href="http://www.wangjunbo.com/?p=34" target="_blank" rel="external">使用SQLAlchemy时遇到”#2006: MySQL server has gone away”</a></li>
+</ul>
+<p>解决办法：<br>对于当前的 1.1.15 版本，在 <code>create_engine</code> 时配置 <code>pool_recycle</code> 参数即可，确保每个连接的寿命不超过指定的数值；在未来的 1.2.x 版本可以通过 <code>pool_pre_ping</code> 参数配置；<br><code>create_engine(url, echo=False, pool_size=5, pool_recycle=3600)</code> </p>
+<h4 id="SQLAlchemy-分表"><a href="#SQLAlchemy-分表" class="headerlink" title="SQLAlchemy 分表"></a>SQLAlchemy 分表</h4><p>本项目没有用到分表，分表在之前写一个测试工具时用到过，当时看过下面的文章，在此一并总结一下：</p>
+<ul>
+<li><a href="http://blog.ligulfzhou.com/2017/05/16/sqlalchemy-sharding-snippet/" target="_blank" rel="external">sqlalchemy分表实现</a> <strong>GOOD!!!</strong></li>
+<li><a href="http://ju.outofmemory.cn/entry/61448" target="_blank" rel="external">flask-sqlalchemy分表解决方案</a></li>
+<li><a href="https://jpanj.com/2017/SQLAlchemy-%E5%88%86%E8%A1%A8%E5%AE%9E%E8%B7%B5/" target="_blank" rel="external">SQLAlchemy 分表实践</a></li>
+<li><a href="https://shangliuyan.github.io/2015/06/29/sqlchemy%E5%A6%82%E4%BD%95%E5%88%86%E8%A1%A8/" target="_blank" rel="external">sqlalchemy如何分表</a></li>
+<li><a href="https://www.sdg32.com/sqlalchemy-connect-multiple-databases" target="_blank" rel="external">SQLAlchemy 连接同一服务器下的不同数据库</a></li>
+</ul>
+<h4 id="References-4"><a href="#References-4" class="headerlink" title="References"></a>References</h4><ul>
+<li><a href="http://www.sqlalchemy.org/download.html" target="_blank" rel="external">SQLAlchemy 下载 及 版本说明</a></li>
+<li><a href="https://stackoverflow.com/questions/1918539/can-anyone-explain-pythons-relative-imports" target="_blank" rel="external">Can anyone explain python’s relative imports?</a></li>
+<li><a href="https://stackoverflow.com/questions/8253978/sqlalchemy-get-object-not-bound-to-a-session" target="_blank" rel="external">SQLAlchemy, get object not bound to a Session</a></li>
+</ul>
+<h2 id="有限状态机"><a href="#有限状态机" class="headerlink" title="有限状态机"></a>有限状态机</h2><p>本项目采用有限状态机（FSM）实现用户对话状态的控制，具体交互流程如下：</p>
+<ul>
+<li>接收用户信息；</li>
+<li>读取 Session 中的状态机信息，还原状态机；</li>
+<li>根据用户输入驱动状态机进入下一个状态；</li>
+<li>将当前的状态机信息存入 Session；</li>
+<li>读取状态机当前的处理结果返回给用户；</li>
+<li>依此循环上述流程；</li>
+</ul>
+<p>注：其中的 Session 为 WeRoBot 中的 Session。</p>
+<p>本项目采用开源的 <a href="https://github.com/pytransitions/transitions" target="_blank" rel="external">pytransitions/transitions</a>。</p>
+<h4 id="transitions"><a href="#transitions" class="headerlink" title="transitions"></a>transitions</h4><ul>
+<li><a href="https://runnerliu.github.io/2017/05/26/transitionstranslate/" target="_blank" rel="external">Transitions-Python状态机库</a></li>
+</ul>
+<p>安装 transitions，安装后面两个库的原因是为了使用其中的 GraphMachine，将状态机以图片的形式输出；</p>
+<ul>
+<li><code>pip install transitions</code></li>
+<li><code>brew install graphviz</code></li>
+<li><code>pip install pygraphviz</code><ul>
+<li>安装 pygraphviz 之前需要安装 <code>sudo apt-get install python-dev graphviz libgraphviz-dev pkg-config</code></li>
+</ul>
+</li>
+</ul>
+<p>几个主要概念：</p>
+<ul>
+<li>状态（State）</li>
+<li>状态转移（Transition）</li>
+<li>回调（Callback），用于在状态发生变化时通知业务逻辑，完成相应的处理<ul>
+<li>可自定义回调参数，建议打开 <code>send_event</code> ，通过键值对的方式传递；</li>
+</ul>
+</li>
+</ul>
+<h4 id="回调顺序（Callbacks-Order）"><a href="#回调顺序（Callbacks-Order）" class="headerlink" title="回调顺序（Callbacks Order）"></a>回调顺序（Callbacks Order）</h4><p>下面代码层次结构展示了状态变化时，回调的触发顺序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&apos;machine.prepare_event&apos;</div><div class="line">    &apos;transition.prepare&apos;</div><div class="line">    &apos;transition.conditions&apos;</div><div class="line">    &apos;transition.unless&apos;</div><div class="line">    &apos;machine.before_state_change&apos;</div><div class="line">        &apos;transition.before&apos;</div><div class="line">            &apos;state.on_exit&apos;</div><div class="line">                &lt;STATE CHANGE&gt;</div><div class="line">            &apos;state.on_enter&apos;</div><div class="line">        &apos;transition.after&apos;</div><div class="line">    &apos;machine.after_state_change&apos;</div><div class="line">&apos;machine.finalize_event&apos;</div></pre></td></tr></table></figure>
+<h4 id="References-5"><a href="#References-5" class="headerlink" title="References"></a>References</h4><ul>
+<li><a href="https://stackoverflow.com/questions/40528048/pip-install-pygraphviz-no-package-libcgraph-found" target="_blank" rel="external">pip install pygraphviz: No package ‘libcgraph’ found</a></li>
+<li><a href="http://www.jianshu.com/p/a3da7ecc5303" target="_blank" rel="external">解决使用pygraphviz出现的ImportError</a></li>
+</ul>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>本项目只在开始阶段搭建了测试框架，写了基本的测试 Demo，后续由于时间原因（懒），并未增加业务逻辑对应的测试用例…</p>
+<p><a href="https://faker.readthedocs.io/en/master/index.html" target="_blank" rel="external">Faker</a> 是一个挺不错的库，可用于构造测试数据。</p>
+<h4 id="References-6"><a href="#References-6" class="headerlink" title="References"></a>References</h4><ul>
+<li><a href="http://python.usyiyi.cn/translate/python_278/library/unittest.html" target="_blank" rel="external">unittest — 单元测试框架</a></li>
+<li><a href="https://stackoverflow.com/questions/644821/python-how-to-run-unittest-main-for-all-source-files-in-a-subdirectory" target="_blank" rel="external">Python: How to run unittest.main() for all source files in a subdirectory?</a></li>
+<li><a href="https://stackoverflow.com/questions/1732438/how-do-i-run-all-python-unit-tests-in-a-directory/1732477#1732477" target="_blank" rel="external">How do I run all Python unit tests in a directory?</a></li>
+<li><a href="https://stackoverflow.com/questions/31556718/is-it-possible-to-run-all-unit-test" target="_blank" rel="external">Is it possible to run all unit test?</a></li>
+<li><a href="https://stackoverflow.com/questions/1896918/running-unittest-with-typical-test-directory-structure" target="_blank" rel="external">Running unittest with typical test directory structure</a></li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/gzh-ecs/" class="prev">PREV</a><a href="/gzh/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'tanchao90';
+var disqus_identifier = 'gzh-logic/';
+var disqus_title = '微信公众号后台开发 —— 功能开发';
+var disqus_url = 'http://tanchao90.com/gzh-logic/';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//tanchao90.disqus.com/count.js" async></script><div class="copyright"><p>© 2015 - 2017 <a href="http://tanchao90.com">TanChao</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-80568471-1",'auto');ga('send','pageview');</script></body></html>

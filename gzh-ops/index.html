@@ -1,0 +1,117 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 微信公众号后台开发 —— Nginx & Supervisor · TanChao的博客</title><meta name="description" content="The longest journey begins with the first step."><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/logo.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://tanchao90.com/atom.xml" title="TanChao的博客"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/logo.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">主页</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">所有文章</a></li><li class="nav-list-item"><a href="http://weibo.com/tanchao90" target="_blank" class="nav-list-link">微博</a></li><li class="nav-list-item"><a href="https://github.com/tanchao90" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">微信公众号后台开发 —— Nginx & Supervisor</h1><div class="post-info">Nov 18, 2017</div><div class="post-content"><p>本文记录微信公众号后台在阿里云 ECS 服务器上部署运维时 Nginx 和 Supervisor 的配置、管理。</p>
+<a id="more"></a>
+<p>目录：</p>
+<ul>
+<li><a href="#Nginx">Nginx</a></li>
+<li><a href="#Supervisor">Supervisor</a></li>
+</ul>
+<h2 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h2><ul>
+<li><a href="https://nginx.org/" target="_blank" rel="external">nginx 官方文档</a></li>
+<li><a href="https://www.nginx.com/" target="_blank" rel="external">nginx 官网</a></li>
+<li><a href="https://github.com/DocsHome/nginx-docs" target="_blank" rel="external">Nginx document translation. Nginx 文档中文译版</a></li>
+</ul>
+<h4 id="Mac-安装"><a href="#Mac-安装" class="headerlink" title="Mac 安装"></a>Mac 安装</h4><ul>
+<li><code>brew install nginx</code></li>
+<li><code>brew link nginx</code> 这一步可能会遇到权限错误，按提示给当前用户增加对应目录的读写权限即可，我的操作如下所示：<ul>
+<li><code>chmod u+rw /usr/local/share/man/man8</code></li>
+</ul>
+</li>
+<li><code>/usr/local/Cellar/nginx/1.12.1</code> 默认安装目录</li>
+<li><code>/usr/local/etc/nginx/nginx.conf</code> 默认配置文件</li>
+</ul>
+<h4 id="Ubuntu-安装"><a href="#Ubuntu-安装" class="headerlink" title="Ubuntu 安装"></a>Ubuntu 安装</h4><ul>
+<li><code>sudo apt-get install nginx</code></li>
+</ul>
+<h4 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h4><ul>
+<li><code>nginx</code> 启动 Nginx</li>
+<li><code>nginx -s reload</code> 重新加载配置</li>
+<li><code>nginx -s reopen</code> 重启 Nginx</li>
+<li><code>nginx -s quit</code> 停止 Nginx，服务完所有的连接之后才关闭</li>
+<li><code>nginx -s stop</code> 停止 Nginx，直接中断所有的连接</li>
+<li><code>nginx -t</code> 检查 Nginx 的配置文件是否正确，修改配置文件之后可用该命令检查一下</li>
+<li><code>ps -ef | grep nginx</code> 查看 Nginx 进程</li>
+</ul>
+<h4 id="用-kill-关闭-Nginx"><a href="#用-kill-关闭-Nginx" class="headerlink" title="用 kill 关闭 Nginx"></a>用 kill 关闭 Nginx</h4><ul>
+<li><code>kill -QUIT master进程号</code> 从容停止 Nginx，同 <code>nginx -s quit</code></li>
+<li><code>kill -TERM master进程号</code> 快速停止 Nginx，同 <code>nginx -s stop</code></li>
+<li><code>kill -9 master进程号</code> 强制停止 Nginx</li>
+</ul>
+<h4 id="我的配置"><a href="#我的配置" class="headerlink" title="我的配置"></a>我的配置</h4><p>Nginx 中每个项目的配置可放到 Nginx 配置文件所在目录下 <code>conf.d</code> 目录中，如我的配置为：<br><figure class="highlight plain"><figcaption><span>/etc/nginx/conf.d/gzh.conf</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    server_name gzh.com www.gzh.com; # 需要和访问的地方保持一致，要么域名，要么 ip</div><div class="line">    listen 80;</div><div class="line"></div><div class="line">    location / &#123;</div><div class="line">        proxy_pass_header Server;</div><div class="line">        proxy_redirect off;</div><div class="line">        proxy_pass http://127.0.0.1:port;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>注：</strong></p>
+<ul>
+<li>server_name 我采用的是 ip，因为我的域名没有备案，访问会出问题；</li>
+<li>若配置 HTTPS，则 server_name 必须是域名；</li>
+<li>80 端口支持多个不同的域名共享，包括子域名，内部通过配置的 server_name 识别；<ul>
+<li><a href="https://www.zhihu.com/question/29390934" target="_blank" rel="external">听说一个IP可以绑定多个域名，那么服务端是怎么实现的?</a></li>
+</ul>
+</li>
+</ul>
+<p>配置说明：</p>
+<ul>
+<li><a href="https://nginx.org/en/docs/http/request_processing.html" target="_blank" rel="external">How nginx processes a request</a></li>
+<li><a href="http://onlyzq.blog.51cto.com/1228/535279" target="_blank" rel="external">关于Nginx的server_name。</a></li>
+</ul>
+<h4 id="References"><a href="#References" class="headerlink" title="References"></a>References</h4><ul>
+<li><a href="https://n3xtchen.github.io/n3xtchen/nignx/2015/10/01/nginx-port-forwording" target="_blank" rel="external">Nginx-端口转发(反向代理)</a></li>
+<li><a href="http://www.jikexueyuan.com/course/1470.html" target="_blank" rel="external">Nginx 初识</a></li>
+<li><a href="http://www.jikexueyuan.com/course/1876.html" target="_blank" rel="external">Nginx 与 Tomcat 安装、配置及优化</a></li>
+<li><a href="http://wiki.jikexueyuan.com/project/nginx/" target="_blank" rel="external">Nginx 入门指南</a></li>
+<li><a href="http://wiki.jikexueyuan.com/project/nginx-lua/development-environment.html" target="_blank" rel="external">安装 Nginx+Lua 开发环境</a></li>
+<li><a href="https://serverfault.com/questions/271810/nginx-s-stop-and-s-quit-what-is-the-difference" target="_blank" rel="external">nginx -s stop and -s quit what is the difference?</a></li>
+<li><a href="http://www.jianshu.com/p/3531a011b7b6" target="_blank" rel="external">Mac平台nginx相关安装配置</a></li>
+<li><a href="http://www.jianshu.com/p/6c7cb820a020" target="_blank" rel="external">Mac下用brew安装nginx</a></li>
+</ul>
+<h2 id="Supervisor"><a href="#Supervisor" class="headerlink" title="Supervisor"></a>Supervisor</h2><p><a href="http://www.supervisord.org" target="_blank" rel="external">Supervisor</a></p>
+<p>安装非常简单，只需 <code>pip install supervisor</code>。</p>
+<p>配置文件：</p>
+<ul>
+<li>Mac：<code>/usr/local/etc/supervisord.conf</code></li>
+<li>Ubuntu：<code>/etc/supervisord.conf</code></li>
+</ul>
+<h4 id="常用命令-1"><a href="#常用命令-1" class="headerlink" title="常用命令"></a>常用命令</h4><ul>
+<li><code>sudo supervisord -c /etc/supervisord.conf</code> 指定配置文件启动 Supervisor</li>
+<li><code>sudo supervisorctl</code> 进入控制台交互，若开启服务端密码，则执行时会要求输入密码</li>
+<li><code>sudo supervisorctl shutdown</code> 停止 Supervisor</li>
+<li><code>sudo supervisorctl status</code> 查看状态</li>
+<li><code>sudo supervisorctl reload</code> 重新加载配置文件</li>
+<li><code>sudo supervisorctl start all</code> 启动管理的所有进程</li>
+<li><code>sudo supervisorctl stop all</code> 停止管理的所有进程</li>
+<li><code>sudo supervisorctl start program-name</code> 启动指定进程</li>
+<li><code>sudo supervisorctl stop program-name</code> 关闭指定进程</li>
+<li><code>sudo supervisorctl restart all</code> 重启所有进程</li>
+</ul>
+<h4 id="我的配置-1"><a href="#我的配置-1" class="headerlink" title="我的配置"></a>我的配置</h4><figure class="highlight plain"><figcaption><span>/etc/supervisord.conf</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">; 开启web管理页面</div><div class="line">[inet_http_server]         ; inet (TCP) server disabled by default</div><div class="line">port=*:9001                ; ip_address:port specifier, *:port for all iface</div><div class="line">username=username          ; default is no username (open server)</div><div class="line">password=password          ; default is no password (open server)</div><div class="line"></div><div class="line">[program:wechat_gzh] ; 公众号服务端 配置</div><div class="line">directory=/home/user_test/projects/gzh/server  ; 项目的文件夹路径</div><div class="line">command=/home/user_test/.pyenv/versions/gzh-3.6.2/bin/python main.py ; 程序启动命令</div><div class="line">user=user_test  ; 以什么身份执行 command</div><div class="line">autostart=true</div><div class="line">stdout_logfile=/home/user_test/logs/%(program_name)s/stdout.log     ; log 日志</div><div class="line">stderr_logfile=/home/user_test/logs/%(program_name)s/stderr.log     ; 错误日志</div><div class="line">stdout_logfile_maxbytes=1MB ; 每个 log 文件的最大容量</div><div class="line">stdout_logfile_backups=30</div><div class="line">stderr_logfile_maxbytes=1MB</div><div class="line">stderr_logfile_backups=30</div><div class="line"></div><div class="line"></div><div class="line">[program:nginx]      ；nginx 配置</div><div class="line">directory=/</div><div class="line">;command=/usr/sbin/nginx -c /etc/nginx/nginx.conf</div><div class="line">command=nginx</div><div class="line">user=root</div><div class="line">stdout_logfile=/home/user_test/logs/%(program_name)s/stdout.log</div><div class="line">stderr_logfile=/home/user_test/logs/%(program_name)s/stderr.log</div><div class="line">autostart=true</div><div class="line">autorestart=true</div><div class="line">startsecs=10</div></pre></td></tr></table></figure>
+<p>注意事项：</p>
+<ul>
+<li>开启 Web 管理页面，即取消 <code>[inet_http_server]</code> 的注释，并设置对应参数；</li>
+<li>虚拟环境下 Python 运行环境指定；</li>
+<li>Nginx 设置；</li>
+<li>日志重定向时，需要提前创建好日志文件所在的目录，否则会启动失败；</li>
+</ul>
+<h4 id="Python-虚拟环境"><a href="#Python-虚拟环境" class="headerlink" title="Python 虚拟环境"></a>Python 虚拟环境</h4><p>当采用虚拟环境中的 Python 运行程序时，若已经在项目所在目录配置了 Python 执行环境（比如通过 <code>.python-version</code> 文件配置），则 Supervisor 中有下面两种配置方式：</p>
+<p>配置1：<br><figure class="highlight plain"><figcaption><span>/etc/supervisord.conf</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[program:wechat_gzh]</div><div class="line">directory=/home/user_test/projects/gzh/server</div><div class="line">command=python main.py ; 程序启动命</div><div class="line">; 其他配置</div></pre></td></tr></table></figure></p>
+<p>配置2：<br><figure class="highlight plain"><figcaption><span>/etc/supervisord.conf</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[program:wechat_gzh]</div><div class="line">directory=/home/user_test/projects/gzh/server</div><div class="line">command=/home/user_test/.pyenv/versions/gzh-3.6.2/bin/python main.py</div><div class="line">; 其他配置</div></pre></td></tr></table></figure></p>
+<p>两种配置的区别是，是否在 command 中指定 python 全路径，在不同系统下的表现为：</p>
+<ul>
+<li>Mac 下上述两种配置均 ok；</li>
+<li>Ubuntu 下只有配置2 能正确运行程序，配置1 会使用系统默认 Python 版本；</li>
+</ul>
+<p>所以建议采用配置2，明确指定用哪个版本的 Python 执行程序；</p>
+<h4 id="Nginx-特殊配置"><a href="#Nginx-特殊配置" class="headerlink" title="Nginx 特殊配置"></a>Nginx 特殊配置</h4><p>Nginx 默认启动是在 daemon 模式下，而 Supervisor 管理的程序必须是前台运行模式，所以需要在 Nginx 的配置文件中添加下面的配置，关闭后台运行模式：</p>
+<figure class="highlight plain"><figcaption><span>/etc/nginx/nginx.conf</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 关闭后台运行功能，用 supervisor 管理</div><div class="line">daemon off;</div></pre></td></tr></table></figure>
+<h4 id="日志重定向"><a href="#日志重定向" class="headerlink" title="日志重定向"></a>日志重定向</h4><p>Supervisor 支持对应用日志进行重定向，输出到指定的文件中，还可以指定每个日志文件的最大值，历史日志数量等，默认按日志大小滚动；</p>
+<p>如果想支持更丰富的日志滚动方案，可以借助于 <a href="https://github.com/logrotate/logrotate" target="_blank" rel="external">logrotate/logrotate</a> 完成，<a href="https://imququ.com/post/my-nginx-conf.html" target="_blank" rel="external">Nginx 配置之完整篇</a> 一文中包含具体的配置实践。</p>
+<h4 id="References-1"><a href="#References-1" class="headerlink" title="References"></a>References</h4><ul>
+<li><a href="http://www.tianfeiyu.com/?p=2450" target="_blank" rel="external">使用 supervisor 管理进程</a></li>
+<li><a href="https://my.oschina.net/nalenwind/blog/740652" target="_blank" rel="external">docker run nginx问题</a></li>
+<li><a href="https://stackoverflow.com/questions/15202760/how-to-use-virtualenvwrapper-in-supervisor" target="_blank" rel="external">How to use virtualenvwrapper in Supervisor?</a></li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/gzh-mysql/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'tanchao90';
+var disqus_identifier = 'gzh-ops/';
+var disqus_title = '微信公众号后台开发 —— Nginx &amp; Supervisor';
+var disqus_url = 'http://tanchao90.com/gzh-ops/';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//tanchao90.disqus.com/count.js" async></script><div class="copyright"><p>© 2015 - 2017 <a href="http://tanchao90.com">TanChao</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-80568471-1",'auto');ga('send','pageview');</script></body></html>
